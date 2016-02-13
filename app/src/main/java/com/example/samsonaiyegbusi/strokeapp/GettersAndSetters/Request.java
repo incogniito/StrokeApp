@@ -1,4 +1,4 @@
-package com.example.samsonaiyegbusi.strokeapp;
+package com.example.samsonaiyegbusi.strokeapp.GettersAndSetters;
 
 /**
  * Class for Request objects which contain images, sounds, etc
@@ -9,9 +9,9 @@ public class Request
     private int id;
     private String name;
     private int soundID;
-    private int imageID;
+    private byte[] imageID;
 
-    public Request(int newID, String newName, int newSoundID, int newImageID)
+    public Request(int newID, String newName, int newSoundID, byte[] newImageID)
     {
         id = newID; //Would this be auto-generated?
         name = newName;
@@ -33,9 +33,10 @@ public class Request
         return soundID;
     }
 
-    public int getImageID()
+    public byte[] getImageBytes()
     {
         return imageID;
     }
+
 
 }
