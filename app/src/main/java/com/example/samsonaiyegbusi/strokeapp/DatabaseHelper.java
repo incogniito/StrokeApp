@@ -24,7 +24,7 @@ import java.net.URLConnection;
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Stroke.db";
 
-    // Categories table
+    // Categobries table
     public static final String CATEGORIES_TABLE_NAME ="Categories_Table";
     public static final String ID_Column = "ID";
     public static final String Category_Name = "NAME";
