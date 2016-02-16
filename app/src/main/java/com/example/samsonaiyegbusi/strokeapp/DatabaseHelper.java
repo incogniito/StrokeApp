@@ -64,7 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + " FOREIGN KEY ("+Request_SubCat_ID+") REFERENCES " + REQUESTS_TABLE_NAME+"("+SubCategoryID_Column+"));";
         db.execSQL(CategoriesTable);
         db.execSQL(subCategoriesTable);
-        db.execSQL(subCategoriesTable);
+        db.execSQL(requestsTable);
 
 
         String foodImageURL = "../../../Images/Food.png";
