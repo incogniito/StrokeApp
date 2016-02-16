@@ -29,15 +29,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String ID_Column = "ID";
     public static final String Category_Name = "NAME";
     public static final String Category_Image = "IMAGE";
-    public static final String Category_Audio = "AUDIO";
+    //public static final String Category_Audio = "AUDIO";
 
     //subcategories table
-    public static final String SUBCATEGORIES_TABLE_NAME ="Categories_Table";
+    public static final String SUBCATEGORIES_TABLE_NAME ="Subcategories_Table";
     public static final String SubCategoryID_Column = "ID";
     public static final String SubCategory_Name = "NAME";
     public static final String SubCategory_Image = "IMAGE";
-    public static final String SubCategory_Audio = "AUDIO";
-    public static final String categoty_ID = "CATEGORY_ID";
+    //public static final String SubCategory_Audio = "AUDIO";
+    public static final String category_ID = "CATEGORY_ID";
+
+    //requests table
+    public static final String REQUESTS_TABLE_NAME ="Requests_Table";
+    public static final String Request_ID = "ID";
+    public static final String Request_Name = "NAME";
+    public static final String Request_Image = "IMAGE";
+    public static final String Request_Audio = "AUDIO";
+    public static final String Request_SubCat_ID = "SUBCAT_ID";
     SQLiteDatabase db;
     String CategoriesTable;
     SQLiteStatement insertStatement;
@@ -49,14 +57,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        CategoriesTable = "create table if not exists " + CATEGORIES_TABLE_NAME + " ( " + ID_Column +  " INTEGER PRIMARY KEY AUTOINCREMENT," + Category_Name + " TEXT," + Category_Image + " BLOB," + Category_Audio + " BLOB);";
-        String subCategoriesTable = "create table if not exists " + SUBCATEGORIES_TABLE_NAME + " ( " + SubCategoryID_Column +  " INTEGER PRIMARY KEY AUTOINCREMENT," + SubCategory_Name + " TEXT," + SubCategory_Image + " BLOB," + SubCategory_Audio + " BLOB," + categoty_ID + " INTEGER,"
-                + " FOREIGN KEY ("+categoty_ID+") REFERENCES "+ SUBCATEGORIES_TABLE_NAME+"("+ID_Column+"));";
+        CategoriesTable = "create table if not exists " + CATEGORIES_TABLE_NAME + " ( " + ID_Column +  " INTEGER PRIMARY KEY AUTOINCREMENT," + Category_Name + " TEXT," + Category_Image + " BLOB);";
+        String subCategoriesTable = "create table if not exists " + SUBCATEGORIES_TABLE_NAME + " ( " + SubCategoryID_Column +  " INTEGER PRIMARY KEY AUTOINCREMENT," + SubCategory_Name + " TEXT," + SubCategory_Image + " BLOB," + category_ID + " INTEGER,"
+                + " FOREIGN KEY ("+category_ID+") REFERENCES "+ SUBCATEGORIES_TABLE_NAME+"("+ID_Column+"));";
+        String requestsTable = "create table if not exists " + REQUESTS_TABLE_NAME + " ( " + Request_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + Request_Name + " TEXT," + Request_Image + " BLOB," + Request_Audio + " BLOB," + Request_SubCat_ID + " INTEGER,"
+                + " FOREIGN KEY ("+Request_SubCat_ID+") REFERENCES " + REQUESTS_TABLE_NAME+"("+SubCategoryID_Column+"));";
         db.execSQL(CategoriesTable);
+        db.execSQL(subCategoriesTable);
         db.execSQL(subCategoriesTable);
 
 
-        String foodImageURL = "C:\\Users\\IBIYE\\Pictures\\morepix\\food.jpg";
+        String foodImageURL = "../../../Images/Food.png";
         byte[] foodImage = getImage(foodImageURL);
         byte[] foodAudio = getAudio("C:\\Users\\IBIYE\\Music\\audio\\PTT-20150426-WA0012.aac");
 
