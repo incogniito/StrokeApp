@@ -8,15 +8,20 @@ public class Request
 {
     private int id;
     private String name;
-    private int soundID;
-    private byte[] imageID;
+    private byte[] sound;
+    private byte[] image;
 
-    public Request(int newID, String newName, int newSoundID, byte[] newImageID)
+    public Request()
+    {
+
+    }
+
+    public Request(int newID, String newName, byte[] newSound, byte[] newImage)
     {
         id = newID; //Would this be auto-generated?
         name = newName;
-        soundID = newSoundID;
-        imageID = newImageID;
+        sound = newSound;
+        image = newImage;
     }
     public int getId()
     {
@@ -28,14 +33,14 @@ public class Request
         return name;
     }
 
-    public int getSoundID()
+    public byte[] getSound()
     {
-        return soundID;
+        return sound;
     }
 
     public byte[] getImageBytes()
     {
-        return imageID;
+        return image;
     }
 
 

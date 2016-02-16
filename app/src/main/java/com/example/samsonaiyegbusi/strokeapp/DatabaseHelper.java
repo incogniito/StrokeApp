@@ -2,6 +2,7 @@ package com.example.samsonaiyegbusi.strokeapp;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import 	android.database.sqlite.SQLiteStatement;
@@ -17,6 +18,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.sql.ResultSet;
+
+import com.example.samsonaiyegbusi.strokeapp.GettersAndSetters.Request;
 
 /**
  * Created by IBIYE on 13/02/2016.
@@ -72,7 +76,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         byte[] foodAudio = getAudio("C:\\Users\\IBIYE\\Music\\audio\\PTT-20150426-WA0012.aac");
 
         // insert values
-        insertIntoTable("1", "Food",foodImage, foodAudio);
+        insertIntoCategoryTable("Food",foodImage);
 
     }
 
@@ -83,18 +87,64 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // method to insert into table
-    public long insertIntoTable(String ID,String CategoryName,
-                            byte[] categoryImage, byte[] categoryAudio) {
-        String sql  = "INSERT INTO TABLE_NAME (ID_Column,Category_Name,Category_Image,Category_Audio) VALUES(?,?,?,?)";
+    public long insertIntoCategoryTable(String CategoryName, byte[] categoryImage)
+    {
+        String sql  = "INSERT INTO " + CATEGORIES_TABLE_NAME + " (" + Category_Name + "," + Category_Image + ") VALUES("+null+",?,?)";
 
         db.compileStatement(sql);
-        this.insertStatement.bindString(1, ID);
-        this.insertStatement.bindString(2, CategoryName);
-        this.insertStatement.bindBlob(3, categoryImage);
-        this.insertStatement.bindBlob(4, categoryAudio);
+        //this.insertStatement.bindString(0, null);
+        this.insertStatement.bindString(1, CategoryName);
+        this.insertStatement.bindBlob(2, categoryImage);
+        //this.insertStatement.bindBlob(3, categoryAudio);
         db.close();
         return this.insertStatement.executeInsert();
 
+    }
+    public long insertIntoSubcategoryTable(String SubcategoryName, byte[] SubcategoryImage)
+    {
+        String sql  = "INSERT INTO " + SUBCATEGORIES_TABLE_NAME + " (" + SubCategory_Name + "," + SubCategory_Image + ") VALUES("+null+",?,?)";
+
+        db.compileStatement(sql);
+        //this.insertStatement.bindString(0, ID);
+        this.insertStatement.bindString(1, SubcategoryName);
+        this.insertStatement.bindBlob(2, SubcategoryImage);
+        //this.insertStatement.bindBlob(3, categoryAudio);
+        db.close();
+        return this.insertStatement.executeInsert();
+
+    }
+    public long insertIntoRequestTable(String RequestName, byte[] RequestImage, byte[] RequestSound)
+    {
+        String sql  = "INSERT INTO " + SUBCATEGORIES_TABLE_NAME + " (" + SubCategory_Name + "," + SubCategory_Image + ") VALUES("+null+",?,?,?)";
+
+        db.compileStatement(sql);
+        //this.insertStatement.bindString(0, ID);
+        this.insertStatement.bindString(1, RequestName);
+        this.insertStatement.bindBlob(2, RequestImage);
+        this.insertStatement.bindBlob(3, RequestSound);
+        db.close();
+        return this.insertStatement.executeInsert();
+
+    }
+    /**
+     *
+     * @param id ID of the request
+     * @return
+     */
+    public Request selectFromTableByID(String id)
+    {
+        String sql = "SELECT * FROM " + REQUESTS_TABLE_NAME + " WHERE " + Request_ID + "= '" + id + "';";
+        Cursor c = db.rawQuery(sql, null);
+        if (c.moveToFirst()) {
+            int reqID = c.getInt(0);
+            String reqName = c.getString(1);
+            byte[] reqImg = c.getBlob(2);
+            byte[] reqAud = c.getBlob(3);
+            Request request = new Request(reqID, reqName, reqImg, reqAud);
+            return request;
+        }
+        Request request = new Request();
+        return request;
     }
 
     private byte[] getImage(String url){
