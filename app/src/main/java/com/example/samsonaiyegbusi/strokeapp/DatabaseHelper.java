@@ -19,7 +19,10 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.example.samsonaiyegbusi.strokeapp.GettersAndSetters.Categories;
 import com.example.samsonaiyegbusi.strokeapp.GettersAndSetters.Request;
 
 /**
@@ -135,7 +138,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     {
         String sql = "SELECT * FROM " + REQUESTS_TABLE_NAME + " WHERE " + Request_ID + "= '" + id + "';";
         Cursor c = db.rawQuery(sql, null);
-        if (c.moveToFirst()) {
+        if (c.moveToFirst())
+        {
             int reqID = c.getInt(0);
             String reqName = c.getString(1);
             byte[] reqImg = c.getBlob(2);
@@ -145,6 +149,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         Request request = new Request();
         return request;
+    }
+
+    public List<Request> selectAllRequests()
+    {
+        List<Request> requests = new ArrayList<Request>();
+        String sql = "SELECT * FROM " + REQUESTS_TABLE_NAME;
+        Cursor c = db.rawQuery(sql, null);
+        if (c.moveToFirst())
+        {
+            int reqID = c.getInt(0);
+            String reqName = c.getString(1);
+            byte[] reqImg = c.getBlob(2);
+            byte[] reqAud = c.getBlob(3);
+            Request request = new Request(reqID, reqName, reqImg, reqAud);
+            requests.add(request);
+        }
+        return requests;
+    }
+
+    public List<Categories> selectAllCategories()
+    {
+        List<Categories> categories = new ArrayList<Categories>();
+        String sql = "SELECT * FROM " +CATEGORIES_TABLE_NAME;
+        Cursor c = db.rawQuery(sql, null);
+        if (c.moveToFirst())
+        {
+            int catID = c.getInt(0);
+            String catName = c.getString(1);
+            byte[] catImg = c.getBlob(2);
+            Categories category = new Categories(catID, catName, catImg);
+        }
+        return categories;
     }
 
     private byte[] getImage(String url){
