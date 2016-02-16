@@ -1,0 +1,53 @@
+﻿Merge branch 'master' of https://github.com/incogniito/StrokeApp
+
+# Conflicts:
+#	app/src/main/java/com/example/samsonaiyegbusi/strokeapp/MainActivity.java
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 1 and 2 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	modified:   .idea/gradle.xml
+#	modified:   app/src/main/AndroidManifest.xml
+#	new file:   app/src/main/java/com/example/samsonaiyegbusi/strokeapp/Adapters/CategoryAdapter.java
+#	new file:   app/src/main/java/com/example/samsonaiyegbusi/strokeapp/Adapters/RequestAdapter.java
+#	renamed:    app/src/main/java/com/example/samsonaiyegbusi/strokeapp/MakeRequest.java -> app/src/main/java/com/example/samsonaiyegbusi/strokeapp/CustomRequests/MakeRequest.java
+#	new file:   app/src/main/java/com/example/samsonaiyegbusi/strokeapp/GettersAndSetters/Categories.java
+#	renamed:    app/src/main/java/com/example/samsonaiyegbusi/strokeapp/Request.java -> app/src/main/java/com/example/samsonaiyegbusi/strokeapp/GettersAndSetters/Request.java
+#	deleted:    app/src/main/java/com/example/samsonaiyegbusi/strokeapp/MainActivity.java
+#	new file:   app/src/main/java/com/example/samsonaiyegbusi/strokeapp/MainUI/CategoryChildActivity.java
+#	new file:   app/src/main/java/com/example/samsonaiyegbusi/strokeapp/MainUI/MainActivity.java
+#	new file:   app/src/main/java/com/example/samsonaiyegbusi/strokeapp/MainUI/RequestsActivity.java
+#	new file:   app/src/main/java/com/example/samsonaiyegbusi/strokeapp/SQL_Queries/GetCategories.java
+#	new file:   app/src/main/java/com/example/samsonaiyegbusi/strokeapp/SQL_Queries/GetChildCategories.java
+#	new file:   app/src/main/java/com/example/samsonaiyegbusi/strokeapp/SQL_Queries/GetRequests.java
+#	new file:   app/src/main/java/com/example/samsonaiyegbusi/strokeapp/Variable_Initialiser.java
+#	new file:   app/src/main/res/layout/activity_category_child.xml
+#	modified:   app/src/main/res/layout/activity_main.xml
+#	new file:   app/src/main/res/layout/activity_requests.xml
+#	new file:   app/src/main/res/layout/content_category_child.xml
+#	modified:   app/src/main/res/layout/content_main.xml
+#	new file:   app/src/main/res/layout/content_requests.xml
+#	new file:   app/src/main/res/layout/requests.xml
+#	modified:   app/src/main/res/menu/menu_main.xml
+#	modified:   app/src/main/res/values-v21/styles.xml
+#	modified:   app/src/main/res/values/strings.xml
+#	modified:   app/src/main/res/values/styles.xml
+#
+# Changes not staged for commit:
+#	modified:   .idea/gradle.xml
+#	modified:   app/src/main/java/com/example/samsonaiyegbusi/strokeapp/MainUI/MainActivity.java
+#
+
