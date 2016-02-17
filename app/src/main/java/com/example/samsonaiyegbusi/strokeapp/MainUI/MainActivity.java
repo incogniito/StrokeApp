@@ -1,10 +1,13 @@
 package com.example.samsonaiyegbusi.strokeapp.MainUI;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -17,7 +20,6 @@ import android.widget.TextView;
 
 import com.example.samsonaiyegbusi.strokeapp.Adapters.CategoryAdapter;
 import com.example.samsonaiyegbusi.strokeapp.DatabaseHelper;
-import com.example.samsonaiyegbusi.strokeapp.MakeRequest;
 import com.example.samsonaiyegbusi.strokeapp.R;
 import com.example.samsonaiyegbusi.strokeapp.SQL_Queries.GetCategories;
 import com.example.samsonaiyegbusi.strokeapp.Variable_Initialiser;
@@ -25,7 +27,7 @@ import com.example.samsonaiyegbusi.strokeapp.Variable_Initialiser;
 public class MainActivity extends AppCompatActivity implements Variable_Initialiser {
 
     GridView gridView;
-    ImageButton settings_ib;
+    ImageButton config_ib;
 
     Bundle bundle;
 
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
         PopulateGridViewWithCategories();
 
         // create database at the start of the App
-       // SQLiteDatabase databaseHelper = new DatabaseHelper(this).getWritableDatabase();
+        //SQLiteDatabase databaseHelper = new DatabaseHelper(this).getWritableDatabase();
     }
 
     private void PopulateGridViewWithCategories(){
@@ -55,8 +57,8 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
         gridView = (GridView) findViewById(R.id.category_gridView);
         gridView.setOnItemClickListener(this);
 
-        settings_ib = (ImageButton) findViewById(R.id.settings_ib);
-        settings_ib.setOnClickListener(this);
+        config_ib = (ImageButton) findViewById(R.id.settings_ib);
+        config_ib.setOnClickListener(this);
 
 
         bundle = new Bundle();
@@ -65,9 +67,48 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
     @Override
     public void onClick(View v) {
         // open the settings menu
-        Intent makeRequest = new Intent(MainActivity.this, MakeRequest.class);
-        startActivity(makeRequest);
+        switch (v.getId())
+        {
+            case R.id.settings_ib:
+                configOptions();
+                break;
+
+        }
     }
+
+    private void configOptions()
+    {
+        final CharSequence[] items = {"Make a Request", "Remove a Request","Settings","Add Password", "Cancel"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Configurations:");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (items[item].equals("Make a Request")) {
+                    Intent MakeRequest = new Intent(MainActivity.this, MakeRequest.class);
+                    startActivity(MakeRequest);
+
+                } else if (items[item].equals("Remove a Request")) {
+               //     Intent RemoveRequest = new Intent(MainActivity.this, RemoveAcivity.class);
+                 //   startActivity(RemoveRequest);
+
+                }else if (items[item].equals("Settings")) {
+                         Intent ConfigureSettings = new Intent(MainActivity.this, Settings.class);
+                       startActivity(ConfigureSettings);
+                }else if (items[item].equals("Add Password")) {
+                    //     Intent SetPassword = new Intent(MainActivity.this, Password.class);
+                    //   startActivity(SetPassword);
+                } else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+
+    }
+
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

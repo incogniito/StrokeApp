@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import 	android.database.sqlite.SQLiteStatement;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import java.io.BufferedInputStream;
@@ -74,7 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(requestsTable);
 
 
-        String foodImageURL = "../../../Images/Food.png";
+        String foodImageURL = "http://images.clipartpanda.com/food-clip-art-9czqXBBcE.jpeg";
         byte[] foodImage = getImage(foodImageURL);
         byte[] foodAudio = getAudio("C:\\Users\\IBIYE\\Music\\audio\\PTT-20150426-WA0012.aac");
 
@@ -179,7 +180,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String catName = c.getString(1);
             byte[] catImg = c.getBlob(2);
             Categories category = new Categories(catID, catName, catImg);
+
         }
+
         return categories;
     }
 

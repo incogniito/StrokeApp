@@ -1,4 +1,4 @@
-package com.example.samsonaiyegbusi.strokeapp;
+package com.example.samsonaiyegbusi.strokeapp.MainUI;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,26 +8,23 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.samsonaiyegbusi.strokeapp.R;
+import com.example.samsonaiyegbusi.strokeapp.Variable_Initialiser;
 
 import java.io.IOException;
 
-public class MakeRequest extends AppCompatActivity implements Variable_Initialiser{
+public class MakeRequest extends AppCompatActivity implements Variable_Initialiser {
 
     ImageView requestImage;
     EditText requestName;
