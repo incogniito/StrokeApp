@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.samsonaiyegbusi.strokeapp.Adapters.CategoryAdapter;
 import com.example.samsonaiyegbusi.strokeapp.DatabaseHelper;
+import com.example.samsonaiyegbusi.strokeapp.MakeRequest;
 import com.example.samsonaiyegbusi.strokeapp.R;
 import com.example.samsonaiyegbusi.strokeapp.SQL_Queries.GetCategories;
 import com.example.samsonaiyegbusi.strokeapp.Variable_Initialiser;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
         PopulateGridViewWithCategories();
 
         // create database at the start of the App
-        SQLiteDatabase databaseHelper = new DatabaseHelper(this).getWritableDatabase();
+       // SQLiteDatabase databaseHelper = new DatabaseHelper(this).getWritableDatabase();
     }
 
     private void PopulateGridViewWithCategories(){
@@ -62,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
     @Override
     public void onClick(View v) {
         // open the settings menu
+        Intent makeRequest = new Intent(MainActivity.this, MakeRequest.class);
+        startActivity(makeRequest);
     }
 
     @Override
