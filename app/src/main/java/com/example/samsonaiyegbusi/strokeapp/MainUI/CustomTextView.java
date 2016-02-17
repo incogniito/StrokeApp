@@ -1,16 +1,16 @@
 package com.example.samsonaiyegbusi.strokeapp.MainUI;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-/**
- * Created by Penny on 17/02/2016.
- */
+
 public class CustomTextView extends TextView {
 
     static float defaultFontSize = 16;
     static float fontSize = defaultFontSize;
+    static boolean toBold = false;
 
 
     public CustomTextView(Context context)
@@ -18,26 +18,48 @@ public class CustomTextView extends TextView {
         super(context);
         // this.setTextSizes(textSize);
         this.setTextSize(fontSize);
+        if(toBold) {
+            this.setTypeface(null, Typeface.BOLD);
+        }
+
     }
 
-    public CustomTextView(Context context, AttributeSet attrs)
+    public CustomTextView(Context context, AttributeSet attribute)
     {
-        super(context, attrs);
+        super(context, attribute);
         // this.setTextSizes(textSize);
         this.setTextSize(fontSize);
+        if(toBold) {
+            this.setTypeface(null, Typeface.BOLD);
+        }
 
     }
 
-    public CustomTextView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+    public CustomTextView(Context context, AttributeSet attribute, int value) {
+        super(context, attribute, value);
         //  this.setTextSizes(textSize);
         this.setTextSize(fontSize);
+        if(toBold) {
+            this.setTypeface(null, Typeface.BOLD);
+        }
 
 
     }
     public static void setTextSizes(int ts)
     {
         fontSize = ts;
+    }
+
+    public static void makeBold()
+    {
+        toBold = true;
+
+    }
+
+    public static void removeBold()
+    {
+        toBold = false;
+
     }
 
 
