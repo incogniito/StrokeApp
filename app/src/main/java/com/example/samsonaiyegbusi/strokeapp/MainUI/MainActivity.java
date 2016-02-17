@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
     GridView gridView;
     ImageButton config_ib;
     boolean passwordSet = true;
-    boolean correctPassword = true;
     ImageButton alarm_ib;
 
     Bundle bundle;
@@ -119,8 +118,8 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
                     startActivity(MakeRequest);
 
                 } else if (items[item].equals("Remove a Request")) {
-                    //     Intent RemoveRequest = new Intent(MainActivity.this, RemoveAcivity.class);
-                    //   startActivity(RemoveRequest);
+                    Intent RemoveRequest = new Intent(MainActivity.this, RemoveRequest.class);
+                    startActivity(RemoveRequest);
 
                 } else if (items[item].equals("Settings")) {
 

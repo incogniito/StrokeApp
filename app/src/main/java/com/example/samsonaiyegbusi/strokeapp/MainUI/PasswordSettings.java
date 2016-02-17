@@ -17,15 +17,13 @@ public class PasswordSettings extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        int counter;
         setContentView(R.layout.content_pass_settings);
 
         Button goButton = (Button)findViewById(R.id.check_password);
-
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 EditText input = (EditText)findViewById(R.id.user_input);
                 //needs to check database for password
                 //if input == database password
@@ -33,11 +31,13 @@ public class PasswordSettings extends AppCompatActivity {
                 startActivity(settings);
                  */
                 //else
+
                 AlertDialog.Builder wrongPass = new AlertDialog.Builder(PasswordSettings.this);
                 wrongPass.setMessage("Wrong Password");
                 wrongPass.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                         dialog.dismiss();
 
                     }
