@@ -40,6 +40,15 @@
             android:name=".MainUI.Settings"
             android:label="@string/title_activity_settings"
             ></activity>
+        <activity
+            android:name=".MainUI.PasswordSettings"
+            android:label="@string/title_activity_setPass"
+            ></activity>
+        <activity
+            android:name=".MainUI.AddPassword"
+            android:label="@string/title_activity_addPass"
+            ></activity>
+
     </application>
 
 </manifest>

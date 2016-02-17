@@ -1,5 +1,6 @@
 package com.example.samsonaiyegbusi.strokeapp.MainUI;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,10 +11,13 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -28,7 +32,8 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
 
     GridView gridView;
     ImageButton config_ib;
-
+    boolean passwordSet = true;
+    boolean correctPassword = true;
     Bundle bundle;
 
 
@@ -90,15 +95,41 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
                     startActivity(MakeRequest);
 
                 } else if (items[item].equals("Remove a Request")) {
-               //     Intent RemoveRequest = new Intent(MainActivity.this, RemoveAcivity.class);
-                 //   startActivity(RemoveRequest);
+                    //     Intent RemoveRequest = new Intent(MainActivity.this, RemoveAcivity.class);
+                    //   startActivity(RemoveRequest);
 
-                }else if (items[item].equals("Settings")) {
-                         Intent ConfigureSettings = new Intent(MainActivity.this, Settings.class);
-                       startActivity(ConfigureSettings);
-                }else if (items[item].equals("Add Password")) {
-                    //     Intent SetPassword = new Intent(MainActivity.this, Password.class);
-                    //   startActivity(SetPassword);
+                } else if (items[item].equals("Settings")) {
+
+                    //needs to check if there's a password to start with in database
+                    //bool for now for testing
+                    if (passwordSet) {
+                        Intent settings = new Intent(MainActivity.this, PasswordSettings.class);
+                        startActivity(settings);
+                    } else {
+                        Intent settings = new Intent(MainActivity.this, Settings.class);
+                        startActivity(settings);
+                    }
+                } else if (items[item].equals("Add Password")) {
+
+                    //needs to check if there's a password to start with in database
+
+                    if (passwordSet) {
+                        AlertDialog.Builder setPass = new AlertDialog.Builder(MainActivity.this);
+                        setPass.setMessage("There is already a password set.");
+                        setPass.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        setPass.show();
+
+                    } else {
+                         Intent newPass = new Intent(MainActivity.this, AddPassword.class);
+                         startActivity(newPass);
+                    }
+
+
                 } else if (items[item].equals("Cancel")) {
                     dialog.dismiss();
                 }
@@ -107,8 +138,6 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
         builder.show();
 
     }
-
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

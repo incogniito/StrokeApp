@@ -5,4 +5,8 @@
     <string name="title_activity_requests">RequestsActivity</string>
     <string name="title_activity_make_request">MakeRequest</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_password">Password</string>
+    <string name="title_activity_setPass">Login</string>
+    <string name="title_activity_addPass">Add Password</string>
+
 </resources>
