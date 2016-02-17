@@ -75,12 +75,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(requestsTable);
 
 
-        String foodImageURL = "http://images.clipartpanda.com/food-clip-art-9czqXBBcE.jpeg";
-        byte[] foodImage = getImage(foodImageURL);
+        //String foodImageURL = "http://images.clipartpanda.com/food-clip-art-9czqXBBcE.jpeg";
+       // byte[] foodImage = getImage(foodImageURL);
         byte[] foodAudio = getAudio("C:\\Users\\IBIYE\\Music\\audio\\PTT-20150426-WA0012.aac");
 
         // insert values
-        insertIntoCategoryTable("Food",foodImage);
+       // insertIntoCategoryTable("Food",foodImage);
 
     }
 
@@ -128,7 +128,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.insertStatement.bindBlob(3, RequestSound);
         db.close();
         return this.insertStatement.executeInsert();
-
     }
     /**
      *
