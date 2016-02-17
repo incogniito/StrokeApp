@@ -32,7 +32,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Forgotten Password?"
-        android:id="@+id/textView11"
-        android:layout_gravity="center_horizontal" />
+        android:id="@+id/forget_pass"
+        android:layout_gravity="center_horizontal"
+        android:onClick="forgottenPass"/>
 
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.example.samsonaiyegbusi.strokeapp.MainUI;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -20,11 +21,12 @@ public class PasswordSettings extends AppCompatActivity {
         int counter;
         setContentView(R.layout.content_pass_settings);
 
+        CustomTextView reset = (CustomTextView)findViewById(R.id.forget_pass);
         Button goButton = (Button)findViewById(R.id.check_password);
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText input = (EditText)findViewById(R.id.user_input);
+                EditText input = (EditText) findViewById(R.id.user_input);
                 //needs to check database for password
                 //if input == database password
                 /*Intent settings = new Intent(this, Settings.class);
@@ -46,6 +48,14 @@ public class PasswordSettings extends AppCompatActivity {
             }
         });
 
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent reset = new Intent(PasswordSettings.this, ResetPassword.class);
+                startActivity(reset);
+            }
+        });
 
     }
+
 }

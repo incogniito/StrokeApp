@@ -8,4 +8,6 @@
     <string name="title_activity_password">Password</string>
     <string name="title_activity_setPass">Login</string>
     <string name="title_activity_addPass">Add Password</string>
+    <string name="title_activity_resetPass">Reset Password</string>
+
 </resources>

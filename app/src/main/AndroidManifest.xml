@@ -52,6 +52,14 @@
             android:name=".MainUI.AddPassword"
             android:label="@string/title_activity_addPass"
             ></activity>
+        <activity
+            android:name=".MainUI.ResetPassword"
+            android:label="@string/title_activity_resetPass"
+            ></activity>
+        <activity
+            android:name=".MainUI.RemoveRequest"
+            android:label="@string/title_activity_resetPass"
+            ></activity>
 
     </application>
 
