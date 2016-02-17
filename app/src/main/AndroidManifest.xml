@@ -27,18 +27,22 @@
         <activity
             android:name=".MainUI.CategoryChildActivity"
             android:label="@string/title_activity_category_child"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".MainUI.MainActivity"/>
         <activity
             android:name=".MainUI.RequestsActivity"
             android:label="@string/title_activity_requests"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".MainUI.CategoryChildActivity"/>
         <activity
             android:name=".MainUI.MakeRequest"
             android:label="@string/title_activity_make_request"
+            android:parentActivityName=".MainUI.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".MainUI.Settings"
             android:label="@string/title_activity_settings"
+            android:parentActivityName=".MainUI.MainActivity"
             ></activity>
         <activity
             android:name=".MainUI.PasswordSettings"

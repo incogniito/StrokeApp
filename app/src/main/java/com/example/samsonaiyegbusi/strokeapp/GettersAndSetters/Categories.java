@@ -9,6 +9,7 @@ public class Categories
     private int id;
     private String name;
     private byte[] imageID;
+    private int subcatID;
 
     public Categories(int newID, String newName, byte[] newImageID)
     {

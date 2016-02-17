@@ -16,7 +16,7 @@ public class CustomTextView extends TextView {
     public CustomTextView(Context context)
     {
         super(context);
-        // this.setTextSizes(textSize);
+        // this.setTextSizes (textSize);
         this.setTextSize(fontSize);
         if(toBold) {
             this.setTypeface(null, Typeface.BOLD);

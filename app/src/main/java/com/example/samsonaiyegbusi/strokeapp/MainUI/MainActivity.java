@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -34,7 +35,12 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
     ImageButton config_ib;
     boolean passwordSet = true;
     boolean correctPassword = true;
+    ImageButton alarm_ib;
+
     Bundle bundle;
+
+    int AlarmCounter;
+    MediaPlayer alarm;
 
 
     @Override
@@ -65,8 +71,13 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
         config_ib = (ImageButton) findViewById(R.id.settings_ib);
         config_ib.setOnClickListener(this);
 
+        alarm_ib = (ImageButton) findViewById(R.id.alarm_ib);
+        alarm_ib.setOnClickListener(this);
 
         bundle = new Bundle();
+
+        alarm = MediaPlayer.create(this, R.raw.alarm);
+        AlarmCounter = 1;
     }
 
     @Override
@@ -76,6 +87,19 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
         {
             case R.id.settings_ib:
                 configOptions();
+                break;
+
+            case R.id.alarm_ib:
+                if (AlarmCounter == 1){
+                    alarm = MediaPlayer.create(this, R.raw.alarm);
+                    alarm.start();
+                    AlarmCounter++;
+                } else {
+
+                    alarm.stop();
+                    AlarmCounter = 1;
+                }
+
                 break;
 
         }

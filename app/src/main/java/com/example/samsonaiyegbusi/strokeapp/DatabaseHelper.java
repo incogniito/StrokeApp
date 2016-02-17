@@ -75,12 +75,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(requestsTable);
 
 
-        String foodImageURL = "http://images.clipartpanda.com/food-clip-art-9czqXBBcE.jpeg";
-        byte[] foodImage = getImage(foodImageURL);
+        //String foodImageURL = "http://images.clipartpanda.com/food-clip-art-9czqXBBcE.jpeg";
+       // byte[] foodImage = getImage(foodImageURL);
         byte[] foodAudio = getAudio("C:\\Users\\IBIYE\\Music\\audio\\PTT-20150426-WA0012.aac");
 
         // insert values
-        insertIntoCategoryTable("Food",foodImage);
+       // insertIntoCategoryTable("Food",foodImage);
 
     }
 
@@ -128,14 +128,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.insertStatement.bindBlob(3, RequestSound);
         db.close();
         return this.insertStatement.executeInsert();
-
     }
     /**
      *
      * @param id ID of the request
      * @return
      */
-    public Request selectFromTableByID(String id)
+    public Request selectFromRequestsByID(String id)
     {
         String sql = "SELECT * FROM " + REQUESTS_TABLE_NAME + " WHERE " + Request_ID + "= '" + id + "';";
         Cursor c = db.rawQuery(sql, null);
@@ -145,7 +144,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String reqName = c.getString(1);
             byte[] reqImg = c.getBlob(2);
             byte[] reqAud = c.getBlob(3);
-            Request request = new Request(reqID, reqName, reqImg, reqAud);
+            int reqSubCat = c.getInt(4);
+            Request request = new Request(reqID, reqName, reqImg, reqAud, reqSubCat);
             return request;
         }
         Request request = new Request();
@@ -163,7 +163,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String reqName = c.getString(1);
             byte[] reqImg = c.getBlob(2);
             byte[] reqAud = c.getBlob(3);
-            Request request = new Request(reqID, reqName, reqImg, reqAud);
+            int reqSubCat = c.getInt(4);
+            Request request = new Request(reqID, reqName, reqImg, reqAud, reqSubCat);
+            requests.add(request);
+        }
+        while(c.moveToNext())
+        {
+            int reqID = c.getInt(0);
+            String reqName = c.getString(1);
+            byte[] reqImg = c.getBlob(2);
+            byte[] reqAud = c.getBlob(3);
+            int reqSubCat = c.getInt(4);
+            Request request = new Request(reqID, reqName, reqImg, reqAud, reqSubCat);
             requests.add(request);
         }
         return requests;
@@ -180,7 +191,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String catName = c.getString(1);
             byte[] catImg = c.getBlob(2);
             Categories category = new Categories(catID, catName, catImg);
-
+            categories.add(category);
+        }
+        while(c.moveToNext())
+        {
+            int catID = c.getInt(0);
+            String catName = c.getString(1);
+            byte[] catImg = c.getBlob(2);
+            Categories category = new Categories(catID, catName, catImg);
+            categories.add(category);
         }
 
         return categories;

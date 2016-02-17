@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.samsonaiyegbusi.strokeapp.GettersAndSetters.Categories;
+import com.example.samsonaiyegbusi.strokeapp.MainUI.CustomTextView;
 import com.example.samsonaiyegbusi.strokeapp.R;
 
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class CategoryAdapter extends BaseAdapter {
         }
 
         ImageView categoryImage = (ImageView) v.findViewById(R.id.requestImage_iv);
-        TextView categoryText = (TextView) v.findViewById(R.id.requestText_tv);
+        CustomTextView categoryText = (CustomTextView) v.findViewById(R.id.requestText_tv);
 
         String CategoryText = categories.get(position).getName();
         byte[] bytes = categories.get(position).getImageBytes();
