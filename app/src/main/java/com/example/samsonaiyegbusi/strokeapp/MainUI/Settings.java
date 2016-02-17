@@ -1,7 +1,9 @@
 package com.example.samsonaiyegbusi.strokeapp.MainUI;
 
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -42,7 +44,7 @@ public class Settings extends AppCompatActivity {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     System.out.println("Hello there!");
                     String font = (String) newValue;
-                    fontsize=Integer.parseInt(font);
+                    fontsize = Integer.parseInt(font);
 
                     //System.out.println(fontsize);
                     CustomTextView.setTextSizes(fontsize);
@@ -51,8 +53,28 @@ public class Settings extends AppCompatActivity {
                 }
             });
 
+            final CheckBoxPreference bold;
+            bold = (CheckBoxPreference) findPreference("font_bold");
+            bold.setChecked(false);
+
+            bold.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    if(!bold.isChecked())
+                    {
+                        System.out.println("Hello there!");
+                        CustomTextView.makeBold();
+                    }
+                    else
+                    {
+                        System.out.println("Goodbye!");
+                        CustomTextView.removeBold();
+
+                    }
+                    return true;
+
+                }
+            });
         }
+
     }
-
-
 }

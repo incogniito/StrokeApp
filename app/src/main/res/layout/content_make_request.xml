@@ -117,20 +117,21 @@
         android:layout_below="@+id/linearLayout6"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/linearLayout7"
-        android:weightSum="1">
+        android:id="@+id/linearLayout7">
 
         <com.example.samsonaiyegbusi.strokeapp.MainUI.CustomTextView
             android:layout_width="76dp"
-            android:layout_height="90dp"
+            android:layout_height="70dp"
             android:text="Select Audio File from Device"
-            android:id="@+id/deviceAudio_tv" />
+            android:id="@+id/deviceAudio_tv"
+            android:textStyle="normal" />
 
         <com.example.samsonaiyegbusi.strokeapp.MainUI.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Record"
             android:id="@+id/Record_tv"
+            android:textStyle="normal"
             android:layout_marginLeft="10dp" />
 
         <com.example.samsonaiyegbusi.strokeapp.MainUI.CustomTextView
@@ -139,14 +140,16 @@
             android:text="Stop Recording"
             android:id="@+id/Stop_tv"
             android:layout_marginLeft="50dp"
-            android:layout_weight="0.10" />
+            android:layout_weight="0.10"
+            android:textStyle="normal"/>
 
         <com.example.samsonaiyegbusi.strokeapp.MainUI.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Play"
             android:id="@+id/play_tv"
-            android:layout_marginLeft="30dp" />
+            android:layout_marginLeft="30dp"
+            android:textStyle="normal"/>
     </LinearLayout>
 
     <Button
@@ -164,9 +167,9 @@
         android:text="Add Request"
         android:id="@+id/add_reques_bt"
         android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="42dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp" />
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -177,7 +180,7 @@
         android:layout_below="@+id/delete_rec_bt"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         android:layout_alignRight="@+id/linearLayout7"
         android:layout_alignEnd="@+id/linearLayout7" />
 
