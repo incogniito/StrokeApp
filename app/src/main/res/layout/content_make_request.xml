@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.samsonaiyegbusi.strokeapp.MakeRequest"
+    tools:context=".MainUI.MakeRequest"
     tools:showIn="@layout/activity_make_request">
 
     <LinearLayout
@@ -75,8 +75,8 @@
             android:id="@+id/device_audio_ib"
             android:background="#00ffffff"
             android:layout_marginTop="7dp"
-            android:layout_marginLeft="20dp" />
-           <!-- android:src="@mipmap/audio"-->
+            android:layout_marginLeft="20dp"
+            android:src="@mipmap/audio" />
 
 
         <ImageButton
@@ -84,8 +84,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/record_ib"
             android:background="#00ffffff"
-            android:layout_marginLeft="30dp" />
-        <!-- android:src="@mipmap/record1"-->
+            android:layout_marginLeft="30dp"
+         android:src="@mipmap/record1"/>
 
 
         <ImageButton
@@ -95,8 +95,8 @@
             android:background="#00ffffff"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="50dp"
-            android:layout_marginRight="35dp" />
-            <!--android:src="@mipmap/stop2"-->
+            android:layout_marginRight="35dp"
+            android:src="@mipmap/stop2"/>
 
 
         <ImageButton
@@ -104,8 +104,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/play_ib"
             android:background="#00ffffff"
-            android:layout_marginLeft="20dp" />
-           <!-- android:src="@mipmap/play1"-->
+            android:layout_marginLeft="20dp"
+            android:src="@mipmap/play1"/>
 
 
     </LinearLayout>
