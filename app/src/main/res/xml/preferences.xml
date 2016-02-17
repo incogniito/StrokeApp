@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory>
     android:title="fonts">
-    <ListPreference android:title="Select A Font"
+    <ListPreference android:title="Select A Font Size"
                     android:entryValues="@array/font_value"
                     android:entries="@array/font_sizes"
                     android:summary="font_preference"
