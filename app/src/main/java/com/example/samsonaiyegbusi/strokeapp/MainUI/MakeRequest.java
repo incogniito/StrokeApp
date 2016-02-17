@@ -50,7 +50,7 @@ public class MakeRequest extends AppCompatActivity implements Variable_Initialis
     public static final int image_loaded = 1;
     public static final int audio_loaded = 1;
 
-
+//
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
