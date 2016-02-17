@@ -7,6 +7,7 @@ package com.example.samsonaiyegbusi.strokeapp.GettersAndSetters;
 public class Request
 {
     private int id;
+    private int subcatID;
     private String name;
     private byte[] sound;
     private byte[] image;
@@ -16,12 +17,13 @@ public class Request
 
     }
 
-    public Request(int newID, String newName, byte[] newSound, byte[] newImage)
+    public Request(int newID, String newName, byte[] newSound, byte[] newImage, int newSubcatID)
     {
         id = newID; //Would this be auto-generated?
         name = newName;
         sound = newSound;
         image = newImage;
+        subcatID = newSubcatID;
     }
     public int getId()
     {
@@ -43,5 +45,8 @@ public class Request
         return image;
     }
 
-
+    public int getSubcatID()
+    {
+        return subcatID;
+    }
 }
