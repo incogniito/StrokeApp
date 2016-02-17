@@ -9,12 +9,14 @@ public class Categories
     private int id;
     private String name;
     private byte[] imageID;
+    private int subcatID;
 
-    public Categories(int newID, String newName, byte[] newImageID)
+    public Categories(int newID, String newName, byte[] newImageID, int newSubcatID)
     {
         id = newID; //Would this be auto-generated?
         name = newName;
         imageID = newImageID;
+        subcatID = newSubcatID;
     }
     public int getId()
     {
@@ -29,6 +31,11 @@ public class Categories
     public byte[] getImageBytes()
     {
         return imageID;
+    }
+
+    public int getSubcatID()
+    {
+        return subcatID;
     }
 
 }
