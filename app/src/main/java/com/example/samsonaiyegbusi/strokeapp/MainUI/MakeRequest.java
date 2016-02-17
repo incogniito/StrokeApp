@@ -1,7 +1,10 @@
 package com.example.samsonaiyegbusi.strokeapp.MainUI;
 
+import android.content.Context;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -17,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.samsonaiyegbusi.strokeapp.R;
@@ -35,19 +39,26 @@ public class MakeRequest extends AppCompatActivity implements Variable_Initialis
     Button deleteRec_bt;
     Button addRequest_bt;
 
+    CustomTextView record;
+    CustomTextView play;
+    CustomTextView stop;
+
+
     private MediaRecorder myAudioRecorder;
     private static String mFileName = null;
 
     public static final int image_loaded = 1;
     public static final int audio_loaded = 1;
 
-
+//
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_request);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         VariableInitialiser();
         audioSetup();
@@ -65,14 +76,19 @@ public class MakeRequest extends AppCompatActivity implements Variable_Initialis
         deviceAudio_ib.setOnClickListener(this);
 
         record_ib = (ImageButton) findViewById(R.id.record_ib);
+        record = (CustomTextView) findViewById(R.id.Record_tv);
         record_ib.setOnClickListener(this);
 
         stop_ib = (ImageButton) findViewById(R.id.stop_ib);
-        stop_ib.setEnabled(false);
+        stop = (CustomTextView) findViewById(R.id.Stop_tv);
+        stop_ib.setVisibility(View.INVISIBLE);
+        stop.setVisibility(View.INVISIBLE);
         stop_ib.setOnClickListener(this);
 
         play_ib = (ImageButton) findViewById(R.id.play_ib);
-        play_ib.setEnabled(false);
+        play = (CustomTextView) findViewById(R.id.play_tv);
+        play_ib.setVisibility(View.INVISIBLE);
+        play.setVisibility(View.INVISIBLE);
         play_ib.setOnClickListener(this);
 
         deleteRec_bt = (Button) findViewById(R.id.delete_rec_bt);
@@ -82,9 +98,8 @@ public class MakeRequest extends AppCompatActivity implements Variable_Initialis
 
     }
 
-    private void imageOptions()
-    {
-       final CharSequence[] items = {"Take a picture", "Choose from gallery", "Cancel"};
+    private void imageOptions() {
+        final CharSequence[] items = {"Take a picture", "Choose from gallery", "Cancel"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MakeRequest.this);
         builder.setTitle("Add an image:");
@@ -102,16 +117,15 @@ public class MakeRequest extends AppCompatActivity implements Variable_Initialis
                 }
             }
         });
-builder.show();
+        builder.show();
 
     }
 
-    private void audioSetup()
-    {
+    private void audioSetup() {
 
-        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";;
+        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/"+requestName.getText()+".3gp";
 
-        myAudioRecorder=new MediaRecorder();
+        myAudioRecorder = new MediaRecorder();
         myAudioRecorder.reset();
         myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -123,10 +137,9 @@ builder.show();
     @Override
     public void onClick(View v) {
 
-        switch(v.getId())
-        {
+        switch (v.getId()) {
             case R.id.chosen_image_iv:
-            imageOptions();
+                imageOptions();
                 break;
 
             case R.id.record_ib:
@@ -134,18 +147,16 @@ builder.show();
                 try {
                     myAudioRecorder.prepare();
                     myAudioRecorder.start();
-                }
-
-                catch (IllegalStateException e) {
+                } catch (IllegalStateException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                record_ib.setEnabled(false);
-                stop_ib.setEnabled(true);
+                record_ib.setVisibility(View.INVISIBLE);
+                record.setVisibility(View.INVISIBLE);
+                stop_ib.setVisibility(View.VISIBLE);
+                stop.setVisibility(View.VISIBLE);
 
                 Toast.makeText(MakeRequest.this, "Recording...", Toast.LENGTH_LONG).show();
 
@@ -155,12 +166,14 @@ builder.show();
 
                 myAudioRecorder.stop();
                 myAudioRecorder.release();
-                myAudioRecorder  = null;
+                myAudioRecorder = null;
 
-                stop_ib.setEnabled(false);
-                play_ib.setEnabled(true);
+                stop_ib.setVisibility(View.INVISIBLE);
+                stop.setVisibility(View.INVISIBLE);
+                play_ib.setVisibility(View.VISIBLE);
+                play.setVisibility(View.VISIBLE);
 
-                Toast.makeText(MakeRequest.this, "Audio Recorded",Toast.LENGTH_LONG).show();
+                Toast.makeText(MakeRequest.this, "Audio Recorded", Toast.LENGTH_LONG).show();
 
                 break;
 
@@ -169,22 +182,18 @@ builder.show();
 
                 try {
                     m.setDataSource(mFileName);
-                }
-
-                catch (IOException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
                 try {
                     m.prepare();
-                }
-
-                catch (IOException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
                 m.start();
-                Toast.makeText(getApplicationContext(), "Playing...", Toast.LENGTH_LONG).show();
+                Toast.makeText(MakeRequest.this, "Playing...", Toast.LENGTH_LONG).show();
 
                 break;
 
@@ -193,12 +202,32 @@ builder.show();
                 Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(Intent.createChooser(intent, "Gallery"), audio_loaded);
 
+
                 break;
 
             case R.id.delete_rec_bt:
 
-                mFileName = null;
-                record_ib.setEnabled(true);
+                mFileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/"+requestName.getText()+".3gp";
+
+                record_ib.setVisibility(View.VISIBLE);
+                record.setVisibility(View.VISIBLE);
+                play_ib.setVisibility(View.INVISIBLE);
+                play.setVisibility(View.INVISIBLE);
+
+                Toast.makeText(MakeRequest.this, "Audio Deleted", Toast.LENGTH_LONG).show();
+
+                break;
+
+            case R.id.add_reques_bt:
+                //check every field as an entry
+                if (requestImage.toString().length() == 0){
+                    Toast.makeText(MakeRequest.this, "Please Choose An Image ", Toast.LENGTH_SHORT).show();
+                    break;
+                }else if (requestName.length() == 0) {
+                    Toast.makeText(MakeRequest.this, "Please fill in Event name", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                //call insert statement
                 break;
         }
 
@@ -214,10 +243,23 @@ builder.show();
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == image_loaded && resultCode == RESULT_OK && data != null){
+        if (requestCode == image_loaded && resultCode == RESULT_OK && data != null) {
             Uri selectedImage = data.getData();
             requestImage.setImageURI(selectedImage);
+        }
+
+        if (requestCode == audio_loaded && resultCode == RESULT_OK && data != null) {
+            Uri selectedAudio = data.getData();
+            mFileName = selectedAudio.toString();
+
+            record_ib.setVisibility(View.INVISIBLE);
+            record.setVisibility(View.INVISIBLE);
+            play_ib.setVisibility(View.VISIBLE);
+            play.setVisibility(View.VISIBLE);
+            Toast.makeText(MakeRequest.this, "Audio has been selected", Toast.LENGTH_LONG).show();
 
         }
+
     }
 }
+

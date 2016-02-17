@@ -11,7 +11,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.37" />
 
-    <TextView
+    <com.example.samsonaiyegbusi.strokeapp.MainUI.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
