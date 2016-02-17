@@ -34,6 +34,10 @@
             android:name=".MakeRequest"
             android:label="@string/title_activity_make_request"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".MainUI.Settings"
+            android:label="@string/title_activity_settings"
+            ></activity>
     </application>
 
 </manifest>

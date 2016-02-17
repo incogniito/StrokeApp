@@ -99,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(MainActivity.this, Settings.class);
+            startActivity(intent);
             return true;
         }
 
