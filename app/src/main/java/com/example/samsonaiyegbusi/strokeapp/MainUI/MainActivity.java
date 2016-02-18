@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
     int AlarmCounter;
     MediaPlayer alarm;
 
+    SQLiteDatabase databaseHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +54,13 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
         VariableInitialiser();
         PopulateGridViewWithCategories();
 
-        // create database at the start of the App
-        //SQLiteDatabase databaseHelper = new DatabaseHelper(this).getWritableDatabase();
+
     }
 
     private void PopulateGridViewWithCategories(){
-        GetCategories categories = new GetCategories();
+        DatabaseHelper dbCommand = new DatabaseHelper(this);
 
-        gridView.setAdapter(new CategoryAdapter(categories.categoryList(), this));
+        gridView.setAdapter(new CategoryAdapter(dbCommand.selectAllCategories(), this));
     }
 
     @Override
@@ -77,6 +78,9 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
 
         alarm = MediaPlayer.create(this, R.raw.alarm);
         AlarmCounter = 1;
+
+        // create database at the start of the App
+        databaseHelper = new DatabaseHelper(this).getWritableDatabase();
     }
 
     @Override
