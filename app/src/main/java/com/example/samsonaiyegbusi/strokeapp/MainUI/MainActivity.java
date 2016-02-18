@@ -168,7 +168,8 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
        // final ImageView requestImage = (ImageView) view.findViewById(R.id.requestImage_iv);
-        final TextView categoryName = (TextView) view.findViewById(R.id.requestText_tv);
+        final CustomTextView categoryName = (CustomTextView)view.findViewById(R.id.requestText_tv);
+        //final TextView categoryName = (TextView) view.findViewById(R.id.requestText_tv);
 
         String CategoryName = categoryName.getText().toString();
 

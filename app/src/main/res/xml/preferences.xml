@@ -9,7 +9,8 @@
 
         <CheckBoxPreference android:title="Bold Font"
             android:summary="Display all text in bold"
-            android:key="font_bold"/>
+            android:key="font_bold"
+            android:defaultValue="false"/>
 
 
 </PreferenceCategory>

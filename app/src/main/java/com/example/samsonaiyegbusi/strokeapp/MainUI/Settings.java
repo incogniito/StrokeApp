@@ -63,7 +63,7 @@ public class Settings extends AppCompatActivity {
 
             final CheckBoxPreference bold;
             bold = (CheckBoxPreference) findPreference("font_bold");
-            bold.setChecked(false);
+           //bold.setChecked(false);
             bold.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     if(!bold.isChecked())
