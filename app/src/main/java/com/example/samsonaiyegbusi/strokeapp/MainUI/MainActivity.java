@@ -41,8 +41,6 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
     int AlarmCounter;
     MediaPlayer alarm;
 
-    SQLiteDatabase databaseHelper;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +52,14 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
         VariableInitialiser();
         PopulateGridViewWithCategories();
 
-
+        // create database at the start of the App
+        SQLiteDatabase databaseHelper = new DatabaseHelper(this).getWritableDatabase();
     }
 
     private void PopulateGridViewWithCategories(){
-        DatabaseHelper dbCommand = new DatabaseHelper(this);
+        GetCategories categories = new GetCategories();
 
-        gridView.setAdapter(new CategoryAdapter(dbCommand.selectAllCategories(), this));
+        gridView.setAdapter(new CategoryAdapter(categories.categoryList(), this));
     }
 
     @Override
@@ -78,9 +77,6 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
 
         alarm = MediaPlayer.create(this, R.raw.alarm);
         AlarmCounter = 1;
-
-        // create database at the start of the App
-        databaseHelper = new DatabaseHelper(this).getWritableDatabase();
     }
 
     @Override
@@ -129,13 +125,13 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
 
                     //needs to check if there's a password to start with in database
                     //bool for now for testing
-                    if (passwordSet) {
-                        Intent settings = new Intent(MainActivity.this, PasswordSettings.class);
-                        startActivity(settings);
-                    } else {
-                        Intent settings = new Intent(MainActivity.this, Settings.class);
-                        startActivity(settings);
-                    }
+                     if (passwordSet) {
+                    Intent settings = new Intent(MainActivity.this, PasswordSettings.class);
+                    startActivity(settings);
+                     } else {
+                    Intent Intentsettings = new Intent(MainActivity.this, Settings.class);
+                    startActivity(Intentsettings);
+                     }
                 } else if (items[item].equals("Add Password")) {
 
                     //needs to check if there's a password to start with in database
@@ -152,8 +148,9 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
                         setPass.show();
 
                     } else {
-                         Intent newPass = new Intent(MainActivity.this, AddPassword.class);
-                         startActivity(newPass);
+                        Intent newPass = new Intent(MainActivity.this, AddPassword.class);
+                        startActivity(newPass);
+                        passwordSet = true;
                     }
 
 
@@ -169,13 +166,11 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
        // final ImageView requestImage = (ImageView) view.findViewById(R.id.requestImage_iv);
-       // final TextView categoryName = (TextView) view.findViewById(R.id.requestText_tv);
-        final TextView categoryID = (TextView) view.findViewById(R.id.ID_tv);
+        final TextView categoryName = (TextView) view.findViewById(R.id.requestText_tv);
 
+        String CategoryName = categoryName.getText().toString();
 
-        int CategoryID = Integer.parseInt(categoryID.getText().toString());
-
-        bundle.putInt("categoryID", CategoryID);
+        bundle.putString("categoryName", CategoryName);
 
         Intent nextPage = new Intent(this, CategoryChildActivity.class );
         nextPage.putExtras(bundle);

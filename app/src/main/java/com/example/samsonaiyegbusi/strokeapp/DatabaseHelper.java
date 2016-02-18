@@ -1,20 +1,27 @@
 package com.example.samsonaiyegbusi.strokeapp;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import 	android.database.sqlite.SQLiteStatement;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,26 +36,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Categobries table
     public static final String CATEGORIES_TABLE_NAME ="Categories_Table";
-    public static final String ID_COLUMN = "ID";
-    public static final String CATEGORY_NAME = "NAME";
-    public static final String CATEGORY_IMAGE = "IMAGE";
+    public static final String ID_Column = "ID";
+    public static final String Category_Name = "NAME";
+    public static final String Category_Image = "IMAGE";
     //public static final String Category_Audio = "AUDIO";
 
     //subcategories table
     public static final String SUBCATEGORIES_TABLE_NAME ="Subcategories_Table";
-    public static final String SUB_CATEGORY_ID_COLUMN = "ID";
-    public static final String SUB_CATEGORY_NAME = "NAME";
-    public static final String SUB_CATEGORY_IMAGE = "IMAGE";
+    public static final String SubCategoryID_Column = "ID";
+    public static final String SubCategory_Name = "NAME";
+    public static final String SubCategory_Image = "IMAGE";
     //public static final String SubCategory_Audio = "AUDIO";
-    public static final String PARENT_ID = "CATEGORY_ID";
+    public static final String category_ID = "CATEGORY_ID";
 
     //requests table
     public static final String REQUESTS_TABLE_NAME ="Requests_Table";
-    public static final String REQUEST_ID = "ID";
-    public static final String REQUEST_NAME = "NAME";
-    public static final String REQUEST_IMAGE = "IMAGE";
-    public static final String REQUEST_AUDIO = "AUDIO";
-    public static final String REQUEST_SUB_CAT_ID = "SUBCAT_ID";
+    public static final String Request_ID = "ID";
+    public static final String Request_Name = "NAME";
+    public static final String Request_Image = "IMAGE";
+    public static final String Request_Audio = "AUDIO";
+    public static final String Request_SubCat_ID = "SUBCAT_ID";
+
+    //Password table
+    public static final String PASSWORD_TABLE = "Password_Table";
+    public static final String Password_ID = "ID";
+    public static final String Password_UserName = "UserName";
+    public static final String Password = "Password";
+    public static final String Password_SecretQuestion = "SecretQuestion";
+    public static final String Password_SecretAnswer = "SecretAnswer";
+
+
+
     SQLiteDatabase db;
     String CategoriesTable;
     SQLiteStatement insertStatement;
@@ -60,14 +78,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        CategoriesTable = "create table if not exists " + CATEGORIES_TABLE_NAME + " ( " + ID_COLUMN +  " INTEGER PRIMARY KEY AUTOINCREMENT," + CATEGORY_NAME + " TEXT," + CATEGORY_IMAGE + " BLOB);";
-        String subCategoriesTable = "create table if not exists " + SUBCATEGORIES_TABLE_NAME + " ( " + SUB_CATEGORY_ID_COLUMN +  " INTEGER PRIMARY KEY AUTOINCREMENT," + SUB_CATEGORY_NAME + " TEXT," + SUB_CATEGORY_IMAGE + " BLOB," + PARENT_ID + " INTEGER,"
-                + " FOREIGN KEY ("+ PARENT_ID +") REFERENCES "+ SUBCATEGORIES_TABLE_NAME+"("+ID_COLUMN+"));";
-        String requestsTable = "create table if not exists " + REQUESTS_TABLE_NAME + " ( " + REQUEST_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + REQUEST_NAME + " TEXT," + REQUEST_IMAGE + " BLOB," + REQUEST_AUDIO + " BLOB," + REQUEST_SUB_CAT_ID + " INTEGER,"
-                + " FOREIGN KEY ("+ REQUEST_SUB_CAT_ID +") REFERENCES " + REQUESTS_TABLE_NAME+"("+ SUB_CATEGORY_ID_COLUMN +"));";
+        CategoriesTable = "create table if not exists " + CATEGORIES_TABLE_NAME + " ( " + ID_Column +  " INTEGER PRIMARY KEY AUTOINCREMENT," + Category_Name + " TEXT," + Category_Image + " BLOB);";
+        String subCategoriesTable = "create table if not exists " + SUBCATEGORIES_TABLE_NAME + " ( " + SubCategoryID_Column +  " INTEGER PRIMARY KEY AUTOINCREMENT," + SubCategory_Name + " TEXT," + SubCategory_Image + " BLOB," + category_ID + " INTEGER,"
+                + " FOREIGN KEY ("+category_ID+") REFERENCES "+ SUBCATEGORIES_TABLE_NAME+"("+ID_Column+"));";
+        String requestsTable = "create table if not exists " + REQUESTS_TABLE_NAME + " ( " + Request_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + Request_Name + " TEXT," + Request_Image + " BLOB," + Request_Audio + " BLOB," + Request_SubCat_ID + " INTEGER,"
+                + " FOREIGN KEY ("+Request_SubCat_ID+") REFERENCES " + REQUESTS_TABLE_NAME+"("+SubCategoryID_Column+"));";
+        String PasswordTable  = "create table if not exists " + PASSWORD_TABLE + " ( " + Password_ID +  " INTEGER PRIMARY KEY AUTOINCREMENT," + Password_UserName + " TEXT," + Password + " TEXT," + Password_SecretQuestion + " TEXT," + Password_SecretAnswer + " TEXT);";
+        db.execSQL("PRAGMA foreign_keys=ON;");
         db.execSQL(CategoriesTable);
         db.execSQL(subCategoriesTable);
         db.execSQL(requestsTable);
+        db.execSQL(PasswordTable);
+
+
+        Log.e("Database information", "Tables created");
 
 
         //String foodImageURL = "http://images.clipartpanda.com/food-clip-art-9czqXBBcE.jpeg";
@@ -76,21 +100,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // insert values
        // insertIntoCategoryTable("Food",foodImage);
+        String usName = "ibiye";
+        String usPass = "b";
+        String secretQues = "Favourite food";
+        String secrtAns = "Rice";
+       // insertIntoPasswordTable(usName,usPass,secretQues,secrtAns);
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS" + DATABASE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS" + REQUESTS_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS" + CATEGORIES_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS" + SUBCATEGORIES_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS" + PASSWORD_TABLE);
         onCreate(db);
     }
 
     // method to insert into table
     public long insertIntoCategoryTable(String CategoryName, byte[] categoryImage)
     {
-        String sql  = "INSERT INTO " + CATEGORIES_TABLE_NAME + " (" + CATEGORY_NAME + "," + CATEGORY_IMAGE + ") VALUES("+null+",?,?)";
+        String sql  = "INSERT INTO " + CATEGORIES_TABLE_NAME + " (" + Category_Name + "," + Category_Image + ") VALUES("+null+",?,?)";
 
-        db.compileStatement(sql);
+        insertStatement = db.compileStatement(sql);
         //this.insertStatement.bindString(0, null);
         this.insertStatement.bindString(1, CategoryName);
         this.insertStatement.bindBlob(2, categoryImage);
@@ -101,9 +133,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public long insertIntoSubcategoryTable(String SubcategoryName, byte[] SubcategoryImage)
     {
-        String sql  = "INSERT INTO " + SUBCATEGORIES_TABLE_NAME + " (" + SUB_CATEGORY_NAME + "," + SUB_CATEGORY_IMAGE + ") VALUES("+null+",?,?)";
+        String sql  = "INSERT INTO " + SUBCATEGORIES_TABLE_NAME + " (" + SubCategory_Name + "," + SubCategory_Image + ") VALUES("+null+",?,?)";
 
-        db.compileStatement(sql);
+        insertStatement = db.compileStatement(sql);
         //this.insertStatement.bindString(0, ID);
         this.insertStatement.bindString(1, SubcategoryName);
         this.insertStatement.bindBlob(2, SubcategoryImage);
@@ -114,9 +146,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public long insertIntoRequestTable(String RequestName, byte[] RequestImage, byte[] RequestSound)
     {
-        String sql  = "INSERT INTO " + SUBCATEGORIES_TABLE_NAME + " (" + SUB_CATEGORY_NAME + "," + SUB_CATEGORY_IMAGE + ") VALUES("+null+",?,?,?)";
+        String sql  = "INSERT INTO " + SUBCATEGORIES_TABLE_NAME + " (" + SubCategory_Name + "," + SubCategory_Image + ") VALUES("+null+",?,?,?)";
 
-        db.compileStatement(sql);
+        insertStatement = db.compileStatement(sql);
         //this.insertStatement.bindString(0, ID);
         this.insertStatement.bindString(1, RequestName);
         this.insertStatement.bindBlob(2, RequestImage);
@@ -124,6 +156,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return this.insertStatement.executeInsert();
     }
+    public void InsertFromCSV() throws IOException {
+        FileReader file = new FileReader("");
+        BufferedReader inReader = new BufferedReader(file);
+        String reader = "";
+        db.beginTransaction();
+        while ((reader = inReader.readLine()) != null)
+        {
+            String[] rowData = reader.split(",");
+
+            this.Insert(rowData);
+
+            this.close();;
+        }
+
+    }
+
+    public void Insert(String[] data)
+    {
+        insertStatement = db.compileStatement("INSERT INTO" + SUBCATEGORIES_TABLE_NAME + "VALUES(?,?)");
+        insertStatement.bindString(1,data[0]);
+        insertStatement.bindString(2,data[1]);
+        insertStatement.executeInsert();
+    }
+
+    public void insertIntoPasswordTable(String username, String userPassword, String secretQuestion, String secretAnswer)
+    {
+//        String sql  = "INSERT INTO " + PASSWORD_TABLE + " (" + Password_UserName + "," + Password + "," + Password_SecretQuestion + "," + Password_SecretAnswer + ") VALUES("+null+",?,?,?,?)";
+//
+//        insertStatement = db.compileStatement(sql);
+//        this.insertStatement.bindString(1, username);
+//        this.insertStatement.bindString(2, userPassword);
+//        this.insertStatement.bindString(3, secretQuestion);
+//        this.insertStatement.bindString(4, secretAnswer);
+//        db.close();
+//        return this.insertStatement.executeInsert();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Password_UserName,username);
+        contentValues.put(Password,userPassword);
+        contentValues.put(Password_SecretQuestion,secretQuestion);
+        contentValues.put(Password_SecretAnswer,secretAnswer);
+        db.insert(PASSWORD_TABLE, null, contentValues);
+        Log.e("Database information", "One row inserted");
+    }
+
+
     /**
      *
      * @param id ID of the request
@@ -131,7 +208,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public Request selectFromRequestsByID(String id)
     {
-        String sql = "SELECT * FROM " + REQUESTS_TABLE_NAME + " WHERE " + REQUEST_ID + " = '" + id + "';";
+        String sql = "SELECT * FROM " + REQUESTS_TABLE_NAME + " WHERE " + Request_ID + "= '" + id + "';";
         Cursor c = db.rawQuery(sql, null);
         if (c.moveToFirst())
         {
@@ -151,34 +228,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     {
         List<Request> requests = new ArrayList<Request>();
         String sql = "SELECT * FROM " + REQUESTS_TABLE_NAME;
-        Cursor c = db.rawQuery(sql, null);
-        if (c.moveToFirst())
-        {
-            int reqID = c.getInt(0);
-            String reqName = c.getString(1);
-            byte[] reqImg = c.getBlob(2);
-            byte[] reqAud = c.getBlob(3);
-            int reqSubCat = c.getInt(4);
-            Request request = new Request(reqID, reqName, reqImg, reqAud, reqSubCat);
-            requests.add(request);
-        }
-        while(c.moveToNext())
-        {
-            int reqID = c.getInt(0);
-            String reqName = c.getString(1);
-            byte[] reqImg = c.getBlob(2);
-            byte[] reqAud = c.getBlob(3);
-            int reqSubCat = c.getInt(4);
-            Request request = new Request(reqID, reqName, reqImg, reqAud, reqSubCat);
-            requests.add(request);
-        }
-        return requests;
-    }
-
-    public List<Request> selecRequestsBySubcategory(int subcategoryID)
-    {
-        List<Request> requests = new ArrayList<Request>();
-        String sql = "SELECT * FROM " + REQUESTS_TABLE_NAME + " WHERE " + REQUEST_SUB_CAT_ID + " = '" + subcategoryID + "';";
         Cursor c = db.rawQuery(sql, null);
         if (c.moveToFirst())
         {
@@ -228,31 +277,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return categories;
     }
 
-    public List<Categories> selectSubCategoriesByParent(int parentID)
-    {
-        List<Categories> subcategories = new ArrayList<Categories>();
-        String sql = "SELECT * FROM " +SUBCATEGORIES_TABLE_NAME + " WHERE " + PARENT_ID + " = '" + parentID + "';";
-        Cursor c = db.rawQuery(sql, null);
-        if (c.moveToFirst())
-        {
-            int catID = c.getInt(0);
-            String catName = c.getString(1);
-            byte[] catImg = c.getBlob(2);
-            Categories category = new Categories(catID, catName, catImg);
-            subcategories.add(category);
-        }
-        while(c.moveToNext())
-        {
-            int catID = c.getInt(0);
-            String catName = c.getString(1);
-            byte[] catImg = c.getBlob(2);
-            Categories category = new Categories(catID, catName, catImg);
-            subcategories.add(category);
-        }
-
-        return subcategories;
-    }
-
     private byte[] getImage(String url){
         try {
             URL imageUrl = new URL(url);
@@ -297,4 +321,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return byteAudio1;
     }
+
+
+    public String findPassword (String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columnNames = {Password_UserName,Password};
+        //String query = "select * from " + PASSWORD_TABLE ;
+                //+ " WHERE " + Password + " =  \"" + userPassword + "\"";
+
+
+
+        Cursor cursor = db.query(PASSWORD_TABLE,columnNames,null,null,null,null,null);
+
+       String UsernameInDatabase;
+       String passwordInDatabase = "Password not found";
+
+            if (cursor.moveToFirst())
+            {
+                do {
+                UsernameInDatabase = cursor.getString(0);
+            cursor.close();
+                if(UsernameInDatabase == username)
+                {
+                    passwordInDatabase = cursor.getString(1);
+                    break;
+                }
+            }while (cursor.moveToNext());
+
+        }
+
+        return passwordInDatabase;
+    }
 }
+
