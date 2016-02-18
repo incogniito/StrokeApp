@@ -59,7 +59,6 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Forgotten Password?"
         android:id="@+id/forget_pass"
-        android:layout_gravity="center_horizontal"
-        android:onClick="forgottenPass"/>
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

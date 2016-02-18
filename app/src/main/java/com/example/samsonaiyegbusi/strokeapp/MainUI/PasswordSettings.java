@@ -67,14 +67,14 @@ public class PasswordSettings extends AppCompatActivity {
 
             }
         });
-//
-//        reset.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent reset = new Intent(PasswordSettings.this, ResetPassword.class);
-//                startActivity(reset);
-//            }
-//        });
+
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent reset = new Intent(PasswordSettings.this, ResetPassword.class);
+                startActivity(reset);
+            }
+        });
 
     }
 

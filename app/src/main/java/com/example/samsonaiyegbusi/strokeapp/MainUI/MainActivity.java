@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
 
     GridView gridView;
     ImageButton config_ib;
-    boolean passwordSet = true;
+    boolean passwordSet;
     ImageButton alarm_ib;
 
     Bundle bundle;
@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
 
         alarm = MediaPlayer.create(this, R.raw.alarm);
         AlarmCounter = 1;
+
+        passwordSet = false;
     }
 
     @Override
@@ -150,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
                     } else {
                         Intent newPass = new Intent(MainActivity.this, AddPassword.class);
                         startActivity(newPass);
-                        passwordSet = true;
+                        //passwordSet = true;
                     }
 
 

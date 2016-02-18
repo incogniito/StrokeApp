@@ -384,8 +384,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //String query = "select * from " + PASSWORD_TABLE ;
                 //+ " WHERE " + Password + " =  \"" + userPassword + "\"";
 
-
-
         Cursor cursor = db.query(PASSWORD_TABLE,columnNames,null,null,null,null,null);
 
        String UsernameInDatabase;

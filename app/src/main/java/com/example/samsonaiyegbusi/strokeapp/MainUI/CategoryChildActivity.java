@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.samsonaiyegbusi.strokeapp.Adapters.CategoryAdapter;
+import com.example.samsonaiyegbusi.strokeapp.Adapters.SubCategoryAdapter;
 import com.example.samsonaiyegbusi.strokeapp.DatabaseHelper;
 import com.example.samsonaiyegbusi.strokeapp.R;
 import com.example.samsonaiyegbusi.strokeapp.SQL_Queries.GetChildCategories;
@@ -50,7 +51,7 @@ public class CategoryChildActivity extends AppCompatActivity implements Variable
 
         DatabaseHelper dbSubcategory = new DatabaseHelper(this);
 
-        gridView.setAdapter(new CategoryAdapter(dbSubcategory.selectSubCategoriesByParent(bundle.getInt("categoryID")), this));
+        gridView.setAdapter(new SubCategoryAdapter(dbSubcategory.selectSubcategoriesByParent(bundle.getInt("categoryID")), this));
     }
 
     @Override
