@@ -99,7 +99,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String secretQues = "Favourite food";
         String secrtAns = "Rice";
        // insertIntoPasswordTable(usName,usPass,secretQues,secrtAns);
-
+        try {
+            insertCategoriesFromCSV();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            insertSubcategoriesFromCSV();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            insertRequestsFromCSV();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -152,6 +166,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return this.insertStatement.executeInsert();
     }
+
     public void insertCategoriesFromCSV() throws IOException {
         FileReader file = new FileReader("../../../assets/Categories.CSV");
         BufferedReader inReader = new BufferedReader(file);
@@ -163,7 +178,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             byte[] rowImage = getImage(rowData[1]);
             this.insertIntoCategoryTable(rowData[0],rowImage);
 
-            this.close();;
+            this.close();
         }
 
     }
@@ -177,32 +192,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         {
             String[] rowData = reader.split(",");
             byte[] rowImage = getImage(rowData[1]);
-            this.insertIntoSubcategoryTable(rowData[0],rowImage, Integer.parseInt(rowData[2]));
+            this.insertIntoSubcategoryTable(rowData[0], rowImage, Integer.parseInt(rowData[2]));
 
-            this.close();;
+            this.close();
         }
 
     }
 
-    /*public void saveCategoriesToCSV() throws IOException
-    {
-        try
+    public void insertRequestsFromCSV() throws IOException {
+        FileReader file = new FileReader("../../../assets/Requests.csv");
+        BufferedReader inReader = new BufferedReader(file);
+        String reader = "";
+        db.beginTransaction();
+        while ((reader = inReader.readLine()) != null)
         {
-            FileWriter writer = new FileWriter("../../../assets/Categories.CSV");
-            List<Categories> categories = selectAllCategories();
-            for(Categories i:categories)
-            {
-                writer.append(i.getName());
-                writer.append(',');
-                writer.append(i.getName()+".png");
-            }
+            String[] rowData = reader.split(",");
+            byte[] rowImage = getImage(rowData[1]);
+            byte[] rowAudio = getAudio(rowData[2]);
+            this.insertIntoRequestTable(rowData[0], rowImage, rowAudio, Integer.parseInt(rowData[2]));
 
+            this.close();
         }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
-    }*/
+
+    }
 
     public void Insert(String[] data)
     {
