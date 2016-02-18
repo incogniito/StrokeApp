@@ -6,9 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import 	android.database.sqlite.SQLiteStatement;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import java.io.BufferedInputStream;
@@ -21,12 +18,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.example.samsonaiyegbusi.strokeapp.GettersAndSetters.Categories;
 import com.example.samsonaiyegbusi.strokeapp.GettersAndSetters.Request;
+import com.example.samsonaiyegbusi.strokeapp.GettersAndSetters.Subcategory;
 
 /**
  * Created by IBIYE on 13/02/2016.
@@ -34,7 +31,7 @@ import com.example.samsonaiyegbusi.strokeapp.GettersAndSetters.Request;
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Stroke.db";
 
-    // Categobries table
+    // Categories table
     public static final String CATEGORIES_TABLE_NAME ="Categories_Table";
     public static final String ID_Column = "ID";
     public static final String Category_Name = "NAME";
@@ -47,7 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String SubCategory_Name = "NAME";
     public static final String SubCategory_Image = "IMAGE";
     //public static final String SubCategory_Audio = "AUDIO";
-    public static final String category_ID = "CATEGORY_ID";
+    public static final String SubCategory_ParentID = "CATEGORY_ID";
 
     //requests table
     public static final String REQUESTS_TABLE_NAME ="Requests_Table";
@@ -79,8 +76,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         CategoriesTable = "create table if not exists " + CATEGORIES_TABLE_NAME + " ( " + ID_Column +  " INTEGER PRIMARY KEY AUTOINCREMENT," + Category_Name + " TEXT," + Category_Image + " BLOB);";
-        String subCategoriesTable = "create table if not exists " + SUBCATEGORIES_TABLE_NAME + " ( " + SubCategoryID_Column +  " INTEGER PRIMARY KEY AUTOINCREMENT," + SubCategory_Name + " TEXT," + SubCategory_Image + " BLOB," + category_ID + " INTEGER,"
-                + " FOREIGN KEY ("+category_ID+") REFERENCES "+ SUBCATEGORIES_TABLE_NAME+"("+ID_Column+"));";
+        String subCategoriesTable = "create table if not exists " + SUBCATEGORIES_TABLE_NAME + " ( " + SubCategoryID_Column +  " INTEGER PRIMARY KEY AUTOINCREMENT," + SubCategory_Name + " TEXT," + SubCategory_Image + " BLOB," + SubCategory_ParentID + " INTEGER,"
+                + " FOREIGN KEY ("+ SubCategory_ParentID +") REFERENCES "+ SUBCATEGORIES_TABLE_NAME+"("+ID_Column+"));";
         String requestsTable = "create table if not exists " + REQUESTS_TABLE_NAME + " ( " + Request_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + Request_Name + " TEXT," + Request_Image + " BLOB," + Request_Audio + " BLOB," + Request_SubCat_ID + " INTEGER,"
                 + " FOREIGN KEY ("+Request_SubCat_ID+") REFERENCES " + REQUESTS_TABLE_NAME+"("+SubCategoryID_Column+"));";
         String PasswordTable  = "create table if not exists " + PASSWORD_TABLE + " ( " + Password_ID +  " INTEGER PRIMARY KEY AUTOINCREMENT," + Password_UserName + " TEXT," + Password + " TEXT," + Password_SecretQuestion + " TEXT," + Password_SecretAnswer + " TEXT);";
@@ -203,7 +200,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public Request selectFromRequestsByID(String id)
     {
-        String sql = "SELECT * FROM " + REQUESTS_TABLE_NAME + " WHERE " + Request_ID + "= '" + id + "';";
+        String sql = "SELECT * FROM " + REQUESTS_TABLE_NAME + " WHERE " + Request_ID + " = '" + id + "';";
         Cursor c = db.rawQuery(sql, null);
         if (c.moveToFirst())
         {
@@ -247,6 +244,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return requests;
     }
 
+    public List<Request> selectRequestsBySubcategory(int subcategoryID)
+    {
+        List<Request> requests = new ArrayList<Request>();
+        String sql = "SELECT * FROM " + REQUESTS_TABLE_NAME + " WHERE " + Request_SubCat_ID + " = '" + subcategoryID + "';";
+        Cursor c = db.rawQuery(sql, null);
+        if (c.moveToFirst())
+        {
+            int reqID = c.getInt(0);
+            String reqName = c.getString(1);
+            byte[] reqImg = c.getBlob(2);
+            byte[] reqAud = c.getBlob(3);
+            int reqSubCat = c.getInt(4);
+            Request request = new Request(reqID, reqName, reqImg, reqAud, reqSubCat);
+            requests.add(request);
+        }
+        while(c.moveToNext())
+        {
+            int reqID = c.getInt(0);
+            String reqName = c.getString(1);
+            byte[] reqImg = c.getBlob(2);
+            byte[] reqAud = c.getBlob(3);
+            int reqSubCat = c.getInt(4);
+            Request request = new Request(reqID, reqName, reqImg, reqAud, reqSubCat);
+            requests.add(request);
+        }
+        return requests;
+    }
+
+
     public List<Categories> selectAllCategories()
     {
         List<Categories> categories = new ArrayList<Categories>();
@@ -270,6 +296,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         return categories;
+    }
+
+    public List<Subcategory> selectSubcategoriesByParent(int parentID)
+    {
+        List<Subcategory> subcategories = new ArrayList<Subcategory>();
+        String sql = "SELECT * FROM " +SUBCATEGORIES_TABLE_NAME+ " WHERE " + SubCategory_ParentID + " = '" + parentID + "';";
+        Cursor c = db.rawQuery(sql, null);
+        if (c.moveToFirst())
+        {
+            int subcatID = c.getInt(0);
+            String subcatName = c.getString(1);
+            byte[] subcatImg = c.getBlob(2);
+            int subcatParent = c.getInt(3);
+            Subcategory subcategory = new Subcategory(subcatID, subcatName, subcatImg, subcatParent);
+            subcategories.add(subcategory);
+        }
+        while(c.moveToNext())
+        {
+            int subcatID = c.getInt(0);
+            String subcatName = c.getString(1);
+            byte[] subcatImg = c.getBlob(2);
+            int subcatParent = c.getInt(3);
+            Subcategory subcategory = new Subcategory(subcatID, subcatName, subcatImg, subcatParent);
+            subcategories.add(subcategory);
+        }
+
+        return subcategories;
     }
 
     private byte[] getImage(String url){

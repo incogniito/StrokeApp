@@ -6,10 +6,14 @@ package com.example.samsonaiyegbusi.strokeapp.GettersAndSetters;
  */
 public class Categories
 {
-    private int id;
-    private String name;
-    private byte[] imageID;
+    protected int id;
+    protected String name;
+    protected byte[] imageID;
 
+    public Categories()
+    {
+
+    }
     public Categories(int newID, String newName, byte[] newImageID)
     {
         id = newID; //Would this be auto-generated?
