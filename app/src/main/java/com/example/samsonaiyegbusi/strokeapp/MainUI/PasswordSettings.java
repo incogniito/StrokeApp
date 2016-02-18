@@ -57,12 +57,6 @@ public class PasswordSettings extends AppCompatActivity {
                     });
                     wrongPass.show();
                 }
-                //needs to check database for password
-                //if input == database password
-                /*Intent settings = new Intent(this, Settings.class);
-                startActivity(settings);
-                 */
-                //else
 
 
             }

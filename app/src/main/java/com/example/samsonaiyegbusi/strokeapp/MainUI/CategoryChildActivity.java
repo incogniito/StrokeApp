@@ -64,8 +64,8 @@ public class CategoryChildActivity extends AppCompatActivity implements Variable
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        final TextView childCategoryID = (TextView) view.findViewById(R.id.ID_tv);
-
+       // final TextView childCategoryID = (TextView) view.findViewById(R.id.ID_tv);
+        final CustomTextView childCategoryID = (CustomTextView) view.findViewById(R.id.ID_tv);
         int ChildCategoryID = Integer.parseInt(childCategoryID.getText().toString());
 
         bundle.putInt("childCategoryID", ChildCategoryID);
