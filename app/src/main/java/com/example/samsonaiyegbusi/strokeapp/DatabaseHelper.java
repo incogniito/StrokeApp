@@ -14,10 +14,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,7 +125,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return this.insertStatement.executeInsert();
 
     }
-    public long insertIntoSubcategoryTable(String SubcategoryName, byte[] SubcategoryImage)
+    public long insertIntoSubcategoryTable(String SubcategoryName, byte[] SubcategoryImage, int ParentID)
     {
         String sql  = "INSERT INTO " + SUBCATEGORIES_TABLE_NAME + " (" + SubCategory_Name + "," + SubCategory_Image + ") VALUES("+null+",?,?)";
 
@@ -132,11 +134,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.insertStatement.bindString(1, SubcategoryName);
         this.insertStatement.bindBlob(2, SubcategoryImage);
         //this.insertStatement.bindBlob(3, categoryAudio);
+        this.insertStatement.bindLong(3, ParentID);
         db.close();
         return this.insertStatement.executeInsert();
 
     }
-    public long insertIntoRequestTable(String RequestName, byte[] RequestImage, byte[] RequestSound)
+    public long insertIntoRequestTable(String RequestName, byte[] RequestImage, byte[] RequestSound, int ParentID)
     {
         String sql  = "INSERT INTO " + SUBCATEGORIES_TABLE_NAME + " (" + SubCategory_Name + "," + SubCategory_Image + ") VALUES("+null+",?,?,?)";
 
@@ -145,24 +148,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.insertStatement.bindString(1, RequestName);
         this.insertStatement.bindBlob(2, RequestImage);
         this.insertStatement.bindBlob(3, RequestSound);
+        this.insertStatement.bindLong(4, ParentID);
         db.close();
         return this.insertStatement.executeInsert();
     }
-    public void InsertFromCSV() throws IOException {
-        FileReader file = new FileReader("");
+    public void insertCategoriesFromCSV() throws IOException {
+        FileReader file = new FileReader("../../../assets/Categories.csv");
         BufferedReader inReader = new BufferedReader(file);
         String reader = "";
         db.beginTransaction();
         while ((reader = inReader.readLine()) != null)
         {
             String[] rowData = reader.split(",");
-
-            this.Insert(rowData);
+            byte[] rowImage = getImage(rowData[1]);
+            this.insertIntoCategoryTable(rowData[0],rowImage);
 
             this.close();;
         }
 
     }
+
+    /*public void saveCategoriesToCSV() throws IOException
+    {
+        try
+        {
+            FileWriter writer = new FileWriter("../../../assets/Categories.csv");
+            List<Categories> categories = selectAllCategories();
+            for(Categories i:categories)
+            {
+                writer.append(i.getName());
+                writer.append(',');
+                writer.append(i.getName()+".png");
+            }
+
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+    }*/
 
     public void Insert(String[] data)
     {
