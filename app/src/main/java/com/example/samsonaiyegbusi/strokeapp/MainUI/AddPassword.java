@@ -35,7 +35,7 @@ public class AddPassword extends AppCompatActivity {
         questions.add(qThree);
 
         ArrayAdapter<String> adaptSpinner = new ArrayAdapter<String>(this,   android.R.layout.simple_spinner_item, questions);
-        adaptSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+        adaptSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         quesSpinner.setAdapter(adaptSpinner);
 
 

@@ -7,4 +7,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/requests_spinner" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DELETE REQUEST"
+        android:id="@+id/delete_request"
+        android:layout_below="@+id/requests_spinner"
+        android:layout_centerHorizontal="true" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:layout_below="@+id/delete_request"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="59dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="WARNING: If you delete a category, any requests within will also be deleted!"
+        android:id="@+id/textView4"
+        android:layout_below="@+id/spinner"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DELETE CATEGORY"
+        android:id="@+id/delete_category"
+        android:layout_below="@+id/textView4"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
