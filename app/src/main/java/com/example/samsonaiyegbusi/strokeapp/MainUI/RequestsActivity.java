@@ -58,9 +58,7 @@ public class RequestsActivity extends AppCompatActivity implements Variable_Init
     private void PopulateGridViewWithRequests(){
 
         DatabaseHelper dbRequests = new DatabaseHelper(this);
-        dbRequests.selectFromRequestsByID(bundle.getString("childCategoryName"));
-
-       // gridView.setAdapter(new RequestAdapter(requests.RequestList(), this));
+        gridView.setAdapter(new RequestAdapter(dbRequests.selecRequestsBySubcategory(bundle.getInt("childCategoryID")), this));
     }
 
     @Override

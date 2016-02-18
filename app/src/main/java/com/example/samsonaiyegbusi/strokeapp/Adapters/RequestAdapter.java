@@ -68,6 +68,9 @@ public class RequestAdapter extends BaseAdapter {
         byte[] imageBytes = requests.get(position).getImageBytes();
         Bitmap bmp = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
 
+        TextView ID_tv = (TextView) v.findViewById(R.id.ID_tv);
+        ID_tv.setVisibility(v.INVISIBLE);
+
         String Audiobytes = Base64.encodeToString(requests.get(position).getSound(), Base64.DEFAULT);
 
         audioByteHolder.setText(Audiobytes);

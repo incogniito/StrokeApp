@@ -57,11 +57,18 @@ public class CategoryAdapter extends BaseAdapter {
 
         ImageView categoryImage = (ImageView) v.findViewById(R.id.requestImage_iv);
         CustomTextView categoryText = (CustomTextView) v.findViewById(R.id.requestText_tv);
+        TextView ID_tv = (TextView) v.findViewById(R.id.ID_tv);
+        ID_tv.setVisibility(v.INVISIBLE);
+
+        TextView audioByteHolder = (TextView) v.findViewById(R.id.AudioBytes_tv);
+        audioByteHolder.setVisibility(v.INVISIBLE);
 
         String CategoryText = categories.get(position).getName();
+        String CategoryID = Integer.toString(categories.get(position).getId());
         byte[] bytes = categories.get(position).getImageBytes();
         Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
+        ID_tv.setText(CategoryID);
         categoryImage.setImageBitmap(bmp);
         categoryText.setText(CategoryText);
 

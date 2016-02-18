@@ -25,4 +25,13 @@
         android:text="Small Text"
         android:id="@+id/AudioBytes_tv"
         android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/ID_tv"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.02" />
 </LinearLayout>

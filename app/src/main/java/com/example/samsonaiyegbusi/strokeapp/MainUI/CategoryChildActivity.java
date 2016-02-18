@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.samsonaiyegbusi.strokeapp.Adapters.CategoryAdapter;
+import com.example.samsonaiyegbusi.strokeapp.DatabaseHelper;
 import com.example.samsonaiyegbusi.strokeapp.R;
 import com.example.samsonaiyegbusi.strokeapp.SQL_Queries.GetChildCategories;
 import com.example.samsonaiyegbusi.strokeapp.Variable_Initialiser;
@@ -47,9 +48,9 @@ public class CategoryChildActivity extends AppCompatActivity implements Variable
 
     private void PopulateGridViewWithChildCategories(){
 
-        GetChildCategories childCategories = new GetChildCategories(bundle.getString("categoryName"));
+        DatabaseHelper dbSubcategory = new DatabaseHelper(this);
 
-        gridView.setAdapter(new CategoryAdapter(childCategories.categoryList(), this));
+        gridView.setAdapter(new CategoryAdapter(dbSubcategory.selectSubCategoriesByParent(bundle.getInt("categoryID")), this));
     }
 
     @Override
@@ -62,11 +63,11 @@ public class CategoryChildActivity extends AppCompatActivity implements Variable
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        final TextView childCategoryName = (TextView) view.findViewById(R.id.requestText_tv);
+        final TextView childCategoryID = (TextView) view.findViewById(R.id.ID_tv);
 
-        String ChildCategoryName = childCategoryName.getText().toString();
+        int ChildCategoryID = Integer.parseInt(childCategoryID.getText().toString());
 
-        bundle.putString("childCategoryName", ChildCategoryName);
+        bundle.putInt("childCategoryID", ChildCategoryID);
 
         Intent nextPage = new Intent(this, CategoryChildActivity.class );
         nextPage.putExtras(bundle);
