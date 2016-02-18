@@ -153,7 +153,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return this.insertStatement.executeInsert();
     }
     public void insertCategoriesFromCSV() throws IOException {
-        FileReader file = new FileReader("../../../assets/Categories.csv");
+        FileReader file = new FileReader("../../../assets/Categories.CSV");
         BufferedReader inReader = new BufferedReader(file);
         String reader = "";
         db.beginTransaction();
@@ -168,11 +168,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public void insertSubcategoriesFromCSV() throws IOException {
+        FileReader file = new FileReader("../../../assets/Subcategories.csv");
+        BufferedReader inReader = new BufferedReader(file);
+        String reader = "";
+        db.beginTransaction();
+        while ((reader = inReader.readLine()) != null)
+        {
+            String[] rowData = reader.split(",");
+            byte[] rowImage = getImage(rowData[1]);
+            this.insertIntoSubcategoryTable(rowData[0],rowImage, Integer.parseInt(rowData[2]));
+
+            this.close();;
+        }
+
+    }
+
     /*public void saveCategoriesToCSV() throws IOException
     {
         try
         {
-            FileWriter writer = new FileWriter("../../../assets/Categories.csv");
+            FileWriter writer = new FileWriter("../../../assets/Categories.CSV");
             List<Categories> categories = selectAllCategories();
             for(Categories i:categories)
             {
@@ -191,8 +207,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void Insert(String[] data)
     {
         insertStatement = db.compileStatement("INSERT INTO" + SUBCATEGORIES_TABLE_NAME + "VALUES(?,?)");
-        insertStatement.bindString(1,data[0]);
-        insertStatement.bindString(2,data[1]);
+        insertStatement.bindString(1, data[0]);
+        insertStatement.bindString(2, data[1]);
         insertStatement.executeInsert();
     }
 
