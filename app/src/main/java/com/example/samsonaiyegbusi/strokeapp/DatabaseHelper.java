@@ -198,10 +198,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param id ID of the request
      * @return
      */
-    public Request selectFromRequestsByID(String id)
+    public Request selectFromRequestsByID(int id)
     {
-        String sql = "SELECT * FROM " + REQUESTS_TABLE_NAME + " WHERE " + Request_ID + " = '" + id + "';";
-        Cursor c = db.rawQuery(sql, null);
+        //String sql = "SELECT * FROM " + REQUESTS_TABLE_NAME + " WHERE " + Request_ID + " = '" + id + "';";
+        //Cursor c = db.rawQuery(sql, null);
+        Cursor c = db.query(REQUESTS_TABLE_NAME,null,Request_ID+"=?",new String[] {Integer.toString(id)},null,null,null);
         if (c.moveToFirst())
         {
             int reqID = c.getInt(0);
@@ -247,8 +248,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Request> selectRequestsBySubcategory(int subcategoryID)
     {
         List<Request> requests = new ArrayList<Request>();
-        String sql = "SELECT * FROM " + REQUESTS_TABLE_NAME + " WHERE " + Request_SubCat_ID + " = '" + subcategoryID + "';";
-        Cursor c = db.rawQuery(sql, null);
+        //String sql = "SELECT * FROM " + REQUESTS_TABLE_NAME + " WHERE " + Request_SubCat_ID + " = '" + subcategoryID + "';";
+        //Cursor c = db.rawQuery(sql, null);
+        Cursor c = db.query(REQUESTS_TABLE_NAME,null,Request_SubCat_ID+"=?",new String[] {Integer.toString(subcategoryID)},null,null,null);
         if (c.moveToFirst())
         {
             int reqID = c.getInt(0);
@@ -272,6 +274,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return requests;
     }
 
+    public int deleteRequest(int requestID)
+    {
+        return db.delete(REQUESTS_TABLE_NAME,Request_ID + "= ?",new String[] {Integer.toString(requestID)});
+    }
 
     public List<Categories> selectAllCategories()
     {
@@ -301,8 +307,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Subcategory> selectSubcategoriesByParent(int parentID)
     {
         List<Subcategory> subcategories = new ArrayList<Subcategory>();
-        String sql = "SELECT * FROM " +SUBCATEGORIES_TABLE_NAME+ " WHERE " + SubCategory_ParentID + " = '" + parentID + "';";
-        Cursor c = db.rawQuery(sql, null);
+        //String sql = "SELECT * FROM " +SUBCATEGORIES_TABLE_NAME+ " WHERE " + SubCategory_ParentID + " = '" + parentID + "';";
+        //Cursor c = db.rawQuery(sql, null);
+        Cursor c = db.query(SUBCATEGORIES_TABLE_NAME, null, SubCategory_ParentID + "=?", new String[]{Integer.toString(parentID)}, null, null, null);
         if (c.moveToFirst())
         {
             int subcatID = c.getInt(0);
