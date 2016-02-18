@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import com.example.samsonaiyegbusi.strokeapp.DatabaseHelper;
+import com.example.samsonaiyegbusi.strokeapp.GettersAndSetters.Categories;
 import com.example.samsonaiyegbusi.strokeapp.GettersAndSetters.Request;
 import com.example.samsonaiyegbusi.strokeapp.R;
 import com.example.samsonaiyegbusi.strokeapp.SQL_Queries.GetCategories;
@@ -26,17 +27,21 @@ public class RemoveRequest extends AppCompatActivity {
 
     List<Request> requests = new ArrayList();
     List<String> requestName = new ArrayList();
+    List<Categories> categories = new ArrayList();
+    List<String> categoryNameValue = new ArrayList();
     Spinner requestNames = (Spinner)findViewById(R.id.requests_spinner);
     Button deleteReq = (Button) findViewById(R.id.delete_request);
     Button deleteCat = (Button) findViewById(R.id.delete_category);
+    Spinner categoryNames = (Spinner) findViewById(R.id.cat_spinner);
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_remove_request);
 
         requests = dbHelp.selectAllRequests();
+        categories = dbHelp.selectAllCategories();
 
-
+        //Filling the requests spinner
         for( Request request : requests)
         {
             requestName.add(request.getName());
@@ -46,6 +51,17 @@ public class RemoveRequest extends AppCompatActivity {
         adaptSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         requestNames.setAdapter(adaptSpinner);
 
+        //Filling the categories spinner
+        for( Categories category : categories)
+        {
+            categoryNameValue.add(category.getName());
+        }
+
+        ArrayAdapter<String> catSpinner = new ArrayAdapter<String>(this,   android.R.layout.simple_spinner_item, categoryNameValue);
+        catSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categoryNames.setAdapter(catSpinner);
+
+        //delete request
         deleteReq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +91,19 @@ public class RemoveRequest extends AppCompatActivity {
             }
         });
 
+        deleteCat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (Categories category : categories)
+                {
+                    String givenCat = categoryNames.getSelectedItem().toString();
+                    if (category.getName().equalsIgnoreCase(givenCat))
+                    {
+                        //remove category call
+                    }
+                }
+            }
+        });
 
     }
 

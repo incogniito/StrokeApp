@@ -19,7 +19,7 @@
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner"
+        android:id="@+id/cat_spinner"
         android:layout_below="@+id/delete_request"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="59dp" />
@@ -30,7 +30,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="WARNING: If you delete a category, any requests within will also be deleted!"
         android:id="@+id/textView4"
-        android:layout_below="@+id/spinner"
+        android:layout_below="@+id/cat_spinner"
         android:layout_centerHorizontal="true" />
 
     <Button
