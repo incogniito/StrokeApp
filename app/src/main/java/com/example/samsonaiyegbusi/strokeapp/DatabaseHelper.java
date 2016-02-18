@@ -302,7 +302,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Request> requests = new ArrayList<Request>();
         //String sql = "SELECT * FROM " + REQUESTS_TABLE_NAME + " WHERE " + Request_SubCat_ID + " = '" + subcategoryID + "';";
         //Cursor c = db.rawQuery(sql, null);
-        Cursor c = db.query(REQUESTS_TABLE_NAME,null,Request_SubCat_ID+"=?",new String[] {Integer.toString(subcategoryID)},null,null,null);
+        Cursor c = db.query(REQUESTS_TABLE_NAME, null, Request_SubCat_ID + "=?", new String[]{Integer.toString(subcategoryID)}, null, null, null);
         if (c.moveToFirst())
         {
             int reqID = c.getInt(0);
@@ -329,6 +329,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public int deleteRequest(int requestID)
     {
         return db.delete(REQUESTS_TABLE_NAME,Request_ID + "= ?",new String[] {Integer.toString(requestID)});
+    }
+
+    public int deleteSubategory(int subcategoryID)
+    {
+        return db.delete(SUBCATEGORIES_TABLE_NAME,SubCategoryID_Column + "= ?",new String[] {Integer.toString(subcategoryID)});
+    }
+
+    public int deleteCategory(int categoryID)
+    {
+        return db.delete(CATEGORIES_TABLE_NAME,ID_Column + "= ?",new String[] {Integer.toString(categoryID)});
     }
 
     public List<Categories> selectAllCategories()
