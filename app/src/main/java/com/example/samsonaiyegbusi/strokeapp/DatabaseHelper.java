@@ -93,11 +93,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Log.e("Database information", "Tables created");
 
-
-        //String foodImageURL = "http://images.clipartpanda.com/food-clip-art-9czqXBBcE.jpeg";
-       // byte[] foodImage = getImage(foodImageURL);
-        byte[] foodAudio = getAudio("C:\\Users\\IBIYE\\Music\\audio\\PTT-20150426-WA0012.aac");
-
         // insert values
        // insertIntoCategoryTable("Food",foodImage);
         String usName = "ibiye";
