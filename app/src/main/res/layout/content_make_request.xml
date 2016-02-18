@@ -117,11 +117,12 @@
         android:layout_below="@+id/linearLayout6"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/linearLayout7">
+        android:id="@+id/linearLayout7"
+        android:weightSum="1">
 
         <com.example.samsonaiyegbusi.strokeapp.MainUI.CustomTextView
-            android:layout_width="76dp"
-            android:layout_height="81dp"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
             android:text="Select Audio File from Device"
             android:id="@+id/deviceAudio_tv"
             android:textStyle="normal" />
@@ -131,25 +132,24 @@
             android:layout_height="wrap_content"
             android:text="Record"
             android:id="@+id/Record_tv"
-            android:textStyle="normal"
-            android:layout_marginLeft="10dp" />
+            android:textStyle="normal" />
 
         <com.example.samsonaiyegbusi.strokeapp.MainUI.CustomTextView
-            android:layout_width="72dp"
-            android:layout_height="63dp"
+            android:layout_width="66dp"
+            android:layout_height="wrap_content"
             android:text="Stop Recording"
             android:id="@+id/Stop_tv"
-            android:layout_marginLeft="50dp"
-            android:layout_weight="0.10"
-            android:textStyle="normal"/>
+            android:textStyle="normal"
+            android:layout_marginLeft="40dp"
+            android:layout_weight="0.17" />
 
         <com.example.samsonaiyegbusi.strokeapp.MainUI.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Play"
             android:id="@+id/play_tv"
-            android:layout_marginLeft="30dp"
-            android:textStyle="normal"/>
+            android:textStyle="normal"
+            android:layout_marginLeft="35dp" />
     </LinearLayout>
 
     <Button

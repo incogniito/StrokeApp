@@ -48,7 +48,7 @@ public class MakeRequest extends AppCompatActivity implements Variable_Initialis
     private static String mFileName = null;
 
     public static final int image_loaded = 1;
-    public static final int audio_loaded = 1;
+    public static final int audio_loaded = 2;
 
 //
     @Override
@@ -248,7 +248,7 @@ public class MakeRequest extends AppCompatActivity implements Variable_Initialis
             requestImage.setImageURI(selectedImage);
         }
 
-        if (requestCode == audio_loaded && resultCode == RESULT_OK && data != null) {
+        else if (requestCode == audio_loaded && resultCode == RESULT_OK && data != null) {
             Uri selectedAudio = data.getData();
             mFileName = selectedAudio.toString();
 
