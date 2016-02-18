@@ -27,6 +27,8 @@ public class Settings extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+
+
     }
 
     public static class settingsFrag extends PreferenceFragment {
@@ -36,13 +38,18 @@ public class Settings extends AppCompatActivity {
             super.onCreate(savedInstanceState);
 
             addPreferencesFromResource(R.xml.preferences);
-
             ListPreference lists = (ListPreference) findPreference("font_preference");
 
-            lists.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            if(lists.getValue() == null) {
+                    lists.setValue("16");
+                System.out.println("WERE HERE");
+
+            }
+
+                lists.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    System.out.println("Hello there!");
+                   // System.out.println("Hello there!");
                     String font = (String) newValue;
                     fontsize = Integer.parseInt(font);
 
@@ -53,20 +60,18 @@ public class Settings extends AppCompatActivity {
                 }
             });
 
+
             final CheckBoxPreference bold;
             bold = (CheckBoxPreference) findPreference("font_bold");
             bold.setChecked(false);
-
             bold.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     if(!bold.isChecked())
                     {
-                        System.out.println("Hello there!");
                         CustomTextView.makeBold();
                     }
                     else
                     {
-                        System.out.println("Goodbye!");
                         CustomTextView.removeBold();
 
                     }
