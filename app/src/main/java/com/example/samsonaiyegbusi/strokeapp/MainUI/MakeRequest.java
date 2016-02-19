@@ -5,6 +5,9 @@ import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -24,10 +27,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.samsonaiyegbusi.strokeapp.DatabaseHelper;
 import com.example.samsonaiyegbusi.strokeapp.R;
 import com.example.samsonaiyegbusi.strokeapp.Variable_Initialiser;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class MakeRequest extends AppCompatActivity implements Variable_Initialiser {
 
@@ -95,7 +104,9 @@ public class MakeRequest extends AppCompatActivity implements Variable_Initialis
         deleteRec_bt = (Button) findViewById(R.id.delete_rec_bt);
         deleteRec_bt.setOnClickListener(this);
 
+
         addRequest_bt = (Button) findViewById(R.id.add_reques_bt);
+        addRequest_bt.setOnClickListener(this);
 
 
     }
@@ -180,6 +191,12 @@ public class MakeRequest extends AppCompatActivity implements Variable_Initialis
                 break;
 
             case R.id.play_ib:
+
+                if (requestName.length() == 0) {
+                    Toast.makeText(MakeRequest.this, "Please fill in Event name", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+
                 MediaPlayer m = new MediaPlayer();
 
                 try {
@@ -209,6 +226,7 @@ public class MakeRequest extends AppCompatActivity implements Variable_Initialis
 
             case R.id.delete_rec_bt:
 
+
                 mFileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/"+requestName.getText()+".3gp";
 
                 record_ib.setVisibility(View.VISIBLE);
@@ -225,14 +243,56 @@ public class MakeRequest extends AppCompatActivity implements Variable_Initialis
                 if (requestImage.toString().length() == 0){
                     Toast.makeText(MakeRequest.this, "Please Choose An Image ", Toast.LENGTH_SHORT).show();
                     break;
-                }else if (requestName.length() == 0) {
-                    Toast.makeText(MakeRequest.this, "Please fill in Event name", Toast.LENGTH_SHORT).show();
-                    break;
                 }
                 //call insert statement
+
+                // Locate the image in res > drawable-hdpi
+                Bitmap event_image = ((BitmapDrawable) requestImage.getDrawable()).getBitmap();
+                // Convert it to byte
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+                // Compress image to lower quality scale 1 - 100
+                event_image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] image = stream.toByteArray();
+
+                File file = new File(mFileName);
+                InputStream inStream ;
+                byte[] audiofile = null;
+                try {
+                     inStream = new FileInputStream(file);
+                    audiofile = convertStreamToByteArray(inStream);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+                DatabaseHelper dbInsert = DatabaseHelper.getInstance(this);
+                dbInsert.insertIntoRequestTable(requestName.getText().toString(), image, audiofile,1, dbInsert.getWritableDatabase());
+
+                Toast.makeText(MakeRequest.this, "You have successfully added Request: "+requestName.getText().toString(), Toast.LENGTH_SHORT).show();
+
+
+                Intent takeusertoMain = new Intent(MakeRequest.this, MainActivity.class);
+                startActivity(takeusertoMain);
+
                 break;
+
+
         }
 
+    }
+
+    public static byte[] convertStreamToByteArray(InputStream is) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buff = new byte[10240];
+        int i ;
+        while ((i = is.read(buff, 0, buff.length)) > 0) {
+            baos.write(buff, 0, i);
+        }
+
+        return baos.toByteArray(); // be sure to close InputStream in calling function
     }
 
     @Override

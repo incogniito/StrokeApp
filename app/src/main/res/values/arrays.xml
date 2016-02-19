@@ -20,6 +20,21 @@
 
     </string-array>
 
+    <string-array name="image_sizes">
+        <item>SMALL</item>
+        <item>MEDIUM</item>
+        <item>LARGE</item>
+    </string-array>
+
+    <string-array name="image_value">
+
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+
+    </string-array>
+
+
 
 
 </resources>
