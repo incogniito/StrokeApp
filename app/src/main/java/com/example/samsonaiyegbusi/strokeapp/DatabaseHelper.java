@@ -541,7 +541,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 UsernameInDatabase = cursor.getString(0);
                 cursor.close();
-                if(UsernameInDatabase == username)
+                if(UsernameInDatabase.equalsIgnoreCase(username))
                 {
                     secretQuestionInDatabase = cursor.getString(1);
                     break;
