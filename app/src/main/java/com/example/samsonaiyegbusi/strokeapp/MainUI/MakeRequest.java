@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -247,16 +248,31 @@ public class MakeRequest extends AppCompatActivity implements Variable_Initialis
                 //call insert statement
 
                 // Locate the image in res > drawable-hdpi
-                Bitmap event_image = ((BitmapDrawable) requestImage.getDrawable()).getBitmap();
+                Bitmap bmpimage = ((BitmapDrawable) requestImage.getDrawable()).getBitmap();
                 // Convert it to byte
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
                 // Compress image to lower quality scale 1 - 100
-                event_image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                bmpimage.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] image = stream.toByteArray();
+
+                Bitmap b = BitmapFactory.decodeByteArray(image, 0, image.length);
+
+                Bitmap newbmp = Bitmap.createScaledBitmap(b, 300, 270, false);
+                ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
+
+                newbmp.compress(Bitmap.CompressFormat.PNG, 100, stream2);
+
+                byte[] resizedImage = stream2.toByteArray();
+
+
+
+
 
                 File file = new File(mFileName);
                 InputStream inStream ;
+
+
                 byte[] audiofile = null;
                 try {
                      inStream = new FileInputStream(file);
@@ -269,7 +285,7 @@ public class MakeRequest extends AppCompatActivity implements Variable_Initialis
 
 
                 DatabaseHelper dbInsert = DatabaseHelper.getInstance(this);
-                dbInsert.insertIntoRequestTable(requestName.getText().toString(), image, audiofile,1, dbInsert.getWritableDatabase());
+                dbInsert.insertIntoRequestTable(requestName.getText().toString(), resizedImage, audiofile,1, dbInsert.getWritableDatabase());
 
                 Toast.makeText(MakeRequest.this, "You have successfully added Request: "+requestName.getText().toString(), Toast.LENGTH_SHORT).show();
 
