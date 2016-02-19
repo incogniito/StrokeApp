@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import 	android.database.sqlite.SQLiteStatement;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import java.io.BufferedInputStream;
@@ -130,9 +133,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // method to insert into table
-    public long insertIntoCategoryTable(String CategoryName, byte[] categoryImage)
+    public long insertIntoCategoryTable(String CategoryName, byte[] categoryImage, SQLiteDatabase db)
     {
-        String sql  = "INSERT INTO " + CATEGORIES_TABLE_NAME + " (" + Category_Name + "," + Category_Image + ") VALUES("+null+",?,?)";
+        String sql  = "INSERT INTO " + CATEGORIES_TABLE_NAME + " (" + Category_Name + "," + Category_Image + ") VALUES(?,?)";
 
         insertStatement = db.compileStatement(sql);
         //this.insertStatement.bindString(0, null);
@@ -182,10 +185,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         while ((reader = inReader.readLine()) != null)
         {
             String[] rowData = reader.split(",");
-            byte[] rowImage = getImage(rowData[1]);
-            this.insertIntoCategoryTable(rowData[0],rowImage);
 
-            this.close();
+            Drawable drawable = C.getResources().getDrawable(C.getResources().getIdentifier(rowData[1], "drawable", C.getPackageName()));
+
+            Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] bitmapData = stream.toByteArray();
+
+            byte[] rowImage = bitmapData;
+            this.insertIntoCategoryTable(rowData[0],rowImage, db);
+
+           // this.close();
         }
 
     }
