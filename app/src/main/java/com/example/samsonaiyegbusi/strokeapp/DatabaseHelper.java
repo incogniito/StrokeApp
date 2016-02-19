@@ -125,11 +125,11 @@ public static DatabaseHelper dbhelper;
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        try {
-//            insertSubcategoriesFromCSV(db);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            insertSubcategoriesFromCSV(db);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 //        try {
 //            insertRequestsFromCSV(db);
 //        } catch (IOException e) {
@@ -406,6 +406,33 @@ public static DatabaseHelper dbhelper;
         }
 
         return categories;
+    }
+
+    public List<Subcategory> selectAllSubCategories()
+    {
+        List<Subcategory> subcategories = new ArrayList<Subcategory>();
+        String sql = "SELECT * FROM " +SUBCATEGORIES_TABLE_NAME;
+        Cursor c = db.rawQuery(sql, null);
+        if (c.moveToFirst())
+        {
+            int catID = c.getInt(0);
+            String catName = c.getString(1);
+            byte[] catImg = c.getBlob(2);
+            int parentcatImg = c.getInt(3);
+            Subcategory subcategory = new Subcategory(catID, catName, catImg, parentcatImg);
+            subcategories.add(subcategory);
+        }
+        while(c.moveToNext())
+        {
+            int catID = c.getInt(0);
+            String catName = c.getString(1);
+            byte[] catImg = c.getBlob(2);
+            int parentcatImg = c.getInt(3);
+            Subcategory subcategory = new Subcategory(catID, catName, catImg, parentcatImg);
+            subcategories.add(subcategory);
+        }
+
+        return subcategories;
     }
 
     public List<Subcategory> selectSubcategoriesByParent(int parentID)

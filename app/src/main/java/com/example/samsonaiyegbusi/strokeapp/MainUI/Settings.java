@@ -84,14 +84,14 @@ public class Settings extends AppCompatActivity {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     if(!scale.isChecked())
                     {
-                        int newh = 20;
-                        int neww = 20;
+                        int newh = 2;
+                        int neww = 2;
                         CustomImageView.setSizes(newh, neww);
                     }
                     else
                     {
-                        int newh = 50;
-                        int neww = 50;
+                        int newh = 2;
+                        int neww = 2;
                         CustomImageView.setSizes(newh, neww);
                     }
 

@@ -106,7 +106,6 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
                 }
 
                 break;
-
         }
     }
 
@@ -172,12 +171,12 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
        // final ImageView requestImage = (ImageView) view.findViewById(R.id.requestImage_iv);
-        final CustomTextView categoryName = (CustomTextView)view.findViewById(R.id.requestText_tv);
+        final CustomTextView categoryID = (CustomTextView)view.findViewById(R.id.ID_tv);
         //final TextView categoryName = (TextView) view.findViewById(R.id.requestText_tv);
 
-        String CategoryName = categoryName.getText().toString();
+        int CategoryID = Integer.parseInt(categoryID.getText().toString());
 
-        bundle.putString("categoryName", CategoryName);
+        bundle.putInt("categoryID", CategoryID);
 
         Intent nextPage = new Intent(this, CategoryChildActivity.class );
         nextPage.putExtras(bundle);

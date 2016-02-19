@@ -31,7 +31,7 @@ import java.io.IOException;
 
 public class MakeRequest extends AppCompatActivity implements Variable_Initialiser {
 
-    ImageView requestImage;
+    CustomImageView requestImage;
     EditText requestName;
     ImageButton deviceAudio_ib;
     ImageButton record_ib;
@@ -68,7 +68,7 @@ public class MakeRequest extends AppCompatActivity implements Variable_Initialis
 
     @Override
     public void VariableInitialiser() {
-        requestImage = (ImageView) findViewById(R.id.chosen_image_iv);
+        requestImage = (CustomImageView) findViewById(R.id.chosen_image_iv);
         requestImage.setOnClickListener(this);
 
         requestName = (EditText) findViewById(R.id.requestName_et);

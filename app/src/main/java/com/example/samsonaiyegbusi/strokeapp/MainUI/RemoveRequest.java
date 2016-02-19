@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -16,6 +17,8 @@ import com.example.samsonaiyegbusi.strokeapp.GettersAndSetters.Subcategory;
 import com.example.samsonaiyegbusi.strokeapp.R;
 import com.example.samsonaiyegbusi.strokeapp.SQL_Queries.GetCategories;
 import com.example.samsonaiyegbusi.strokeapp.SQL_Queries.GetRequests;
+import com.example.samsonaiyegbusi.strokeapp.Variable_Initialiser;
+
 import android.content.Context;
 import android.widget.Toast;
 
@@ -23,26 +26,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class RemoveRequest extends AppCompatActivity {
+public class RemoveRequest extends AppCompatActivity implements Variable_Initialiser {
 
-    DatabaseHelper dbHelp = new DatabaseHelper(this);
+    DatabaseHelper dbHelp ;
 
-    List<Request> requests = new ArrayList();
-    List<String> requestName = new ArrayList();
-    List<Categories> categories = new ArrayList();
-    List<String> categoryNameValue = new ArrayList();
-    List<Subcategory> subCategories = new ArrayList();
-    List<String> subCategoryNameValue = new ArrayList();
-    Spinner requestNames = (Spinner)findViewById(R.id.requests_spinner);
-    Button deleteReq = (Button) findViewById(R.id.delete_request);
-    Button deleteCat = (Button) findViewById(R.id.delete_category);
-    Spinner categoryNames = (Spinner) findViewById(R.id.cat_spinner);
-    Button deleteSubCat = (Button) findViewById(R.id.delete_sub_category);
-    Spinner subCategoryNames = (Spinner) findViewById(R.id.sub_cat_spinner);
+    List<Request> requests ;
+    List<String> requestName ;
+    List<Categories> categories ;
+    List<String> categoryNameValue ;
+    List<Subcategory> subCategories ;
+    List<String> subCategoryNameValue ;
+    Spinner requestNames ;
+    Button deleteReq ;
+    Button deleteCat ;
+    Spinner categoryNames;
+    Button deleteSubCat ;
+    Spinner subCategoryNames ;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_remove_request);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        VariableInitialiser();
 
         requests = dbHelp.selectAllRequests();
         categories = dbHelp.selectAllCategories();
@@ -171,5 +179,34 @@ public class RemoveRequest extends AppCompatActivity {
 
     }
 
+    @Override
+    public void VariableInitialiser() {
+
+       dbHelp = DatabaseHelper.getInstance(this);
+        categories = new ArrayList();
+        requests = new ArrayList();
+        requestName = new ArrayList();
+        categoryNameValue = new ArrayList();
+        subCategories = new ArrayList();
+        subCategoryNameValue = new ArrayList();
+        requestNames = (Spinner)findViewById(R.id.requests_spinner);
+        deleteReq = (Button) findViewById(R.id.delete_request);
+        deleteCat = (Button) findViewById(R.id.delete_category);
+         categoryNames = (Spinner) findViewById(R.id.cat_spinner);
+         deleteSubCat = (Button) findViewById(R.id.delete_sub_category);
+         subCategoryNames = (Spinner) findViewById(R.id.sub_cat_spinner);
+
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+    }
 }
 

@@ -59,6 +59,7 @@
         <activity
             android:name=".MainUI.RemoveRequest"
             android:label="@string/title_activity_resetPass"
+            android:parentActivityName=".MainUI.MainActivity"
             ></activity>
 
     </application>
