@@ -115,12 +115,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
         try {
-            insertSubcategoriesFromCSV();
+            insertSubcategoriesFromCSV(db);
         } catch (IOException e) {
             e.printStackTrace();
         }
         try {
-            insertRequestsFromCSV();
+            insertRequestsFromCSV(db);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -136,41 +136,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // method to insert into table
-    public void insertIntoCategoryTable(String categoryName, byte[] categoryImage, SQLiteDatabase currentdb)
+    public void insertIntoCategoryTable(String categoryName, byte[] categoryImage, SQLiteDatabase db)
     {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Category_Name,categoryName);
-        contentValues.put(Category_Image,categoryImage);
-        currentdb.insert(CATEGORIES_TABLE_NAME, null, contentValues);
+        contentValues.put(Category_Name, categoryName);
+        contentValues.put(Category_Image, categoryImage);
+        db.insert(CATEGORIES_TABLE_NAME, null, contentValues);
         Log.e("Database information", "One row inserted");
 
     }
-    public long insertIntoSubcategoryTable(String SubcategoryName, byte[] SubcategoryImage, int ParentID)
+    public void insertIntoSubcategoryTable(String subcategoryName, byte[] subcategoryImage, int parentID, SQLiteDatabase db)
     {
-        String sql  = "INSERT INTO " + SUBCATEGORIES_TABLE_NAME + " (" + SubCategory_Name + "," + SubCategory_Image + ") VALUES("+null+",?,?)";
-
-        insertStatement = db.compileStatement(sql);
-        //this.insertStatement.bindString(0, ID);
-        this.insertStatement.bindString(1, SubcategoryName);
-        this.insertStatement.bindBlob(2, SubcategoryImage);
-        //this.insertStatement.bindBlob(3, categoryAudio);
-        this.insertStatement.bindLong(3, ParentID);
-        db.close();
-        return this.insertStatement.executeInsert();
-
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(SubCategory_Name,subcategoryName);
+        contentValues.put(SubCategory_Image,subcategoryImage);
+        contentValues.put(SubCategory_ParentID,parentID);
+        db.insert(SUBCATEGORIES_TABLE_NAME, null, contentValues);
+        Log.e("Database information", "One row inserted");
     }
-    public long insertIntoRequestTable(String RequestName, byte[] RequestImage, byte[] RequestSound, int ParentID)
+    public void insertIntoRequestTable(String requestName, byte[] requestImage, byte[] requestSound, int parentID, SQLiteDatabase db)
     {
-        String sql  = "INSERT INTO " + SUBCATEGORIES_TABLE_NAME + " (" + SubCategory_Name + "," + SubCategory_Image + ") VALUES("+null+",?,?,?)";
-
-        insertStatement = db.compileStatement(sql);
-        //this.insertStatement.bindString(0, ID);
-        this.insertStatement.bindString(1, RequestName);
-        this.insertStatement.bindBlob(2, RequestImage);
-        this.insertStatement.bindBlob(3, RequestSound);
-        this.insertStatement.bindLong(4, ParentID);
-        db.close();
-        return this.insertStatement.executeInsert();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Request_Name,requestName);
+        contentValues.put(Request_Image,requestImage);
+        contentValues.put(Request_Audio,requestSound);
+        contentValues.put(Request_SubCat_ID,parentID);
+        db.insert(CATEGORIES_TABLE_NAME, null, contentValues);
+        Log.e("Database information", "One row inserted");
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -185,10 +177,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         while ((reader = inReader.readLine()) != null)
         {
             String[] rowData = reader.split(",");
-            //byte[] rowImage = getImage(rowData[1]);
-            //this.insertIntoCategoryTable(rowData[0],rowImage);
-            Drawable drawable = C.getDrawable(C.getResources().getIdentifier(rowData[1], "drawable", C.getPackageName()));
-            //Drawable drawable = C.getResources().getDrawable(C.getResources().getIdentifier(rowData[1], "drawable", C.getPackageName()));
+            Drawable drawable = C.getResources().getDrawable(C.getResources().getIdentifier(rowData[1], "drawable", C.getPackageName()));
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                drawable = C.getDrawable(C.getResources().getIdentifier(rowData[1], "drawable", C.getPackageName()));
+            }
 
             Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -203,37 +195,65 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void insertSubcategoriesFromCSV() throws IOException {
-        FileReader file = new FileReader("../../../assets/Subcategories.csv");
-        BufferedReader inReader = new BufferedReader(file);
+    public void insertSubcategoriesFromCSV(SQLiteDatabase db) throws IOException {
+        //FileReader file = new FileReader("../../../assets/Subcategories.csv");
+
+        InputStream istream = C.getAssets().open("Subcategories.csv");
+
+        BufferedReader inReader = new BufferedReader(new InputStreamReader(istream));
         String reader = "";
         db.beginTransaction();
         while ((reader = inReader.readLine()) != null)
         {
             String[] rowData = reader.split(",");
-            byte[] rowImage = getImage(rowData[1]);
-            this.insertIntoSubcategoryTable(rowData[0], rowImage, Integer.parseInt(rowData[2]));
+            Drawable drawable = C.getResources().getDrawable(C.getResources().getIdentifier(rowData[1], "drawable", C.getPackageName()));
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                drawable = C.getDrawable(C.getResources().getIdentifier(rowData[1], "drawable", C.getPackageName()));
+            }
+            Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] bitmapData = stream.toByteArray();
 
-            this.close();
+            byte[] rowImage = bitmapData;
+            this.insertIntoSubcategoryTable(rowData[0], rowImage, Integer.parseInt(rowData[2]), db);
+
+            // this.close();
         }
+
 
     }
 
-    public void insertRequestsFromCSV() throws IOException {
-        FileReader file = new FileReader("../../../assets/Requests.csv");
-        BufferedReader inReader = new BufferedReader(file);
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public void insertRequestsFromCSV(SQLiteDatabase db) throws IOException {
+        //FileReader file = new FileReader("../../../assets/Requests.csv");
+        InputStream istream = C.getAssets().open("Requests.csv");
+
+        BufferedReader inReader = new BufferedReader(new InputStreamReader(istream));
         String reader = "";
         db.beginTransaction();
         while ((reader = inReader.readLine()) != null)
         {
             String[] rowData = reader.split(",");
-            byte[] rowImage = getImage(rowData[1]);
-            byte[] rowAudio = getAudio(rowData[2]);
-            this.insertIntoRequestTable(rowData[0], rowImage, rowAudio, Integer.parseInt(rowData[2]));
+            Drawable drawable = C.getResources().getDrawable(C.getResources().getIdentifier(rowData[1], "drawable", C.getPackageName()));
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                drawable = C.getDrawable(C.getResources().getIdentifier(rowData[1], "drawable", C.getPackageName()));
+            }
 
-            this.close();
+            Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] bitmapData = stream.toByteArray();
+
+            byte[] rowImage = bitmapData;
+
+            InputStream inStream = C.getResources().openRawResource(R.raw.test);
+            byte[] rowAudio = new byte[inStream.available()];
+
+            this.insertIntoRequestTable(rowData[0], rowImage, rowAudio, Integer.parseInt(rowData[2]), db);
+
+            // this.close();
         }
-
     }
 
     public void Insert(String[] data)
