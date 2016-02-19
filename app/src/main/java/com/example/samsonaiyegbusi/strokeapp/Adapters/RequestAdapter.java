@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.samsonaiyegbusi.strokeapp.MainUI.CustomImageView;
 import com.example.samsonaiyegbusi.strokeapp.MainUI.CustomTextView;
 import com.example.samsonaiyegbusi.strokeapp.R;
 import com.example.samsonaiyegbusi.strokeapp.GettersAndSetters.Request;
@@ -59,7 +60,8 @@ public class RequestAdapter extends BaseAdapter {
             v = inflator.inflate(R.layout.requests, null);
         }
 
-        ImageView requestImage = (ImageView) v.findViewById(R.id.requestImage_iv);
+        CustomImageView requestImage = (CustomImageView)v.findViewById(R.id.requestImage_iv);
+        //ImageView requestImage = (ImageView) v.findViewById(R.id.requestImage_iv);
         CustomTextView requestText = (CustomTextView) v.findViewById(R.id.requestText_tv);
         TextView audioByteHolder = (TextView) v.findViewById(R.id.AudioBytes_tv);
         audioByteHolder.setVisibility(v.INVISIBLE);

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.samsonaiyegbusi.strokeapp.GettersAndSetters.Categories;
 import com.example.samsonaiyegbusi.strokeapp.GettersAndSetters.Subcategory;
+import com.example.samsonaiyegbusi.strokeapp.MainUI.CustomImageView;
 import com.example.samsonaiyegbusi.strokeapp.MainUI.CustomTextView;
 import com.example.samsonaiyegbusi.strokeapp.R;
 
@@ -56,7 +57,8 @@ public class SubCategoryAdapter extends BaseAdapter {
             v = inflator.inflate(R.layout.requests, null);
         }
 
-        ImageView categoryImage = (ImageView) v.findViewById(R.id.requestImage_iv);
+        CustomImageView categoryImage = (CustomImageView) v.findViewById(R.id.requestImage_iv);
+        //ImageView categoryImage = (ImageView) v.findViewById(R.id.requestImage_iv);
         CustomTextView categoryText = (CustomTextView) v.findViewById(R.id.requestText_tv);
         TextView ID_tv = (TextView) v.findViewById(R.id.ID_tv);
         ID_tv.setVisibility(v.INVISIBLE);
