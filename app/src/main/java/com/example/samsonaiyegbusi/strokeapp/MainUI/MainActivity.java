@@ -49,17 +49,19 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        //SQLiteDatabase databaseHelper = new DatabaseHelper(this).getWritableDatabase();
+
         VariableInitialiser();
         PopulateGridViewWithCategories();
 
         // create database at the start of the App
-        SQLiteDatabase databaseHelper = new DatabaseHelper(this).getWritableDatabase();
+
     }
 
     private void PopulateGridViewWithCategories(){
-        GetCategories categories = new GetCategories();
-
-        gridView.setAdapter(new CategoryAdapter(categories.categoryList(), this));
+DatabaseHelper dbCategories = new DatabaseHelper(this);
+        gridView.setAdapter(new CategoryAdapter(dbCategories.selectAllCategories(), this));
     }
 
     @Override

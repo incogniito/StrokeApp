@@ -17,6 +17,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
@@ -70,9 +71,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     String CategoriesTable;
     SQLiteStatement insertStatement;
 
+    Context C;
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
         db = this.getWritableDatabase();
+        this.C = context;
     }
 
     @Override
@@ -168,8 +172,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void insertCategoriesFromCSV() throws IOException {
-        FileReader file = new FileReader("../../../assets/Categories.CSV");
-        BufferedReader inReader = new BufferedReader(file);
+       // FileReader file = new FileReader("../../../assets/Categories.CSV");
+
+        InputStream istream = C.getAssets().open("Categories.txt");
+
+        BufferedReader inReader = new BufferedReader(new InputStreamReader(istream));
         String reader = "";
         db.beginTransaction();
         while ((reader = inReader.readLine()) != null)
