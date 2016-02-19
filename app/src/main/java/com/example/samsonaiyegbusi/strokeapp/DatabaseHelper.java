@@ -282,13 +282,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return baos.toByteArray(); // be sure to close InputStream in calling function
     }
 
-    public void Insert(String[] data)
-    {
-        insertStatement = db.compileStatement("INSERT INTO" + SUBCATEGORIES_TABLE_NAME + "VALUES(?,?)");
-        insertStatement.bindString(1, data[0]);
-        insertStatement.bindString(2, data[1]);
-        insertStatement.executeInsert();
-    }
+//    public void Insert(String[] data)
+//    {
+//        insertStatement = db.compileStatement("INSERT INTO" + SUBCATEGORIES_TABLE_NAME + "VALUES(?,?)");
+//        insertStatement.bindString(1, data[0]);
+//        insertStatement.bindString(2, data[1]);
+//        insertStatement.executeInsert();
+//    }
 
     public void insertIntoPasswordTable(String username, String userPassword, String secretQuestion, String secretAnswer)
     {
@@ -526,6 +526,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return byteAudio1;
     }
 
+    public String findSecretQuestion (String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columnNames = {Password_UserName,Password_SecretQuestion};
+
+
+        Cursor cursor = db.query(PASSWORD_TABLE,columnNames,null,null,null,null,null);
+
+        String UsernameInDatabase;
+        String secretQuestionInDatabase = "Secret question not found";
+
+        if (cursor.moveToFirst())
+        {
+            do {
+                UsernameInDatabase = cursor.getString(0);
+                cursor.close();
+                if(UsernameInDatabase == username)
+                {
+                    secretQuestionInDatabase = cursor.getString(1);
+                    break;
+                }
+            }while (cursor.moveToNext());
+
+        }
+
+        return secretQuestionInDatabase;
+    }
+
 
     public String findPassword (String username) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -552,5 +579,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         return passwordInDatabase;
+    }
+
+    public Boolean isPasswordSet()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT Password FROM PASSWORD_TABLE",null);
+
+        String PasswordInDatabase;
+        boolean isPasswordSetInDb = false;
+
+        if (cursor.moveToFirst())
+        {
+            do {
+
+                PasswordInDatabase = cursor.getString(0);
+                if(PasswordInDatabase != null)
+                {
+                    isPasswordSetInDb = true;
+                    break;
+                }
+                else
+                {
+                    isPasswordSetInDb = false;
+                }
+
+
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        return isPasswordSetInDb;
     }
 }
