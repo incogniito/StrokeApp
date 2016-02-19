@@ -538,12 +538,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst())
         {
+            System.out.println("YOU GOT HERE ------------------------");
             do {
                 UsernameInDatabase = cursor.getString(0);
-                cursor.close();
+                //cursor.close();
+                System.out.println("UsernameInDatabase : " + UsernameInDatabase + "-------------------" );
+                System.out.println("Username : " + username + "-------------------" );
+
                 if(UsernameInDatabase.equalsIgnoreCase(username))
                 {
                     secretQuestionInDatabase = cursor.getString(1);
+                    System.out.println("secretQuestionInDatabase : " + secretQuestionInDatabase + "-------------------" );
+
                     break;
                 }
             }while (cursor.moveToNext());

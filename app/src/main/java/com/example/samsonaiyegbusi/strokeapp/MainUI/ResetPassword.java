@@ -27,7 +27,11 @@ public class ResetPassword extends AppCompatActivity {
         Button submitQues = (Button) findViewById(R.id.sumbit_ques);
 
         DatabaseHelper db = DatabaseHelper.getInstance(this);
-        final String quesInDB = db.findSecretQuestion("ibiye");
+        EditText userName = (EditText)findViewById(R.id.user_fill);
+        String usrName = userName.getText().toString();
+        System.out.println("usrName : " + usrName + "-------------------" );
+
+        final String quesInDB = db.findSecretQuestion(usrName);
         //Need to get set question from database
         question.setText(quesInDB);
 
@@ -37,6 +41,7 @@ public class ResetPassword extends AppCompatActivity {
                 //Gets their answer
                 EditText ans = (EditText) findViewById(R.id.ques_ans);
                 String answer = ans.getText().toString();
+                System.out.println("answer : " + answer + "-------------------" );
 
                 EditText newPassword = (EditText) findViewById(R.id.editText3);
 
