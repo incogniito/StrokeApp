@@ -563,8 +563,7 @@ public static DatabaseHelper dbhelper;
     public String findPassword (String username) {
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columnNames = {Password_UserName,Password};
-        //String query = "select * from " + PASSWORD_TABLE ;
-        //+ " WHERE " + Password + " =  \"" + userPassword + "\"";
+
 
         Cursor cursor = db.query(PASSWORD_TABLE,columnNames,null,null,null,null,null);
 
@@ -585,6 +584,37 @@ public static DatabaseHelper dbhelper;
         }
 
         return passwordInDatabase;
+    }
+
+    public Boolean isPasswordSet()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT Password FROM PASSWORD_TABLE",null);
+
+        String PasswordInDatabase;
+        boolean isPasswordSetInDb = false;
+
+        if (cursor.moveToFirst())
+        {
+            do {
+
+                PasswordInDatabase = cursor.getString(0);
+                if(PasswordInDatabase != null)
+                {
+                    isPasswordSetInDb = true;
+                    break;
+                }
+            else
+                {
+                    isPasswordSetInDb = false;
+                }
+
+
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        return isPasswordSetInDb;
     }
 }
 
