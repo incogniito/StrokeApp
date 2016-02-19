@@ -19,8 +19,8 @@ import java.io.ByteArrayOutputStream;
  */
 public class CustomImageView extends ImageView {
 
-    static int newHeight = 500;
-    static int newWidth = 500;
+    static int newHeight = 300;
+    static int newWidth = 300;
 
     public CustomImageView(Context context)
     {
@@ -104,8 +104,8 @@ public class CustomImageView extends ImageView {
     public static void setSizes(int height, int width)
     {
 
-        newHeight =newHeight * height;
-        newWidth = newWidth* width;
+        newHeight = height;
+        newWidth =  width;
 
     }
 

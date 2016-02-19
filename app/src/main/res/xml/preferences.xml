@@ -17,6 +17,12 @@
             android:key="image_scale"
             android:defaultValue="false"/>
 
+        <ListPreference android:title="Select An Image Size"
+            android:entryValues="@array/image_value"
+            android:entries="@array/image_sizes"
+            android:summary="image_preference"
+            android:key="image_preference"/>
+
 
 </PreferenceCategory>
 
