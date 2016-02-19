@@ -259,13 +259,27 @@ public static DatabaseHelper dbhelper;
             byte[] rowImage = bitmapData;
 
             InputStream inStream = C.getResources().openRawResource(C.getResources().getIdentifier(rowData[2], "raw", C.getPackageName()));
-            byte[] rowAudio = new byte[inStream.available()];
+         //   byte[] rowAudio = new byte[inStream.available()];
+            byte[] rowAudio = convertStreamToByteArray(inStream);
+
+
 
             this.insertIntoRequestTable(rowData[0], rowImage, rowAudio, Integer.parseInt(rowData[3]), db);
 
             // this.close();
 
         }
+    }
+
+    public static byte[] convertStreamToByteArray(InputStream is) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buff = new byte[10240];
+        int i ;
+        while ((i = is.read(buff, 0, buff.length)) > 0) {
+            baos.write(buff, 0, i);
+        }
+
+        return baos.toByteArray(); // be sure to close InputStream in calling function
     }
 
     public void Insert(String[] data)
@@ -535,7 +549,6 @@ public static DatabaseHelper dbhelper;
                     break;
                 }
             }while (cursor.moveToNext());
-
         }
 
         return passwordInDatabase;

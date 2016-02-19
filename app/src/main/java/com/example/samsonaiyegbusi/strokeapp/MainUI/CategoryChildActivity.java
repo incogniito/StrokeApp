@@ -77,4 +77,6 @@ public class CategoryChildActivity extends AppCompatActivity implements Variable
         startActivity(nextPage);
 
     }
+
+
 }

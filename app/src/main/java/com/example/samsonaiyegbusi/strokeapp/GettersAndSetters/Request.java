@@ -17,7 +17,7 @@ public class Request
 
     }
 
-    public Request(int newID, String newName, byte[] newSound, byte[] newImage, int newSubcatID)
+    public Request(int newID, String newName, byte[] newImage, byte[] newSound, int newSubcatID)
     {
         id = newID; //Would this be auto-generated?
         name = newName;
