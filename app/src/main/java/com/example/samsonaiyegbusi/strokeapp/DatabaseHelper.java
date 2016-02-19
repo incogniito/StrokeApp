@@ -174,7 +174,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void insertCategoriesFromCSV(SQLiteDatabase db) throws IOException {
        // FileReader file = new FileReader("../../../assets/Categories.CSV");
 
-        InputStream istream = C.getAssets().open("Categories.txt");
+        InputStream istream = C.getAssets().open("Categories.csv");
 
         BufferedReader inReader = new BufferedReader(new InputStreamReader(istream));
         String reader = "";
