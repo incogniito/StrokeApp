@@ -75,8 +75,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        C = context;
         db = this.getWritableDatabase();
-        this.C = context;
     }
 
     @Override
@@ -104,7 +104,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String secrtAns = "Rice";
        // insertIntoPasswordTable(usName,usPass,secretQues,secrtAns);
         try {
-            insertCategoriesFromCSV();
+            insertCategoriesFromCSV(db);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -171,7 +171,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return this.insertStatement.executeInsert();
     }
 
-    public void insertCategoriesFromCSV() throws IOException {
+    public void insertCategoriesFromCSV(SQLiteDatabase db) throws IOException {
        // FileReader file = new FileReader("../../../assets/Categories.CSV");
 
         InputStream istream = C.getAssets().open("Categories.txt");
