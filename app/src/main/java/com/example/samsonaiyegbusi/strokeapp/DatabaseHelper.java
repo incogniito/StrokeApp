@@ -85,14 +85,18 @@ public static DatabaseHelper dbhelper;
 
     SQLiteDatabase db;
     String CategoriesTable;
-    SQLiteStatement insertStatement;
+
 
     Context C;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
         C = context;
-        db = this.getWritableDatabase();
+        if(db == null)
+        {
+            db = this.getWritableDatabase();
+        }
+
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -109,7 +113,7 @@ public static DatabaseHelper dbhelper;
         db.execSQL(subCategoriesTable);
         db.execSQL(requestsTable);
         db.execSQL(PasswordTable);
-
+        this.db = db;
 
         Log.e("Database information", "Tables created");
 
@@ -121,6 +125,8 @@ public static DatabaseHelper dbhelper;
         String secrtAns = "Rice";
 
         try {
+
+            insertIntoPasswordTable(usName, usPass, secretQues, secrtAns);
             insertCategoriesFromCSV(db);
         } catch (IOException e) {
             e.printStackTrace();
@@ -282,13 +288,13 @@ public static DatabaseHelper dbhelper;
         return baos.toByteArray(); // be sure to close InputStream in calling function
     }
 
-    public void Insert(String[] data)
-    {
-        insertStatement = db.compileStatement("INSERT INTO" + SUBCATEGORIES_TABLE_NAME + "VALUES(?,?)");
-        insertStatement.bindString(1, data[0]);
-        insertStatement.bindString(2, data[1]);
-        insertStatement.executeInsert();
-    }
+//    public void Insert(String[] data)
+//    {
+//        insertStatement = db.compileStatement("INSERT INTO" + SUBCATEGORIES_TABLE_NAME + "VALUES(?,?)");
+//        insertStatement.bindString(1, data[0]);
+//        insertStatement.bindString(2, data[1]);
+//        insertStatement.executeInsert();
+//    }
 
     public void insertIntoPasswordTable(String username, String userPassword, String secretQuestion, String secretAnswer)
     {
@@ -298,7 +304,7 @@ public static DatabaseHelper dbhelper;
         contentValues.put(Password_SecretQuestion, secretQuestion);
         contentValues.put(Password_SecretAnswer, secretAnswer);
         db.insert(PASSWORD_TABLE, null, contentValues);
-        Log.e("Database information", "One row inserted");
+        Log.e("Database information", "One row inserted Password table");
     }
 
 
@@ -527,22 +533,49 @@ public static DatabaseHelper dbhelper;
     }
 
 
-    public String findPassword (String username) {
+    public String findSecretQuestion (String username) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] columnNames = {Password_UserName,Password};
-        //String query = "select * from " + PASSWORD_TABLE ;
-                //+ " WHERE " + Password + " =  \"" + userPassword + "\"";
+        String[] columnNames = {Password_UserName,Password_SecretQuestion};
+
 
         Cursor cursor = db.query(PASSWORD_TABLE,columnNames,null,null,null,null,null);
 
        String UsernameInDatabase;
-       String passwordInDatabase = "Password not found";
+       String secretQuestionInDatabase = "Secret question not found";
 
             if (cursor.moveToFirst())
             {
                 do {
                 UsernameInDatabase = cursor.getString(0);
             cursor.close();
+                if(UsernameInDatabase == username)
+                {
+                    secretQuestionInDatabase = cursor.getString(1);
+                    break;
+                }
+            }while (cursor.moveToNext());
+
+        }
+
+        return secretQuestionInDatabase;
+    }
+
+    public String findPassword (String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columnNames = {Password_UserName,Password};
+        //String query = "select * from " + PASSWORD_TABLE ;
+        //+ " WHERE " + Password + " =  \"" + userPassword + "\"";
+
+        Cursor cursor = db.query(PASSWORD_TABLE,columnNames,null,null,null,null,null);
+
+        String UsernameInDatabase;
+        String passwordInDatabase = "Password not found";
+
+        if (cursor.moveToFirst())
+        {
+            do {
+                UsernameInDatabase = cursor.getString(0);
+                cursor.close();
                 if(UsernameInDatabase == username)
                 {
                     passwordInDatabase = cursor.getString(1);

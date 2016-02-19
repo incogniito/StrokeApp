@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
 
     GridView gridView;
     ImageButton config_ib;
-    boolean passwordSet;
+    boolean passwordSet = false;
     ImageButton alarm_ib;
 
     Bundle bundle;

@@ -1,6 +1,8 @@
 package com.example.samsonaiyegbusi.strokeapp.MainUI;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,36 +14,49 @@ import android.widget.Spinner;
 import com.example.samsonaiyegbusi.strokeapp.DatabaseHelper;
 import com.example.samsonaiyegbusi.strokeapp.R;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AddPassword extends AppCompatActivity {
-
-    DatabaseHelper dbHelper;
+    Context C;
+    SQLiteDatabase dbHelper;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        List questions = new ArrayList();
+
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new InputStreamReader(getAssets().open("SecretQuestions.csv")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            String csvLine;
+            while ((csvLine = reader.readLine()) != null) {
+                String[] row = csvLine.split(",");
+                questions.add(row);
+            }
+        }
+        catch (IOException ex) {
+            throw new RuntimeException("Error in reading CSV file: "+ex);
+        }
         setContentView(R.layout.set_password);
         final Spinner quesSpinner = (Spinner)findViewById(R.id.ques_spinner);
         Button goButton = (Button) findViewById(R.id.new_password);
 
-        String qOne = "Name of your first pet?";
-        String qTwo = "Name of the street you live on";
-        String qThree = "What is your favourite animal?";
-
-        List<String> questions = new ArrayList<String>();
-        questions.add(qOne);
-        questions.add(qTwo);
-        questions.add(qThree);
-
         ArrayAdapter<String> adaptSpinner = new ArrayAdapter<String>(this,   android.R.layout.simple_spinner_item, questions);
+
         adaptSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         quesSpinner.setAdapter(adaptSpinner);
 
 
 
-        dbHelper = new DatabaseHelper(this);
-        dbHelper.getDatabaseName();
+
 
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,8 +73,8 @@ public class AddPassword extends AppCompatActivity {
                 String answer = quesAns.getText().toString();
                 String selected = String.valueOf(quesSpinner.getSelectedItem());
 
-                dbHelper.insertIntoPasswordTable(userNameInput,passwordInput,selected,answer);
-                dbHelper.close();
+                //call the insertIntoPasswordTable(userNameInput,passwordInput,selected,answer);
+
 
                 //CHECK SQL BASE FOR ANSWER
                 //IF THEY MATCH REPLACE THE PASSWORD WITH THE NEW ONE
