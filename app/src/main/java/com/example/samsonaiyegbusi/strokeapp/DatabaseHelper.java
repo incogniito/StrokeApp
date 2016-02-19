@@ -70,7 +70,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String Password_SecretQuestion = "SecretQuestion";
     public static final String Password_SecretAnswer = "SecretAnswer";
 
+public static DatabaseHelper dbhelper;
 
+    public static synchronized DatabaseHelper getInstance(Context context) {
+
+        // Use the application context, which will ensure that you
+        // don't accidentally leak an Activity's context.
+        // See this article for more information: http://bit.ly/6LRzfx
+        if (dbhelper == null) {
+            dbhelper = new DatabaseHelper(context.getApplicationContext());
+        }
+        return dbhelper;
+    }
 
     SQLiteDatabase db;
     String CategoriesTable;

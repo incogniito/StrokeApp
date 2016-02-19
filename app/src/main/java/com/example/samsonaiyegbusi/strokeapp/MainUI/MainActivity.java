@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
 
 
     private void PopulateGridViewWithCategories(){
- dbCategories = new DatabaseHelper(this);
+         dbCategories = DatabaseHelper.getInstance(this);
         gridView.setAdapter(new CategoryAdapter(dbCategories.selectAllCategories(), this));
     }
 
@@ -178,7 +178,6 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
         String CategoryName = categoryName.getText().toString();
 
         bundle.putString("categoryName", CategoryName);
-
 
         Intent nextPage = new Intent(this, CategoryChildActivity.class );
         nextPage.putExtras(bundle);

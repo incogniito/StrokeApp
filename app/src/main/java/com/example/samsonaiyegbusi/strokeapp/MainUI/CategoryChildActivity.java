@@ -51,7 +51,7 @@ public class CategoryChildActivity extends AppCompatActivity implements Variable
 
     private void PopulateGridViewWithChildCategories(){
 
-        DatabaseHelper dbSubcategory = new DatabaseHelper(this);
+        DatabaseHelper dbSubcategory = DatabaseHelper.getInstance(this);
 
         gridView.setAdapter(new SubCategoryAdapter(dbSubcategory.selectSubcategoriesByParent(bundle.getInt("categoryID")), this));
     }
