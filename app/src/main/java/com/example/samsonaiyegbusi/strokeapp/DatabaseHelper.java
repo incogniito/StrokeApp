@@ -1,5 +1,6 @@
 package com.example.samsonaiyegbusi.strokeapp;
 
+import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,6 +10,7 @@ import 	android.database.sqlite.SQLiteStatement;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.Log;
 
 import java.io.BufferedInputStream;
@@ -82,6 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db = this.getWritableDatabase();
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(SQLiteDatabase db) {
         CategoriesTable = "create table if not exists " + CATEGORIES_TABLE_NAME + " ( " + ID_Column +  " INTEGER PRIMARY KEY AUTOINCREMENT," + Category_Name + " TEXT," + Category_Image + " BLOB);";
@@ -106,6 +109,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String secretQues = "Favourite food";
         String secrtAns = "Rice";
        // insertIntoPasswordTable(usName,usPass,secretQues,secrtAns);
+        Drawable drawable = C.getDrawable(R.drawable.food);
+
+        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] bitmapdata = stream.toByteArray();
+        insertIntoCategoryTable("Food", bitmapdata, db);
+
         try {
             insertCategoriesFromCSV(db);
         } catch (IOException e) {
@@ -133,17 +144,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // method to insert into table
-    public long insertIntoCategoryTable(String CategoryName, byte[] categoryImage, SQLiteDatabase db)
+    public void insertIntoCategoryTable(String categoryName, byte[] categoryImage, SQLiteDatabase currentdb)
     {
-        String sql  = "INSERT INTO " + CATEGORIES_TABLE_NAME + " (" + Category_Name + "," + Category_Image + ") VALUES(?,?)";
-
-        insertStatement = db.compileStatement(sql);
-        //this.insertStatement.bindString(0, null);
-        this.insertStatement.bindString(1, CategoryName);
-        this.insertStatement.bindBlob(2, categoryImage);
-        //this.insertStatement.bindBlob(3, categoryAudio);
-        db.close();
-        return this.insertStatement.executeInsert();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Category_Name,categoryName);
+        contentValues.put(Category_Image,categoryImage);
+        currentdb.insert(CATEGORIES_TABLE_NAME, null, contentValues);
+        Log.e("Database information", "One row inserted");
 
     }
     public long insertIntoSubcategoryTable(String SubcategoryName, byte[] SubcategoryImage, int ParentID)
@@ -185,18 +192,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         while ((reader = inReader.readLine()) != null)
         {
             String[] rowData = reader.split(",");
+            byte[] rowImage = getImage(rowData[1]);
+            //this.insertIntoCategoryTable(rowData[0],rowImage);
 
-            Drawable drawable = C.getResources().getDrawable(C.getResources().getIdentifier(rowData[1], "drawable", C.getPackageName()));
-
-            Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            byte[] bitmapData = stream.toByteArray();
-
-            byte[] rowImage = bitmapData;
-            this.insertIntoCategoryTable(rowData[0],rowImage, db);
-
-           // this.close();
+            this.close();
         }
 
     }
@@ -256,8 +255,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Password_UserName,username);
         contentValues.put(Password,userPassword);
-        contentValues.put(Password_SecretQuestion,secretQuestion);
-        contentValues.put(Password_SecretAnswer,secretAnswer);
+        contentValues.put(Password_SecretQuestion, secretQuestion);
+        contentValues.put(Password_SecretAnswer, secretAnswer);
         db.insert(PASSWORD_TABLE, null, contentValues);
         Log.e("Database information", "One row inserted");
     }
