@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.samsonaiyegbusi.strokeapp.Adapters.RequestAdapter;
 import com.example.samsonaiyegbusi.strokeapp.DatabaseHelper;
+import com.example.samsonaiyegbusi.strokeapp.GettersAndSetters.Request;
 import com.example.samsonaiyegbusi.strokeapp.R;
 import com.example.samsonaiyegbusi.strokeapp.SQL_Queries.GetRequests;
 import com.example.samsonaiyegbusi.strokeapp.Variable_Initialiser;
@@ -43,6 +45,8 @@ public class RequestsActivity extends AppCompatActivity implements Variable_Init
         VariableInitialiser();
         PopulateGridViewWithRequests();
 
+
+
     }
 
     @Override
@@ -55,6 +59,8 @@ public class RequestsActivity extends AppCompatActivity implements Variable_Init
 
         Intent intent = getIntent();
         bundle = intent.getExtras();
+
+
     }
 
     private void PopulateGridViewWithRequests(){
@@ -78,6 +84,10 @@ public class RequestsActivity extends AppCompatActivity implements Variable_Init
         playMp3(audioBytes);
     }
 
+
+
+
+
     private void playMp3(byte[] mp3SoundByteArray) {
         try {
             File temp = File.createTempFile("requestSound", "mp3", getCacheDir());
@@ -99,5 +109,27 @@ public class RequestsActivity extends AppCompatActivity implements Variable_Init
             String s = ex.toString();
             ex.printStackTrace();
         }
+
+
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == android.R.id.home) {
+            Intent intent = new Intent(RequestsActivity.this, CategoryChildActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }
