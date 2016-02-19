@@ -555,6 +555,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public String findPassword (String username) {
+
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columnNames = {Password_UserName,Password};
         //String query = "select * from " + PASSWORD_TABLE ;
@@ -569,9 +570,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         {
             do {
                 UsernameInDatabase = cursor.getString(0);
-                cursor.close();
-                if(UsernameInDatabase == username)
+               // cursor.close();
+                if(UsernameInDatabase.equalsIgnoreCase(username))
                 {
+
                     passwordInDatabase = cursor.getString(1);
                     break;
                 }
@@ -585,7 +587,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT Password FROM PASSWORD_TABLE",null);
+        Cursor cursor = db.rawQuery("SELECT Password FROM PASSWORD_TABLE", null);
 
         String PasswordInDatabase;
         boolean isPasswordSetInDb = false;

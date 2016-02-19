@@ -83,6 +83,7 @@ public class AddPassword extends AppCompatActivity {
                 //given question
                 String selected = String.valueOf(quesSpinner.getSelectedItem());
 
+                System.out.println("<--------------------YOURE ADDING : " + userNameInput +  passwordInput + selected + answer + "---------------");
                 dbHelp.insertIntoPasswordTable(userNameInput, passwordInput, selected, answer);
 
 
