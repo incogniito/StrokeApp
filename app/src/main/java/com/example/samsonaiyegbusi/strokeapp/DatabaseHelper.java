@@ -193,7 +193,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         while ((reader = inReader.readLine()) != null)
         {
             String[] rowData = reader.split(",");
-            Drawable drawable = C.getDrawable(R.drawable.food);
+            //byte[] rowImage = getImage(rowData[1]);
+            //this.insertIntoCategoryTable(rowData[0],rowImage);
+            Drawable drawable = C.getDrawable(C.getResources().getIdentifier(rowData[1], "drawable", C.getPackageName()));
+            //Drawable drawable = C.getResources().getDrawable(C.getResources().getIdentifier(rowData[1], "drawable", C.getPackageName()));
 
             Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
