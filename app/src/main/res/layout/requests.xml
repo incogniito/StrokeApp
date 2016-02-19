@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/requestImage_iv"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.37" />
+        android:layout_weight="0.37"
+        android:background="#00ffffff" />
 
     <com.example.samsonaiyegbusi.strokeapp.MainUI.CustomTextView
         android:layout_width="wrap_content"

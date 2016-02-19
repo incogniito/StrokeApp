@@ -26,9 +26,6 @@ public class Settings extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-
-
     }
 
     public static class settingsFrag extends PreferenceFragment {

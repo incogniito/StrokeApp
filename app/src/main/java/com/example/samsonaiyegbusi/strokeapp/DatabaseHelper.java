@@ -114,16 +114,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try {
-            insertSubcategoriesFromCSV(db);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            insertRequestsFromCSV(db);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            insertSubcategoriesFromCSV(db);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            insertRequestsFromCSV(db);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override

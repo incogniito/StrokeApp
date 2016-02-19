@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
     int AlarmCounter;
     MediaPlayer alarm;
 
+    DatabaseHelper dbCategories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +60,9 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
 
     }
 
+
     private void PopulateGridViewWithCategories(){
-DatabaseHelper dbCategories = new DatabaseHelper(this);
+ dbCategories = new DatabaseHelper(this);
         gridView.setAdapter(new CategoryAdapter(dbCategories.selectAllCategories(), this));
     }
 
@@ -176,6 +178,7 @@ DatabaseHelper dbCategories = new DatabaseHelper(this);
         String CategoryName = categoryName.getText().toString();
 
         bundle.putString("categoryName", CategoryName);
+
 
         Intent nextPage = new Intent(this, CategoryChildActivity.class );
         nextPage.putExtras(bundle);

@@ -31,6 +31,8 @@ public class CategoryChildActivity extends AppCompatActivity implements Variable
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         VariableInitialiser();
         PopulateGridViewWithChildCategories();
     }

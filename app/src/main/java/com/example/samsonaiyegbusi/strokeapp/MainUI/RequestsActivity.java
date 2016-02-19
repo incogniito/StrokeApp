@@ -38,6 +38,8 @@ public class RequestsActivity extends AppCompatActivity implements Variable_Init
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         VariableInitialiser();
         PopulateGridViewWithRequests();
 
