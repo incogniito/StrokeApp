@@ -172,7 +172,7 @@ public static DatabaseHelper dbhelper;
         contentValues.put(Request_Image,requestImage);
         contentValues.put(Request_Audio,requestSound);
         contentValues.put(Request_SubCat_ID,parentID);
-        db.insert(CATEGORIES_TABLE_NAME, null, contentValues);
+        db.insert(REQUESTS_TABLE_NAME, null, contentValues);
         Log.e("Database information", "One row inserted");
     }
 
@@ -308,6 +308,7 @@ public static DatabaseHelper dbhelper;
             Request request = new Request(reqID, reqName, reqImg, reqAud, reqSubCat);
             return request;
         }
+        c.close();
         Request request = new Request();
         return request;
     }
@@ -337,6 +338,7 @@ public static DatabaseHelper dbhelper;
             Request request = new Request(reqID, reqName, reqImg, reqAud, reqSubCat);
             requests.add(request);
         }
+        c.close();
         return requests;
     }
 
@@ -366,6 +368,7 @@ public static DatabaseHelper dbhelper;
             Request request = new Request(reqID, reqName, reqImg, reqAud, reqSubCat);
             requests.add(request);
         }
+        c.close();
         return requests;
     }
 
@@ -405,7 +408,7 @@ public static DatabaseHelper dbhelper;
             Categories category = new Categories(catID, catName, catImg);
             categories.add(category);
         }
-
+        c.close();
         return categories;
     }
 
@@ -432,7 +435,7 @@ public static DatabaseHelper dbhelper;
             Subcategory subcategory = new Subcategory(catID, catName, catImg, parentcatImg);
             subcategories.add(subcategory);
         }
-
+        c.close();
         return subcategories;
     }
 
@@ -460,7 +463,7 @@ public static DatabaseHelper dbhelper;
             Subcategory subcategory = new Subcategory(subcatID, subcatName, subcatImg, subcatParent);
             subcategories.add(subcategory);
         }
-
+        c.close();
         return subcategories;
     }
 
