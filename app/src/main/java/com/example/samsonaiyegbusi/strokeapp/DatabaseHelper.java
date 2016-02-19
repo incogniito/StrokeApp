@@ -105,7 +105,7 @@ public static DatabaseHelper dbhelper;
         CategoriesTable = "create table if not exists " + CATEGORIES_TABLE_NAME + " ( " + ID_Column +  " INTEGER PRIMARY KEY AUTOINCREMENT," + Category_Name + " TEXT," + Category_Image + " BLOB);";
         String subCategoriesTable = "create table if not exists " + SUBCATEGORIES_TABLE_NAME + " ( " + SubCategoryID_Column +  " INTEGER PRIMARY KEY AUTOINCREMENT," + SubCategory_Name + " TEXT," + SubCategory_Image + " BLOB," + SubCategory_ParentID + " INTEGER,"
                 + " FOREIGN KEY ("+ SubCategory_ParentID +") REFERENCES "+ SUBCATEGORIES_TABLE_NAME+"("+ID_Column+"));";
-        String requestsTable = "create table if not exists " + REQUESTS_TABLE_NAME + " ( " + Request_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + Request_Name + " TEXT," + Request_Image + " TEXT," + Request_Audio + " TEXT," + Request_SubCat_ID + " INTEGER,"
+        String requestsTable = "create table if not exists " + REQUESTS_TABLE_NAME + " ( " + Request_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + Request_Name + " TEXT," + Request_Image + " BLOB," + Request_Audio + " BLOB," + Request_SubCat_ID + " INTEGER,"
                 + " FOREIGN KEY ("+Request_SubCat_ID+") REFERENCES " + REQUESTS_TABLE_NAME+"("+SubCategoryID_Column+"));";
         String PasswordTable  = "create table if not exists " + PASSWORD_TABLE + " ( " + Password_ID +  " INTEGER PRIMARY KEY AUTOINCREMENT," + Password_UserName + " TEXT," + Password + " TEXT," + Password_SecretQuestion + " TEXT," + Password_SecretAnswer + " TEXT);";
         db.execSQL("PRAGMA foreign_keys=ON;");
@@ -113,20 +113,18 @@ public static DatabaseHelper dbhelper;
         db.execSQL(subCategoriesTable);
         db.execSQL(requestsTable);
         db.execSQL(PasswordTable);
-        this.db = db;
+
 
         Log.e("Database information", "Tables created");
 
         // insert values
-       // insertIntoCategoryTable("Food",foodImage);
+        // insertIntoCategoryTable("Food",foodImage);
         String usName = "ibiye";
         String usPass = "b";
         String secretQues = "Favourite food";
         String secrtAns = "Rice";
 
         try {
-
-            insertIntoPasswordTable(usName, usPass, secretQues, secrtAns);
             insertCategoriesFromCSV(db);
         } catch (IOException e) {
             e.printStackTrace();
@@ -171,7 +169,7 @@ public static DatabaseHelper dbhelper;
         db.insert(SUBCATEGORIES_TABLE_NAME, null, contentValues);
         Log.e("Database information", "One row inserted");
     }
-    public void insertIntoRequestTable(String requestName, String requestImage, String requestSound, int parentID, SQLiteDatabase db)
+    public void insertIntoRequestTable(String requestName, byte[] requestImage, byte[] requestSound, int parentID, SQLiteDatabase db)
     {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Request_Name,requestName);
@@ -241,6 +239,7 @@ public static DatabaseHelper dbhelper;
 
     }
 
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void insertRequestsFromCSV(SQLiteDatabase db) throws IOException {
         //FileReader file = new FileReader("../../../assets/Requests.csv");
@@ -252,7 +251,7 @@ public static DatabaseHelper dbhelper;
         while ((reader = inReader.readLine()) != null)
         {
             String[] rowData = reader.split(",");
-            /*Drawable drawable = C.getResources().getDrawable(C.getResources().getIdentifier(rowData[1], "drawable", C.getPackageName()));
+            Drawable drawable = C.getResources().getDrawable(C.getResources().getIdentifier(rowData[1], "drawable", C.getPackageName()));
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                 drawable = C.getDrawable(C.getResources().getIdentifier(rowData[1], "drawable", C.getPackageName()));
             }
@@ -265,11 +264,10 @@ public static DatabaseHelper dbhelper;
             byte[] rowImage = bitmapData;
 
             InputStream inStream = C.getResources().openRawResource(C.getResources().getIdentifier(rowData[2], "raw", C.getPackageName()));
-         //   byte[] rowAudio = new byte[inStream.available()];
-            byte[] rowAudio = convertStreamToByteArray(inStream);*/
+            //   byte[] rowAudio = new byte[inStream.available()];
+            byte[] rowAudio = convertStreamToByteArray(inStream);
 
-            String rowImage = rowData[1];
-            String rowAudio = rowData[2];
+
 
             this.insertIntoRequestTable(rowData[0], rowImage, rowAudio, Integer.parseInt(rowData[3]), db);
 
@@ -277,6 +275,7 @@ public static DatabaseHelper dbhelper;
 
         }
     }
+
 
     public static byte[] convertStreamToByteArray(InputStream is) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
