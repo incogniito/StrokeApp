@@ -153,7 +153,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(Category_Name, categoryName);
         contentValues.put(Category_Image, categoryImage);
         db.insert(CATEGORIES_TABLE_NAME, null, contentValues);
-        Log.e("Database information", "One row inserted");
+        Log.e("Database information", categoryName+" inserted");
 
     }
     public void insertIntoSubcategoryTable(String subcategoryName, byte[] subcategoryImage, int parentID, SQLiteDatabase db)
@@ -163,7 +163,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(SubCategory_Image,subcategoryImage);
         contentValues.put(SubCategory_ParentID,parentID);
         db.insert(SUBCATEGORIES_TABLE_NAME, null, contentValues);
-        Log.e("Database information", "One row inserted");
+        Log.e("Database information", subcategoryName + " inserted");
     }
     public void insertIntoRequestTable(String requestName, byte[] requestImage, byte[] requestSound, int parentID, SQLiteDatabase db)
     {
@@ -173,7 +173,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(Request_Audio,requestSound);
         contentValues.put(Request_SubCat_ID,parentID);
         db.insert(REQUESTS_TABLE_NAME, null, contentValues);
-        Log.e("Database information", "One row inserted");
+        Log.e("Database information", requestName+" inserted");
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -269,6 +269,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // this.close();
 
         }
+        Log.e("Database information", "Tables populated");
     }
 
     public static byte[] convertStreamToByteArray(InputStream is) throws IOException {
