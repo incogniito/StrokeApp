@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 if (items[item].equals("Make a Request")) {
-                    Intent MakeRequest = new Intent(MainActivity.this, MakeRequest.class);
+                    Intent MakeRequest = new Intent(MainActivity.this, ChooseCategory.class);
                     startActivity(MakeRequest);
 
                 } else if (items[item].equals("Remove a Request")) {

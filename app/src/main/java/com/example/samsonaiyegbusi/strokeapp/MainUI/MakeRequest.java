@@ -54,7 +54,7 @@ public class MakeRequest extends AppCompatActivity implements Variable_Initialis
     CustomTextView play;
     CustomTextView stop;
 
-
+Bundle bundle;
     private MediaRecorder myAudioRecorder;
     private static String mFileName = null;
 
@@ -73,6 +73,7 @@ public class MakeRequest extends AppCompatActivity implements Variable_Initialis
 
         VariableInitialiser();
         audioSetup();
+
 
     }
 
@@ -109,7 +110,8 @@ public class MakeRequest extends AppCompatActivity implements Variable_Initialis
         addRequest_bt = (Button) findViewById(R.id.add_reques_bt);
         addRequest_bt.setOnClickListener(this);
 
-
+Intent intent = getIntent();
+        bundle = intent.getExtras();
     }
 
     private void imageOptions() {
@@ -284,8 +286,21 @@ public class MakeRequest extends AppCompatActivity implements Variable_Initialis
                 }
 
 
+byte[] subgategoryIMg = bundle.getByteArray("categoryImg");
+int parentID = bundle.getInt("parentID");
+int childID = bundle.getInt("subcategoryID");
+String subCategoryName = bundle.getString("subcategoryName");
+
+
+
                 DatabaseHelper dbInsert = DatabaseHelper.getInstance(this);
-                dbInsert.insertIntoRequestTable(requestName.getText().toString(), resizedImage, audiofile,1, dbInsert.getWritableDatabase());
+
+                if (subgategoryIMg != null)
+                {
+                    dbInsert.insertIntoSubcategoryTable(subCategoryName, subgategoryIMg, parentID, dbInsert.getWritableDatabase());
+                }
+
+                dbInsert.insertIntoRequestTable(requestName.getText().toString(), resizedImage, audiofile,childID, dbInsert.getWritableDatabase());
 
                 Toast.makeText(MakeRequest.this, "You have successfully added Request: "+requestName.getText().toString(), Toast.LENGTH_SHORT).show();
 

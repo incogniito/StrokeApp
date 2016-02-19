@@ -9,5 +9,6 @@
     <string name="title_activity_setPass">Login</string>
     <string name="title_activity_addPass">Add Password</string>
     <string name="title_activity_resetPass">Reset Password</string>
+    <string name="title_activity_choose_category">ChooseCategory</string>
 
 </resources>

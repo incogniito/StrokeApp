@@ -3,10 +3,9 @@
     package="com.example.samsonaiyegbusi.strokeapp">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
-
 
     <application
         android:allowBackup="true"
@@ -27,41 +26,39 @@
         <activity
             android:name=".MainUI.CategoryChildActivity"
             android:label="@string/title_activity_category_child"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".MainUI.MainActivity"/>
+            android:parentActivityName=".MainUI.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainUI.RequestsActivity"
             android:label="@string/title_activity_requests"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".MainUI.CategoryChildActivity"/>
+            android:parentActivityName=".MainUI.CategoryChildActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainUI.MakeRequest"
             android:label="@string/title_activity_make_request"
             android:parentActivityName=".MainUI.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainUI.Settings"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainUI.MainActivity"
-            ></activity>
+            android:parentActivityName=".MainUI.MainActivity" />
         <activity
             android:name=".MainUI.PasswordSettings"
-            android:label="@string/title_activity_setPass"
-            ></activity>
+            android:label="@string/title_activity_setPass" />
         <activity
             android:name=".MainUI.AddPassword"
-            android:label="@string/title_activity_addPass"
-            ></activity>
+            android:label="@string/title_activity_addPass" />
         <activity
             android:name=".MainUI.ResetPassword"
-            android:label="@string/title_activity_resetPass"
-            ></activity>
+            android:label="@string/title_activity_resetPass" />
         <activity
             android:name=".MainUI.RemoveRequest"
             android:label="@string/title_activity_resetPass"
-            android:parentActivityName=".MainUI.MainActivity"
-            ></activity>
-
+            android:parentActivityName=".MainUI.MainActivity" />
+        <activity
+            android:name=".MainUI.ChooseCategory"
+            android:label="@string/title_activity_choose_category"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
