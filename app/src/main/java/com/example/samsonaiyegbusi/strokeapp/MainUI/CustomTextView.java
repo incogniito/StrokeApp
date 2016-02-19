@@ -20,7 +20,10 @@ public class CustomTextView extends TextView {
         this.setTextSize(fontSize);
         if(toBold) {
             this.setTypeface(null, Typeface.BOLD);
+
         }
+        System.out.println("HELLO 1");
+
 
     }
 
@@ -32,6 +35,7 @@ public class CustomTextView extends TextView {
         if(toBold) {
             this.setTypeface(null, Typeface.BOLD);
         }
+        System.out.println("HELLO 1");
 
     }
 
@@ -42,6 +46,8 @@ public class CustomTextView extends TextView {
         if(toBold) {
             this.setTypeface(null, Typeface.BOLD);
         }
+        System.out.println("HELLO 1");
+
 
 
     }

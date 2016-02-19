@@ -12,6 +12,11 @@
             android:key="font_bold"
             android:defaultValue="false"/>
 
+        <CheckBoxPreference android:title="Scale Image"
+            android:summary="Resize Images"
+            android:key="image_scale"
+            android:defaultValue="false"/>
+
 
 </PreferenceCategory>
 

@@ -76,6 +76,29 @@ public class Settings extends AppCompatActivity {
 
                 }
             });
+
+            final CheckBoxPreference scale;
+            scale = (CheckBoxPreference) findPreference("image_scale");
+            //bold.setChecked(false);
+            scale.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    if(!scale.isChecked())
+                    {
+                        int newh = 20;
+                        int neww = 20;
+                        CustomImageView.setSizes(newh, neww);
+                    }
+                    else
+                    {
+                        int newh = 50;
+                        int neww = 50;
+                        CustomImageView.setSizes(newh, neww);
+                    }
+
+                    return true;
+
+                }
+            });
         }
 
     }

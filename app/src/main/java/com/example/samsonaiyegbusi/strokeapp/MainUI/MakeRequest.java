@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -95,6 +96,7 @@ public class MakeRequest extends AppCompatActivity implements Variable_Initialis
         deleteRec_bt.setOnClickListener(this);
 
         addRequest_bt = (Button) findViewById(R.id.add_reques_bt);
+
 
     }
 

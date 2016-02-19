@@ -31,9 +31,11 @@
 
     </LinearLayout>
 
-    <ImageView
+    <com.example.samsonaiyegbusi.strokeapp.MainUI.CustomImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
         android:id="@+id/chosen_image_iv"
         android:layout_below="@+id/linearLayout4"
         android:layout_centerHorizontal="true"
@@ -183,5 +185,6 @@
         android:layout_marginTop="30dp"
         android:layout_alignRight="@+id/linearLayout7"
         android:layout_alignEnd="@+id/linearLayout7" />
+
 
 </RelativeLayout>
