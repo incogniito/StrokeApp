@@ -115,17 +115,15 @@ public class Settings extends AppCompatActivity {
                     //String imageSize = (String) newValue;
                     System.out.println("newVAlue = " + (String)newValue);
                     if (((String) newValue).equalsIgnoreCase("0") )
-                    {   System.out.println("WERE IN THE SMALL ONE");
+                    {
                         CustomImageView.setSizes(300,300);
                     }
                     else if (((String) newValue).equalsIgnoreCase("1") )
                     {
-                        System.out.println("WERE IN THE MEDIUM ONE");
                         CustomImageView.setSizes(450,450);
                     }
                     else if (((String) newValue).equalsIgnoreCase("2") )
                     {
-                        System.out.println("WERE IN THE LARGE ONE");
                         CustomImageView.setSizes(600,600);
                     }
                     return true;

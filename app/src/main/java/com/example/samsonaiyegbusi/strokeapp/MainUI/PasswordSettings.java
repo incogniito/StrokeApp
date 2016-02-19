@@ -20,10 +20,9 @@ public class PasswordSettings extends AppCompatActivity {
     DatabaseHelper databaseHelper;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int counter;
         setContentView(R.layout.content_pass_settings);
 
-        databaseHelper = new DatabaseHelper(this);
+        databaseHelper = DatabaseHelper.getInstance(this);
         CustomTextView reset = (CustomTextView)findViewById(R.id.forget_pass);
         Button goButton = (Button)findViewById(R.id.check_password);
 
@@ -36,6 +35,7 @@ public class PasswordSettings extends AppCompatActivity {
                 EditText passwordInput = (EditText) findViewById(R.id.user_input);
                 String getPassword = passwordInput.getText().toString();
 
+                System.out.println("<-----------user name : " + getUserName + "----------->");
                 String password = databaseHelper.findPassword(getUserName);
 
                 if(getPassword.equals(password))
@@ -47,6 +47,7 @@ public class PasswordSettings extends AppCompatActivity {
                 {
                     AlertDialog.Builder wrongPass = new AlertDialog.Builder(PasswordSettings.this);
                     wrongPass.setMessage("Wrong Password");
+                    wrongPass.setMessage("here " + password);
                     wrongPass.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

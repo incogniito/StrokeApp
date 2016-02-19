@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
 
     GridView gridView;
     ImageButton config_ib;
-    boolean passwordSet = false;
+    boolean passwordSet;
     ImageButton alarm_ib;
 
     Bundle bundle;
@@ -57,18 +57,25 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
         PopulateGridViewWithCategories();
 
         // create database at the start of the App
-
+        if (passwordSet)
+        {
+            System.out.println("PASSWORD WAS SET");
+        }
+        else
+        {
+            System.out.println("PASSWORD WAS NOT SET");
+        }
     }
 
 
     private void PopulateGridViewWithCategories(){
-         dbCategories = DatabaseHelper.getInstance(this);
         gridView.setAdapter(new CategoryAdapter(dbCategories.selectAllCategories(), this));
     }
 
     @Override
     public void VariableInitialiser() {
 
+        dbCategories = DatabaseHelper.getInstance(this);
 
 
         gridView = (GridView) findViewById(R.id.category_gridView);
@@ -84,8 +91,8 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
 
         alarm = MediaPlayer.create(this, R.raw.alarm);
         AlarmCounter = 1;
-
-        passwordSet = false;
+       //passwordSet  = false; // replace
+        passwordSet = dbCategories.isPasswordSet();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
