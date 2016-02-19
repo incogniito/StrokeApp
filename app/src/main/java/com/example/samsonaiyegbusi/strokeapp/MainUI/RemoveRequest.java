@@ -1,6 +1,7 @@
 package com.example.samsonaiyegbusi.strokeapp.MainUI;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -100,6 +101,18 @@ public class RemoveRequest extends AppCompatActivity implements Variable_Initial
                         int id = request.getId();
                         dbHelp.deleteRequest(id);
                         requestFound = true;
+
+                        AlertDialog.Builder reDel = new AlertDialog.Builder(RemoveRequest.this);
+                        reDel.setMessage("Request was deleted.");
+                        reDel.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                Intent intent = new Intent(RemoveRequest.this, MainActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                        reDel.show();
                     }
                 }
                 if(!requestFound)
