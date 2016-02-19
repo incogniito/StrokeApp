@@ -45,6 +45,7 @@ public class Settings extends AppCompatActivity {
 
                 lists.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 
+
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                    // System.out.println("Hello there!");
                     String font = (String) newValue;

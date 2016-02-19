@@ -130,11 +130,11 @@ public static DatabaseHelper dbhelper;
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        try {
-//            insertRequestsFromCSV(db);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            insertRequestsFromCSV(db);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -258,12 +258,13 @@ public static DatabaseHelper dbhelper;
 
             byte[] rowImage = bitmapData;
 
-            InputStream inStream = C.getResources().openRawResource(R.raw.test);
+            InputStream inStream = C.getResources().openRawResource(C.getResources().getIdentifier(rowData[2], "raw", C.getPackageName()));
             byte[] rowAudio = new byte[inStream.available()];
 
-            this.insertIntoRequestTable(rowData[0], rowImage, rowAudio, Integer.parseInt(rowData[2]), db);
+            this.insertIntoRequestTable(rowData[0], rowImage, rowAudio, Integer.parseInt(rowData[3]), db);
 
             // this.close();
+
         }
     }
 

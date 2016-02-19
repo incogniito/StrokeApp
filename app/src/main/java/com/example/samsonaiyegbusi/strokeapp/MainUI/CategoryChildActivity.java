@@ -72,7 +72,7 @@ public class CategoryChildActivity extends AppCompatActivity implements Variable
 
         bundle.putInt("childCategoryID", ChildCategoryID);
 
-        Intent nextPage = new Intent(this, CategoryChildActivity.class );
+        Intent nextPage = new Intent(this, RequestsActivity.class );
         nextPage.putExtras(bundle);
         startActivity(nextPage);
 

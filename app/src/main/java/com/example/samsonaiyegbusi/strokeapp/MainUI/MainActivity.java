@@ -68,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
 
     @Override
     public void VariableInitialiser() {
+
+
+
         gridView = (GridView) findViewById(R.id.category_gridView);
         gridView.setOnItemClickListener(this);
 
@@ -83,6 +86,20 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
         AlarmCounter = 1;
 
         passwordSet = false;
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+
+        if (prefs.getBoolean("image_scale", true)){
+
+        }
+        if (prefs.getBoolean("font_bold", false))
+        {
+            CustomTextView.makeBold();
+        }
+
+
+
     }
 
     @Override
@@ -208,4 +225,7 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }
