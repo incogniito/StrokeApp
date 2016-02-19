@@ -39,7 +39,11 @@ public class AddPassword extends AppCompatActivity {
             String csvLine;
             while ((csvLine = reader.readLine()) != null) {
                 String[] row = csvLine.split(",");
-                questions.add(row);
+                for(int i = 0; i < row.length; i++)
+                {
+                    questions.add(row[i]);
+
+                }
             }
         }
         catch (IOException ex) {
@@ -72,12 +76,6 @@ public class AddPassword extends AppCompatActivity {
                 //GET ANSWER AND CHOSEN QUESTION
                 String answer = quesAns.getText().toString();
                 String selected = String.valueOf(quesSpinner.getSelectedItem());
-
-                //call the insertIntoPasswordTable(userNameInput,passwordInput,selected,answer);
-
-
-                //CHECK SQL BASE FOR ANSWER
-                //IF THEY MATCH REPLACE THE PASSWORD WITH THE NEW ONE
 
                 Intent goBack = new Intent(AddPassword.this, MainActivity.class);
                 startActivity(goBack);
