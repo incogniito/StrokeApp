@@ -55,7 +55,7 @@ public class RemoveRequest extends AppCompatActivity implements Variable_Initial
 
         requests = dbHelp.selectAllRequests();
         categories = dbHelp.selectAllCategories();
-        //subCategories = dbHelp.selectAllSubCategories();
+        subCategories = dbHelp.selectAllSubCategories();
         //NEEDS TO BE ADDED
         //Filling the requests spinner
         for( Request request : requests)
@@ -77,6 +77,7 @@ public class RemoveRequest extends AppCompatActivity implements Variable_Initial
         subcatSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         subCategoryNames.setAdapter(subcatSpinner);
 
+        /*
         //Filling the categories spinner
         for( Categories category : categories)
         {
@@ -86,7 +87,7 @@ public class RemoveRequest extends AppCompatActivity implements Variable_Initial
         ArrayAdapter<String> catSpinner = new ArrayAdapter<String>(this,   android.R.layout.simple_spinner_item, categoryNameValue);
         catSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categoryNames.setAdapter(catSpinner);
-
+*/
         //delete request
         deleteReq.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +133,7 @@ public class RemoveRequest extends AppCompatActivity implements Variable_Initial
             }
         });
 
-        deleteCat.setOnClickListener(new View.OnClickListener() {
+/*        deleteCat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean catFound = false;
@@ -160,7 +161,7 @@ public class RemoveRequest extends AppCompatActivity implements Variable_Initial
                 }
             }
         });
-
+*/
         deleteSubCat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -204,8 +205,8 @@ public class RemoveRequest extends AppCompatActivity implements Variable_Initial
         subCategoryNameValue = new ArrayList();
         requestNames = (Spinner)findViewById(R.id.requests_spinner);
         deleteReq = (Button) findViewById(R.id.delete_request);
-        deleteCat = (Button) findViewById(R.id.delete_category);
-         categoryNames = (Spinner) findViewById(R.id.cat_spinner);
+        //deleteCat = (Button) findViewById(R.id.delete_category);
+       //  categoryNames = (Spinner) findViewById(R.id.cat_spinner);
          deleteSubCat = (Button) findViewById(R.id.delete_sub_category);
          subCategoryNames = (Spinner) findViewById(R.id.sub_cat_spinner);
 
