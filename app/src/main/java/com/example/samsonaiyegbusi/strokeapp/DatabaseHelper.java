@@ -109,13 +109,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String secretQues = "Favourite food";
         String secrtAns = "Rice";
        // insertIntoPasswordTable(usName,usPass,secretQues,secrtAns);
-        Drawable drawable = C.getDrawable(R.drawable.food);
+       /* Drawable drawable = C.getDrawable(R.drawable.food);
 
         Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] bitmapdata = stream.toByteArray();
-        insertIntoCategoryTable("Food", bitmapdata, db);
+        insertIntoCategoryTable("Food", bitmapdata, db);*/
 
         try {
             insertCategoriesFromCSV(db);
@@ -181,6 +181,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return this.insertStatement.executeInsert();
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void insertCategoriesFromCSV(SQLiteDatabase db) throws IOException {
        // FileReader file = new FileReader("../../../assets/Categories.CSV");
 
@@ -192,10 +193,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         while ((reader = inReader.readLine()) != null)
         {
             String[] rowData = reader.split(",");
-            byte[] rowImage = getImage(rowData[1]);
-            //this.insertIntoCategoryTable(rowData[0],rowImage);
+            Drawable drawable = C.getDrawable(R.drawable.food);
 
-            this.close();
+            Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] bitmapData = stream.toByteArray();
+
+            byte[] rowImage = bitmapData;
+            this.insertIntoCategoryTable(rowData[0],rowImage, db);
+
+           // this.close();
         }
 
     }
