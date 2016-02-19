@@ -49,7 +49,7 @@ public class CategoryChildActivity extends AppCompatActivity implements Variable
         bundle = intent.getExtras();
     }
 
-    private void PopulateGridViewWithChildCategories(){
+    private void PopulateGridViewWithChildCategories() {
 
         DatabaseHelper dbSubcategory = DatabaseHelper.getInstance(this);
 
@@ -66,15 +66,15 @@ public class CategoryChildActivity extends AppCompatActivity implements Variable
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-       // final TextView childCategoryID = (TextView) view.findViewById(R.id.ID_tv);
+        // final TextView childCategoryID = (TextView) view.findViewById(R.id.ID_tv);
         final CustomTextView childCategoryID = (CustomTextView) view.findViewById(R.id.ID_tv);
         int ChildCategoryID = Integer.parseInt(childCategoryID.getText().toString());
 
         bundle.putInt("childCategoryID", ChildCategoryID);
 
-        Intent nextPage = new Intent(this, RequestsActivity.class );
+        Intent nextPage = new Intent(this, RequestsActivity.class);
         nextPage.putExtras(bundle);
-        startActivity(nextPage);
+        startActivityForResult(nextPage, 1);
 
     }
 
