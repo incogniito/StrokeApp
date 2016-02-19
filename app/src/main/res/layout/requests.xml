@@ -10,7 +10,8 @@
         android:id="@+id/requestImage_iv"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.37"
-        android:background="#00ffffff" />
+        android:background="#00ffffff"
+        android:src="@android:mipmap/sym_def_app_icon" />
 
     <com.example.samsonaiyegbusi.strokeapp.MainUI.CustomTextView
         android:layout_width="wrap_content"
