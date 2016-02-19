@@ -108,14 +108,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String usPass = "b";
         String secretQues = "Favourite food";
         String secrtAns = "Rice";
-       // insertIntoPasswordTable(usName,usPass,secretQues,secrtAns);
-       /* Drawable drawable = C.getDrawable(R.drawable.food);
-
-        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        byte[] bitmapdata = stream.toByteArray();
-        insertIntoCategoryTable("Food", bitmapdata, db);*/
 
         try {
             insertCategoriesFromCSV(db);
@@ -254,15 +246,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void insertIntoPasswordTable(String username, String userPassword, String secretQuestion, String secretAnswer)
     {
-//        String sql  = "INSERT INTO " + PASSWORD_TABLE + " (" + Password_UserName + "," + Password + "," + Password_SecretQuestion + "," + Password_SecretAnswer + ") VALUES("+null+",?,?,?,?)";
-//
-//        insertStatement = db.compileStatement(sql);
-//        this.insertStatement.bindString(1, username);
-//        this.insertStatement.bindString(2, userPassword);
-//        this.insertStatement.bindString(3, secretQuestion);
-//        this.insertStatement.bindString(4, secretAnswer);
-//        db.close();
-//        return this.insertStatement.executeInsert();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Password_UserName,username);
         contentValues.put(Password,userPassword);
