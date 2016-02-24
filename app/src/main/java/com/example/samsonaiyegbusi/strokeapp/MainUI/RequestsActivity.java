@@ -79,7 +79,7 @@ public class RequestsActivity extends AppCompatActivity implements Variable_Init
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //show request/play sound associated with request
        // final TextView audioByteString = (TextView) findViewById(R.id.AudioBytes_tv);
-        final CustomTextView audioByteString = (CustomTextView) findViewById(R.id.AudioBytes_tv);
+        final TextView audioByteString = (TextView) findViewById(R.id.AudioBytes_tv);
         byte[] audioBytes = Base64.decode(audioByteString.getText().toString(), Base64.DEFAULT);
         playMp3(audioBytes);
     }
@@ -90,6 +90,8 @@ public class RequestsActivity extends AppCompatActivity implements Variable_Init
 
     private void playMp3(byte[] mp3SoundByteArray) {
         try {
+            MediaPlayer mediaPlayer = new MediaPlayer();
+
             File temp = File.createTempFile("requestSound", "mp3", getCacheDir());
             temp.deleteOnExit();
             FileOutputStream fos = new FileOutputStream(temp);
@@ -97,7 +99,6 @@ public class RequestsActivity extends AppCompatActivity implements Variable_Init
             fos.close();
 
 
-            MediaPlayer mediaPlayer = new MediaPlayer();
 
 
             FileInputStream fis = new FileInputStream(temp);

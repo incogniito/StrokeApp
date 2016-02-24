@@ -31,13 +31,14 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChooseCategory extends AppCompatActivity implements Variable_Initialiser {
+public class ChooseCategory extends AppCompatActivity implements Variable_Initialiser, AdapterView.OnItemSelectedListener {
 
     EditText categoryName;
     Spinner categoryList;
     Spinner subcategroyList;
     CustomImageView chooseImg;
     Button next;
+    Button selectSubcategory;
 
     List<Categories> categories ;
     List<String> categoryNameValue ;
@@ -85,10 +86,14 @@ public class ChooseCategory extends AppCompatActivity implements Variable_Initia
         categoryName.setVisibility(View.INVISIBLE);
         categoryList = (Spinner) findViewById(R.id.chooseCategory_sp);
         subcategroyList = (Spinner) findViewById(R.id.chooseSubcategory_sb);
+        subcategroyList.setOnItemSelectedListener(this);
         subcategroyList.setVisibility(View.INVISIBLE);
         chooseImg = (CustomImageView) findViewById(R.id.makeCategoryImg_iv);
         chooseImg.setVisibility(View.INVISIBLE);
         chooseImg.setOnClickListener(this);
+
+        selectSubcategory = (Button) findViewById(R.id.button2);
+        selectSubcategory.setOnClickListener(this);
 
         next = (Button) findViewById(R.id.Next_ib);
         next.setOnClickListener(this);
@@ -101,46 +106,8 @@ public class ChooseCategory extends AppCompatActivity implements Variable_Initia
         catSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categoryList.setAdapter(catSpinner);
 
-        String chosenCategoryName = categoryList.getSelectedItem().toString();
-        for (Categories category : categories) {
-            if (category.getName().equalsIgnoreCase(chosenCategoryName)) {
-                parentID = category.getId();
-            }
-        }
-
-        if (parentID != 0) {
-            subcategroyList.setVisibility(View.VISIBLE);
-            subCategories = dbHelp.selectSubcategoriesByParent(parentID);
-        }
 
 
-        for (Subcategory subcategory : subCategories) {
-            subCategoryNameValue.add(subcategory.getName());
-        }
-        subCategoryNameValue.add("Add a New Category");
-
-        ArrayAdapter<String> subcatSpinner = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, subCategoryNameValue);
-        subcatSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        subcategroyList.setAdapter(subcatSpinner);
-
-        String chosenSubCategoryName = subcategroyList.getSelectedItem().toString();
-
-        if (chosenSubCategoryName.equalsIgnoreCase("Add a New Category")) {
-            makeNewCategory();
-
-
-        } else {
-
-
-            for (Subcategory subcategory : subCategories) {
-                if (subcategory.getName().equalsIgnoreCase(chosenSubCategoryName)) {
-                    childID = subcategory.getId();
-                }
-            }
-
-            bundle.putInt("subcategoryID", childID);
-
-        }
     }
 
 
@@ -191,8 +158,12 @@ public class ChooseCategory extends AppCompatActivity implements Variable_Initia
                 startActivity(makerequest);
 
                 break;
-            case R.id.chosen_image_iv:
+            case R.id.makeCategoryImg_iv:
                 imageOptions();
+                break;
+
+            case R.id.button2:
+                selectSubcategory();
                 break;
 
 
@@ -202,6 +173,7 @@ public class ChooseCategory extends AppCompatActivity implements Variable_Initia
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
 
     }
 
@@ -229,6 +201,40 @@ public class ChooseCategory extends AppCompatActivity implements Variable_Initia
     }
 
 
+    private void selectSubcategory(){
+        categoryName.setVisibility(View.INVISIBLE);
+        chooseImg.setVisibility(View.INVISIBLE);
+
+        subCategoryNameValue.clear();
+
+
+        String chosenCategoryName = categoryList.getSelectedItem().toString();
+        for (Categories category : categories) {
+            if (category.getName().equalsIgnoreCase(chosenCategoryName)) {
+                parentID = category.getId();
+            }
+        }
+
+        if (parentID != 0) {
+            subcategroyList.setVisibility(View.VISIBLE);
+            subCategories = dbHelp.selectSubcategoriesByParent(parentID);
+        }
+
+
+        for (Subcategory subcategory : subCategories) {
+            subCategoryNameValue.add(subcategory.getName());
+        }
+        subCategoryNameValue.add("Add a New Category");
+
+        ArrayAdapter<String> subcatSpinner = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, subCategoryNameValue);
+        subcatSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        subcategroyList.setAdapter(subcatSpinner);
+
+
+
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -239,6 +245,33 @@ public class ChooseCategory extends AppCompatActivity implements Variable_Initia
         }
 
 
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        categoryName.setVisibility(View.INVISIBLE);
+        chooseImg.setVisibility(View.INVISIBLE);
+        String subcategoryItem = subcategroyList.getItemAtPosition(position).toString();
+
+        if (subcategoryItem.equalsIgnoreCase("Add a New Category")){
+            makeNewCategory();
+        }  else {
+
+
+            for (Subcategory subcategory : subCategories) {
+                if (subcategory.getName().equalsIgnoreCase(subcategoryItem)) {
+                    childID = subcategory.getId();
+                }
+            }
+
+            bundle.putInt("subcategoryID", childID);
+
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 }

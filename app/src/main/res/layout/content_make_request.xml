@@ -39,7 +39,7 @@
         android:id="@+id/chosen_image_iv"
         android:layout_below="@+id/linearLayout4"
         android:layout_centerHorizontal="true"
-        android:src="@android:mipmap/sym_def_app_icon" />
+        android:src="@mipmap/event_placeholder" />
 
     <LinearLayout
         android:orientation="vertical"

@@ -114,7 +114,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.e("Database information", "Tables created");
 
         // insert values
-        // insertIntoCategoryTable("Food",foodImage);
+        // insertIntoCategoryTable("food",foodImage);
         String usName = "ibiye";
         String usPass = "b";
         String secretQues = "Favourite food";
@@ -264,8 +264,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
-            this.insertIntoRequestTable(rowData[0], rowImage, rowAudio, Integer.parseInt(rowData[3]), db);
 
+
+            this.insertIntoRequestTable(rowData[0], rowImage, rowAudio, Integer.parseInt(rowData[3]), db);
+            inStream.close();
             // this.close();
 
         }
@@ -280,7 +282,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             baos.write(buff, 0, i);
         }
 
-        return baos.toByteArray(); // be sure to close InputStream in calling function
+        return baos.toByteArray();
     }
 
 //    public void Insert(String[] data)

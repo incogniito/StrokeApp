@@ -27,13 +27,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/settings_ib"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/gear" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/alarm_ib"
-            android:src="@mipmap/audio" />
+            android:src="@mipmap/alarm" />
     </LinearLayout>
 
     <GridView
