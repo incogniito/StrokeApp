@@ -66,7 +66,7 @@ public class CategoryChildActivity extends AppCompatActivity implements Variable
         alarm = MediaPlayer.create(this, R.raw.alarm);
         AlarmCounter = 1;
         //passwordSet  = false; // replace
-        passwordSet = dbSubcategory.isPasswordSet();
+        passwordSet = bundle.getBoolean("passwordSet");
     }
 
     private void PopulateGridViewWithChildCategories() {

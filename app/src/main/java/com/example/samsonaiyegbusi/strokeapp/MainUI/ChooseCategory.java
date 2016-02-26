@@ -244,8 +244,6 @@ public class ChooseCategory extends AppCompatActivity implements Variable_Initia
             chooseImg.setImageURI(selectedImage);
         }
 
-
-
     }
 
     @Override

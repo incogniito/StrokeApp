@@ -371,6 +371,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor c = db.query(REQUESTS_TABLE_NAME, null, Request_SubCat_ID + "=?", new String[]{Integer.toString(subcategoryID)}, null, null, null);
         if (c.moveToFirst())
         {
+
+
             int reqID = c.getInt(0);
             String reqName = c.getString(1);
             byte[] reqImg = c.getBlob(2);
@@ -398,6 +400,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public int deleteRequest(int requestID)
     {
         return db.delete(REQUESTS_TABLE_NAME,Request_ID + "= ?",new String[] {Integer.toString(requestID)});
+    }
+    public int updatePassword(String newPassword)
+    {
+        ContentValues contentValues = new ContentValues();
+        String sql = "SELECT * FROM " +PASSWORD_TABLE;
+        Cursor c = db.rawQuery(sql, null);
+        if (c.moveToFirst())
+        {
+            contentValues.put(Password_UserName,c.getString(1));
+            contentValues.put(Password,newPassword);
+            contentValues.put(Password_SecretQuestion, c.getString(3));
+            contentValues.put(Password_SecretAnswer, c.getString(4));
+
+        }
+        return db.update(PASSWORD_TABLE,contentValues,Password_ID + "= ?",new String[] {Integer.toString(1)});
     }
 
     public int deleteSubategory(int subcategoryID)
@@ -490,6 +507,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return subcategories;
     }
 
+    public List<Subcategory> selectSubcategoriesByName(String subCategory_Name)
+    {
+        List<Subcategory> subcategories = new ArrayList<Subcategory>();
+        //String sql = "SELECT * FROM " +SUBCATEGORIES_TABLE_NAME+ " WHERE " + SubCategory_ParentID + " = '" + parentID + "';";
+        //Cursor c = db.rawQuery(sql, null);
+        Cursor c = db.query(SUBCATEGORIES_TABLE_NAME, null, SubCategory_Name + "=?", new String[]{subCategory_Name}, null, null, null);
+        if (c.moveToFirst())
+        {
+            int subcatID = c.getInt(0);
+            String subcatName = c.getString(1);
+            byte[] subcatImg = c.getBlob(2);
+            int subcatParent = c.getInt(3);
+            Subcategory subcategory = new Subcategory(subcatID, subcatName, subcatImg, subcatParent);
+            subcategories.add(subcategory);
+        }
+        while(c.moveToNext())
+        {
+            int subcatID = c.getInt(0);
+            String subcatName = c.getString(1);
+            byte[] subcatImg = c.getBlob(2);
+            int subcatParent = c.getInt(3);
+            Subcategory subcategory = new Subcategory(subcatID, subcatName, subcatImg, subcatParent);
+            subcategories.add(subcategory);
+        }
+        c.close();
+        return subcategories;
+    }
+
+
     private byte[] getImage(String url){
         try {
             URL imageUrl = new URL(url);
@@ -535,7 +581,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return byteAudio1;
     }
 
-    public String findSecretQuestion (String username) {
+    public String findSecretQuestion() {
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columnNames = {Password_UserName,Password_SecretQuestion};
 
@@ -547,25 +593,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst())
         {
-            System.out.println("YOU GOT HERE ------------------------");
-            do {
+
                 UsernameInDatabase = cursor.getString(0);
-                //cursor.close();
-                System.out.println("UsernameInDatabase : " + UsernameInDatabase + "-------------------" );
-                System.out.println("Username : " + username + "-------------------" );
 
-                if(UsernameInDatabase.equalsIgnoreCase(username))
-                {
                     secretQuestionInDatabase = cursor.getString(1);
-                    System.out.println("secretQuestionInDatabase : " + secretQuestionInDatabase + "-------------------" );
 
-                    break;
-                }
-            }while (cursor.moveToNext());
+        }
+        return secretQuestionInDatabase;
+    }
+
+
+
+    public String findSecretQuestionAnswer () {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columnNames = {Password_UserName,Password_SecretQuestion,Password_SecretAnswer};
+
+
+        Cursor cursor = db.query(PASSWORD_TABLE,columnNames,null,null,null,null,null);
+
+        String answerInDB = "";
+
+        if (cursor.moveToFirst())
+        {
+
+            answerInDB = cursor.getString(2);
+
 
         }
 
-        return secretQuestionInDatabase;
+        return answerInDB;
     }
 
 
@@ -628,4 +684,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return isPasswordSetInDb;
     }
+
+
 }

@@ -291,10 +291,10 @@ Intent intent = getIntent();
                 }
 
 
-byte[] subgategoryIMg = bundle.getByteArray("categoryImg");
-int parentID = bundle.getInt("parentID");
-int childID = bundle.getInt("subcategoryID");
-String subCategoryName = bundle.getString("subcategoryName");
+                byte[] subgategoryIMg = bundle.getByteArray("categoryImg");
+                int parentID = bundle.getInt("parentID");
+                int childID = bundle.getInt("subcategoryID");
+                String subCategoryName = bundle.getString("subcategoryName");
 
 
 
@@ -303,6 +303,7 @@ String subCategoryName = bundle.getString("subcategoryName");
                 if (subgategoryIMg != null)
                 {
                     dbInsert.insertIntoSubcategoryTable(subCategoryName, subgategoryIMg, parentID, dbInsert.getWritableDatabase());
+                   childID = dbInsert.selectSubcategoriesByName(subCategoryName).get(0).getId();
                 }
 
                 dbInsert.insertIntoRequestTable(requestName.getText().toString(), resizedImage, audiofile,childID, dbInsert.getWritableDatabase());

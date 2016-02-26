@@ -76,7 +76,7 @@ public class RequestsActivity extends AppCompatActivity implements Variable_Init
         alarm = MediaPlayer.create(this, R.raw.alarm);
         AlarmCounter = 1;
         //passwordSet  = false; // replace
-        passwordSet = dbRequests.isPasswordSet();
+        passwordSet = bundle.getBoolean("passwordSet");
 
     }
 

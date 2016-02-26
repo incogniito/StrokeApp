@@ -56,15 +56,7 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
         VariableInitialiser();
         PopulateGridViewWithCategories();
 
-        // create database at the start of the App
-        if (passwordSet)
-        {
-            System.out.println("PASSWORD WAS SET");
-        }
-        else
-        {
-            System.out.println("PASSWORD WAS NOT SET");
-        }
+
     }
 
 
@@ -93,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements Variable_Initiali
         AlarmCounter = 1;
        //passwordSet  = false; // replace
         passwordSet = dbCategories.isPasswordSet();
+        bundle.putBoolean("passwordSet", passwordSet);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
