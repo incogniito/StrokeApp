@@ -52,6 +52,7 @@ public class ChooseCategory extends AppCompatActivity implements Variable_Initia
     int parentID = 0;
     int childID = 0;
 
+    int count;
 
 
     int image_loaded = 1;
@@ -186,9 +187,11 @@ public class ChooseCategory extends AppCompatActivity implements Variable_Initia
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 if (items[item].equals("Take a picture")) {
+                    count = 1;
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(intent, image_loaded);
                 } else if (items[item].equals("Choose from gallery")) {
+                    count = 0;
                     Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(openGallery, image_loaded);
                 } else if (items[item].equals("Cancel")) {
@@ -229,10 +232,6 @@ public class ChooseCategory extends AppCompatActivity implements Variable_Initia
         ArrayAdapter<String> subcatSpinner = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, subCategoryNameValue);
         subcatSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         subcategroyList.setAdapter(subcatSpinner);
-
-
-
-
     }
 
     @Override
@@ -240,8 +239,13 @@ public class ChooseCategory extends AppCompatActivity implements Variable_Initia
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == image_loaded && resultCode == RESULT_OK && data != null) {
-            Uri selectedImage = data.getData();
-            chooseImg.setImageURI(selectedImage);
+            if (count == 0) {
+                Uri selectedImage = data.getData();
+                chooseImg.setImageURI(selectedImage);
+            } else if (count == 1){
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                chooseImg.setImageBitmap(photo);
+            }
         }
 
     }
@@ -253,6 +257,9 @@ public class ChooseCategory extends AppCompatActivity implements Variable_Initia
         String subcategoryItem = subcategroyList.getItemAtPosition(position).toString();
 
         if (subcategoryItem.equalsIgnoreCase("Add a New Category")){
+            childID = 0;
+            bundle.putInt("subcategoryID", childID);
+
             makeNewCategory();
         }  else {
 

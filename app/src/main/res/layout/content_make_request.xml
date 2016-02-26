@@ -32,8 +32,8 @@
     </LinearLayout>
 
     <com.example.samsonaiyegbusi.strokeapp.MainUI.CustomImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
         android:id="@+id/chosen_image_iv"

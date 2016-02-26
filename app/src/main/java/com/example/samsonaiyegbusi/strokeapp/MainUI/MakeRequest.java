@@ -54,6 +54,8 @@ public class MakeRequest extends AppCompatActivity implements Variable_Initialis
     CustomTextView play;
     CustomTextView stop;
 
+    int count;
+
 Bundle bundle;
     private MediaRecorder myAudioRecorder;
     private static String mFileName = null;
@@ -123,9 +125,11 @@ Intent intent = getIntent();
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 if (items[item].equals("Take a picture")) {
+                    count = 1;
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(intent, image_loaded);
                 } else if (items[item].equals("Choose from gallery")) {
+                    count = 0;
                     Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(openGallery, image_loaded);
                 } else if (items[item].equals("Cancel")) {
@@ -161,7 +165,7 @@ Intent intent = getIntent();
             case R.id.record_ib:
 
                 if (requestName.length() == 0) {
-                    Toast.makeText(MakeRequest.this, "Please fill in Event name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MakeRequest.this, "Please fill in Request name", Toast.LENGTH_SHORT).show();
                     break;
                 }
 
@@ -248,7 +252,7 @@ Intent intent = getIntent();
                     break;
                 }
                 else if (requestName.length() == 0) {
-                    Toast.makeText(MakeRequest.this, "Please fill in Event name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MakeRequest.this, "Please fill in Request name", Toast.LENGTH_SHORT).show();
                     break;
                 }
 
@@ -300,7 +304,7 @@ Intent intent = getIntent();
 
                 DatabaseHelper dbInsert = DatabaseHelper.getInstance(this);
 
-                if (subgategoryIMg != null)
+                if (childID == 0)
                 {
                     dbInsert.insertIntoSubcategoryTable(subCategoryName, subgategoryIMg, parentID, dbInsert.getWritableDatabase());
                    childID = dbInsert.selectSubcategoriesByName(subCategoryName).get(0).getId();
@@ -343,8 +347,14 @@ Intent intent = getIntent();
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == image_loaded && resultCode == RESULT_OK && data != null) {
-            Uri selectedImage = data.getData();
-            requestImage.setImageURI(selectedImage);
+            if (count == 0) {
+                Uri selectedImage = data.getData();
+                requestImage.setImageURI(selectedImage);
+            } else if (count == 1){
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                requestImage.setImageBitmap(photo);
+
+            }
         }
 
         else if (requestCode == audio_loaded && resultCode == RESULT_OK && data != null) {
