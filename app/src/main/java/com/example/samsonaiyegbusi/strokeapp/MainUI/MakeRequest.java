@@ -160,6 +160,11 @@ Intent intent = getIntent();
 
             case R.id.record_ib:
 
+                if (requestName.length() == 0) {
+                    Toast.makeText(MakeRequest.this, "Please fill in Event name", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+
                 try {
                     myAudioRecorder.prepare();
                     myAudioRecorder.start();
@@ -194,11 +199,6 @@ Intent intent = getIntent();
                 break;
 
             case R.id.play_ib:
-
-                if (requestName.length() == 0) {
-                    Toast.makeText(MakeRequest.this, "Please fill in Event name", Toast.LENGTH_SHORT).show();
-                    break;
-                }
 
                 MediaPlayer m = new MediaPlayer();
 
@@ -247,6 +247,11 @@ Intent intent = getIntent();
                     Toast.makeText(MakeRequest.this, "Please Choose An Image ", Toast.LENGTH_SHORT).show();
                     break;
                 }
+                else if (requestName.length() == 0) {
+                    Toast.makeText(MakeRequest.this, "Please fill in Event name", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+
                 //call insert statement
 
                 // Locate the image in res > drawable-hdpi

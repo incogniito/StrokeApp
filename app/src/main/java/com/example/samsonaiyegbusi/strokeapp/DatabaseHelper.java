@@ -266,6 +266,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
+
             this.insertIntoRequestTable(rowData[0], rowImage, rowAudio, Integer.parseInt(rowData[3]), db);
             inStream.close();
             // this.close();
@@ -362,6 +363,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Request> selectRequestsBySubcategory(int subcategoryID)
     {
         List<Request> requests = new ArrayList<Request>();
+
+
+
         //String sql = "SELECT * FROM " + REQUESTS_TABLE_NAME + " WHERE " + Request_SubCat_ID + " = '" + subcategoryID + "';";
         //Cursor c = db.rawQuery(sql, null);
         Cursor c = db.query(REQUESTS_TABLE_NAME, null, Request_SubCat_ID + "=?", new String[]{Integer.toString(subcategoryID)}, null, null, null);
@@ -373,6 +377,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             byte[] reqAud = c.getBlob(3);
             int reqSubCat = c.getInt(4);
             Request request = new Request(reqID, reqName, reqImg, reqAud, reqSubCat);
+
             requests.add(request);
         }
         while(c.moveToNext())
@@ -383,6 +388,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             byte[] reqAud = c.getBlob(3);
             int reqSubCat = c.getInt(4);
             Request request = new Request(reqID, reqName, reqImg, reqAud, reqSubCat);
+
             requests.add(request);
         }
         c.close();

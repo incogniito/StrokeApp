@@ -13,7 +13,7 @@
     tools:showIn="@layout/activity_category_child">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -26,12 +26,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/categorychild_settings_ib"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/gear"
+            android:background="#00ffffff" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/categorychild_alrm_ib"
+            android:src="@mipmap/alarm"
+            android:background="#00ffffff"
+            android:layout_marginLeft="30dp" />
     </LinearLayout>
 
     <GridView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/categoryChild_gridView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"

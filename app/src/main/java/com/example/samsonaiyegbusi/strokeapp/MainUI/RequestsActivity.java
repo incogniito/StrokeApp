@@ -1,8 +1,10 @@
 package com.example.samsonaiyegbusi.strokeapp.MainUI;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -30,6 +32,14 @@ public class RequestsActivity extends AppCompatActivity implements Variable_Init
 
     GridView gridView;
     ImageButton settings_ib;
+    ImageButton alarm_ib;
+
+    boolean passwordSet;
+
+    int AlarmCounter;
+    MediaPlayer alarm;
+
+    DatabaseHelper dbRequests;
 
     Bundle bundle;
 
@@ -57,29 +67,52 @@ public class RequestsActivity extends AppCompatActivity implements Variable_Init
         settings_ib = (ImageButton) findViewById(R.id.requests_settings_ib);
         settings_ib.setOnClickListener(this);
 
+        alarm_ib = (ImageButton) findViewById(R.id.request_alarm_ib);
+        alarm_ib.setOnClickListener(this);
+
         Intent intent = getIntent();
         bundle = intent.getExtras();
 
+        alarm = MediaPlayer.create(this, R.raw.alarm);
+        AlarmCounter = 1;
+        //passwordSet  = false; // replace
+        passwordSet = dbRequests.isPasswordSet();
 
     }
 
     private void PopulateGridViewWithRequests(){
 
-        DatabaseHelper dbRequests =  DatabaseHelper.getInstance(this);
+        dbRequests =  DatabaseHelper.getInstance(this);
         gridView.setAdapter(new RequestAdapter(dbRequests.selectRequestsBySubcategory(bundle.getInt("childCategoryID")), this));
 
     }
 
     @Override
     public void onClick(View v) {
-        // Open Settings menu
-    }
+
+        switch (v.getId())
+        {
+            case R.id.requests_settings_ib:
+                configOptions();
+                break;
+            case R.id.request_alarm_ib:
+                if (AlarmCounter == 1){
+                    alarm = MediaPlayer.create(this, R.raw.alarm);
+                    alarm.start();
+                    AlarmCounter++;
+                } else {
+
+                    alarm.stop();
+                    AlarmCounter = 1;
+                }
+
+                break;
+        }    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //show request/play sound associated with request
-       // final TextView audioByteString = (TextView) findViewById(R.id.AudioBytes_tv);
-        final TextView audioByteString = (TextView) findViewById(R.id.AudioBytes_tv);
+
+        final TextView audioByteString = (TextView) view.findViewById(R.id.AudioBytes_tv);
         byte[] audioBytes = Base64.decode(audioByteString.getText().toString(), Base64.DEFAULT);
         playMp3(audioBytes);
     }
@@ -130,6 +163,65 @@ public class RequestsActivity extends AppCompatActivity implements Variable_Init
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void configOptions()
+    {
+        final CharSequence[] items = {"Make a Request", "Remove a Request","Settings","Add Password", "Cancel"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(RequestsActivity.this);
+        builder.setTitle("Configurations:");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (items[item].equals("Make a Request")) {
+                    Intent MakeRequest = new Intent(RequestsActivity.this, ChooseCategory.class);
+                    startActivity(MakeRequest);
+
+                } else if (items[item].equals("Remove a Request")) {
+                    Intent RemoveRequest = new Intent(RequestsActivity.this, RemoveRequest.class);
+                    startActivity(RemoveRequest);
+
+                } else if (items[item].equals("Settings")) {
+
+                    //needs to check if there's a password to start with in database
+                    //bool for now for testing
+                    if (passwordSet) {
+                        Intent settings = new Intent(RequestsActivity.this, PasswordSettings.class);
+                        startActivity(settings);
+                    } else {
+                        Intent Intentsettings = new Intent(RequestsActivity.this, Settings.class);
+                        startActivity(Intentsettings);
+                    }
+                } else if (items[item].equals("Add Password")) {
+
+                    //needs to check if there's a password to start with in database
+
+                    if (passwordSet) {
+                        AlertDialog.Builder setPass = new AlertDialog.Builder(RequestsActivity.this);
+                        setPass.setMessage("There is already a password set.");
+                        setPass.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        setPass.show();
+
+                    } else {
+                        Intent newPass = new Intent(RequestsActivity.this, AddPassword.class);
+                        startActivity(newPass);
+                        //passwordSet = true;
+                    }
+
+
+                } else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+
     }
 
 
